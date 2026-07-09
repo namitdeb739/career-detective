@@ -1,0 +1,55 @@
+"""Typed configuration using dataclasses.
+
+Field defaults are read from the environment (and a local ``.env`` file if
+present), falling back to the literal defaults below. Values passed explicitly
+to ``Config(...)`` always take precedence over the environment.
+
+Usage:
+    from career_detective.config import Config
+
+    config = Config()
+    config = Config(seed=42, data_dir="data/processed")
+"""
+
+from __future__ import annotations
+
+import os
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+def _env(key: str, default: str) -> str:
+    """Return an environment variable, falling back to ``default``."""
+    return os.getenv(key, default)
+
+
+@dataclass
+class Config:
+    """Project configuration."""
+
+    # Paths
+    data_dir: Path | str = field(default_factory=lambda: _env("DATA_DIR", "data"))
+    output_dir: Path | str = field(default_factory=lambda: _env("OUTPUT_DIR", "output"))
+
+    # Reproducibility
+    seed: int = field(default_factory=lambda: int(_env("SEED", "42")))
+
+    # Training (uncomment and customize as needed)
+    # learning_rate: float = 1e-3
+    # batch_size: int = 32
+    # epochs: int = 10
+    # device: str = "auto"
+
+    # Experiment tracking (uncomment for your tracker)
+    # Note: tags needs `from dataclasses import field`
+    # experiment_name: str = "default"
+    # run_name: str | None = None
+    # tags: list[str] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        self.data_dir = Path(self.data_dir)
+        self.output_dir = Path(self.output_dir)

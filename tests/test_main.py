@@ -1,0 +1,53 @@
+"""Tests for career_detective.main and career_detective.config."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+
+from career_detective.config import Config
+from career_detective.main import main
+
+
+def test_main_prints_greeting(capsys: pytest.CaptureFixture[str]) -> None:
+    main()
+    captured = capsys.readouterr()
+    assert captured.out == "Hello from career-detective!\n"
+
+
+# --- Config tests ---
+
+
+def test_config_defaults() -> None:
+    config = Config()
+    assert config.seed == 42
+    assert config.data_dir == Path("data")
+    assert config.output_dir == Path("output")
+
+
+def test_config_paths_are_path_objects(sample_config: Config) -> None:
+    """Verify __post_init__ coerces strings to Path."""
+    assert isinstance(sample_config.data_dir, Path)
+    assert isinstance(sample_config.output_dir, Path)
+
+
+@pytest.mark.parametrize(
+    ("seed", "data_dir", "output_dir"),
+    [
+        (0, "data/raw", "output/v1"),
+        (123, "data/processed", "output/v2"),
+        (999, "/abs/data", "/abs/output"),
+    ],
+)
+def test_config_parametrized(seed: int, data_dir: str, output_dir: str) -> None:
+    config = Config(seed=seed, data_dir=Path(data_dir), output_dir=Path(output_dir))
+    assert config.seed == seed
+    assert config.data_dir == Path(data_dir)
+    assert config.output_dir == Path(output_dir)
+
+
+def test_config_accepts_string_paths() -> None:
+    """String paths should be coerced to Path by __post_init__."""
+    config = Config(data_dir="some/path", output_dir="other/path")
+    assert isinstance(config.data_dir, Path)

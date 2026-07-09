@@ -1,0 +1,24 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v1.2.1
+_src_path: gh:namitdeb739/python-template
+author_email: namitdeb739@gmail.com
+author_name: Namit Deb
+ci_github: false
+description: AI powered job search tool for German tech industry
+github_user: namitdeb739
+init_dvc: false
+init_env: false
+package_name: career_detective
+project_name: career-detective
+security: basic
+testing: standard
+use_api: false
+use_cli: false
+use_db: false
+use_devcontainer: false
+use_docker: none
+use_docs: false
+use_iot: false
+use_ml: standard
+use_typecheck: false
+use_webapp: streamlit

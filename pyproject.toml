@@ -1,0 +1,96 @@
+[project]
+name = "career-detective"
+version = "0.1.0"
+description = "AI powered job search tool for German tech industry"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.14"
+authors = [{name = "Namit Deb", email = "namitdeb739@gmail.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "python-dotenv>=1.0",
+    "streamlit>=1.37",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+]
+
+[project.urls]
+Homepage = "https://github.com/namitdeb739/career-detective"
+Repository = "https://github.com/namitdeb739/career-detective"
+Issues = "https://github.com/namitdeb739/career-detective/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "dvc>=3.50",
+    "pre-commit>=3.7",
+    "jupyter>=1.0",
+    "ruff>=0.5",
+    "pip-audit>=2.7",
+    "commitizen>=4.1",
+    "copier>=9.0",
+]
+
+
+[project.optional-dependencies]
+ml = [
+    # Heavy/optional extras — install with: uv sync --extra ml
+    # "torch>=2.3",
+    # "transformers>=4.40",
+]
+
+
+[project.scripts]
+career-detective = "career_detective.main:main"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/career_detective"]
+
+[tool.ruff]
+target-version = "py314"
+src = ["src"]
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "TC",  # flake8-type-checking
+    "RUF", # ruff-specific rules
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = ["S101"]  # asserts are expected in tests
+
+[tool.ruff.lint.isort]
+known-first-party = ["career_detective"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version_provider = "pep621"
+version_files = ["src/career_detective/__init__.py:__version__"]
+tag_format = "v$version"
+major_version_zero = true
+update_changelog_on_bump = true
+changelog_file = "CHANGELOG.md"

@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# uv.lock is committed for reproducible builds — do not gitignore
+
+# IDE (keep .vscode/ tracked for shared settings)
+# .vscode/
+.idea/
+*.swp
+*.swo
+
+# Docs
+site/
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Output
+output/*
+!output/.gitkeep
+
+# Data files
+*.csv
+*.parquet
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.onnx
+*.safetensors
+!data/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# Device configuration (contains local IPs, pin numbers — not committed)
+config/device.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+.github/.copilot/
+# Do NOT ignore the shared Copilot instructions file
+!.github/copilot-instructions.md
+.github/copilot-instructions.md
+.claude/settings.local.json
