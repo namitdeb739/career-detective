@@ -35,6 +35,7 @@ dev = [
     "pip-audit>=2.7",
     "commitizen>=4.1",
     "copier>=9.0",
+    "pandas-stubs>=3.0.3.260530",
 ]
 
 

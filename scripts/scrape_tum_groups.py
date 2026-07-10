@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 SOURCE_URL = "https://www.sv.tum.de/en/sv/student-groups/"
 BASE_URL = "https://www.sv.tum.de"
@@ -51,27 +51,31 @@ def parse_groups(html: str) -> list[dict[str, str]]:
     rows: dict[str, dict[str, str]] = {}
 
     for card in soup.select(".c-card"):
-        classes = card.get("class", [])
         # Group cards carry a logo; skip layout/intro cards (no image) and the
         # contact-person cards (committee members) marked c-card--contact.
         img = card.select_one("figure.image img")
-        if not img or "c-card--contact" in classes:
+        if not isinstance(img, Tag) or "c-card--contact" in (card.get("class") or []):
             continue
 
         name_el = card.find(["h1", "h2", "h3", "h4", "h5", "h6"])
-        name = name_el.get_text(strip=True) if name_el else ""
+        if not isinstance(name_el, Tag):
+            continue
+        name = name_el.get_text(strip=True)
         if not name:
             continue
 
         desc_el = card.select_one(".ce-bodytext")
         description = desc_el.get_text(" ", strip=True) if desc_el else ""
 
-        link_el = name_el.find("a", class_="external-link") if name_el else None
-        if not (link_el and link_el.get("href")):
-            link_el = card.select_one("figure.image a[href]")
-        website = _normalize_website(link_el.get("href") if link_el else None)
+        link_el = name_el.find("a", class_="external-link")
+        href = link_el.get("href") if isinstance(link_el, Tag) else None
+        if not (isinstance(href, str) and href):
+            fig_link = card.select_one("figure.image a[href]")
+            href = fig_link.get("href") if isinstance(fig_link, Tag) else None
+        website = _normalize_website(href if isinstance(href, str) else None)
 
-        logo_url = _normalize_website(img.get("src"))
+        src = img.get("src")
+        logo_url = _normalize_website(src if isinstance(src, str) else None)
 
         rows[name] = {
             "name": name,
