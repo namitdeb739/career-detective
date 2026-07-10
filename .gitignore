@@ -56,6 +56,10 @@ output/*
 # Device configuration (contains local IPs, pin numbers — not committed)
 config/device.yaml
 
+# AI usage logging: keep AI_USAGE_LOG.jsonl tracked; archived session transcripts
+# stay local (may contain secrets — see AI_USAGE.md before committing them)
+.ai-sessions/
+
 # OS
 .DS_Store
 Thumbs.db
