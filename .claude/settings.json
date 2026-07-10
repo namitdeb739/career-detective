@@ -61,18 +61,6 @@
           }
         ]
       }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "BRANCH=$(git branch --show-current 2>/dev/null); if [ \"$BRANCH\" = \"main\" ]; then echo \"You are on main. Create a feature branch first: git checkout -b feat/my-change\" >&2; exit 2; fi",
-            "timeout": 5
-          }
-        ]
-      }
     ]
   }
 }
