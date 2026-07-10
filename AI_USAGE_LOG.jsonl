@@ -1,0 +1,4 @@
+{"ts":"2026-07-10T07:40:46Z","kind":"prompt","session":"7e040a63-67d2-4f7d-81cd-f3511e71d799","prompt":"update my vscode"}
+{"ts":"2026-07-10T07:41:06Z","kind":"tool","session":"7e040a63-67d2-4f7d-81cd-f3511e71d799","tool":"Bash","file":null,"cmd":"command -v code; echo \"---\"; command -v brew && brew list --cask 2>/dev/null | grep -i \"visual-studio-code\\|vscode\" ; echo \"---\"; ls -d /Applications/Visual\\ Studio\\ Code.app 2>/dev/null; echo \"---\"; code --version 2>/dev/null"}
+{"ts":"2026-07-10T07:42:42Z","kind":"tool","session":"7e040a63-67d2-4f7d-81cd-f3511e71d799","tool":"Bash","file":null,"cmd":"brew upgrade --cask visual-studio-code 2>&1"}
+{"ts":"2026-07-10T07:42:58Z","kind":"session-end","session":"7e040a63-67d2-4f7d-81cd-f3511e71d799","reason":"prompt_input_exit"}
