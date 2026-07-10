@@ -1,0 +1,207 @@
+### LAYOFFS (RAW) ###
+ID,Company,Employees_Laid_Off,Date,Industry,Location,Country,Reason,Department,Pct_Workforce_Laid_Off,Total_Employees,Severance_Weeks,AI_Related,Year,Month,Month_Name,Quarter
+1,Duolingo,250,2025-01-08,EdTech,"Pittsburgh, PA",USA,AI replacing content creators,"Content, Marketing",10.0,2500,10,Yes,2025,1,January,1
+2,Twitch,500,2025-01-09,Live Streaming,"San Francisco, CA",USA,Profitability challenges,"Engineering, Marketing",35.0,1400,14,No,2025,1,January,1
+3,Coinbase,950,2025-01-10,Cryptocurrency,"San Francisco, CA",USA,Crypto market downturn,"Engineering, Marketing",20.0,4750,14,No,2025,1,January,1
+4,Discord,170,2025-01-11,Communication,"San Francisco, CA",USA,Cost reduction,"Support, Marketing",17.0,1000,12,No,2025,1,January,1
+5,Wayfair,1650,2025-01-19,E-commerce,"Boston, MA",USA,Market conditions,"Operations, Support",13.0,12700,10,No,2025,1,January,1
+6,PayPal,2500,2025-01-31,Fintech,"San Jose, CA",USA,Cost reduction,"Operations, Engineering",9.0,28000,12,Partial,2025,1,January,1
+7,Dell,6650,2025-02-05,Hardware,"Round Rock, TX",USA,Market conditions,"Sales, Marketing",5.0,133000,8,No,2025,2,February,1
+8,Zoom,1300,2025-02-07,Video Conferencing,"San Jose, CA",USA,Post-pandemic adjustment,"Engineering, Sales",15.0,8700,16,No,2025,2,February,1
+9,Cisco,7000,2025-02-15,Networking,"San Jose, CA",USA,Business realignment,"Sales, Support",8.5,82000,10,No,2025,2,February,1
+10,Rivian,1000,2025-02-20,Automotive/EV,"Irvine, CA",USA,Cost management,"Manufacturing, Engineering",10.0,10000,8,No,2025,2,February,1
+11,Stripe,1100,2025-03-14,Fintech,"San Francisco, CA",USA,Economic headwinds,"Engineering, Operations",14.0,7900,14,No,2025,3,March,1
+12,IBM,3900,2025-03-22,Enterprise Software,"Armonk, NY",USA,AI automation,"IT Services, Consulting",1.4,280000,12,Yes,2025,3,March,1
+13,Roku,360,2025-03-30,Streaming,"San Jose, CA",USA,Cost efficiency,"Engineering, Sales",10.0,3600,10,No,2025,3,March,1
+14,Accenture,19000,2025-03-30,Consulting,"Dublin, Ireland",Ireland,Cost optimization,"Consulting, Operations",2.5,760000,8,Partial,2025,3,March,1
+15,Dropbox,500,2025-04-27,Cloud Storage,"San Francisco, CA",USA,AI transformation,"Engineering, Support",16.0,3100,16,Yes,2025,4,April,2
+16,Lyft,1072,2025-04-27,Ridesharing,"San Francisco, CA",USA,Profitability focus,"Operations, Support",26.0,4123,10,Partial,2025,4,April,2
+17,Shopify,2300,2025-05-04,E-commerce,"Ottawa, Canada",Canada,Overexpansion correction,"Support, Logistics",23.0,10000,16,No,2025,5,May,2
+18,Unity,1800,2025-05-08,Gaming/Software,"San Francisco, CA",USA,Business reset,"Engineering, Sales",25.0,7200,12,No,2025,5,May,2
+19,Peloton,800,2025-05-22,Fitness Tech,"New York, NY",USA,Demand decline,"Manufacturing, Marketing",15.0,5333,12,No,2025,5,May,2
+20,Intel,34000,2025-08-01,Semiconductors,"Santa Clara, CA",USA,"Restructuring, cost cutting","Manufacturing, R&D",15.0,227000,10,No,2025,8,August,3
+21,Salesforce,4000,2025-09-15,SaaS/CRM,"San Francisco, CA",USA,AI automation of support roles,"Customer Support, Sales",5.5,73000,12,Yes,2025,9,September,3
+22,HP,6000,2025-10-10,Hardware,"Palo Alto, CA",USA,"AI integration, declining PC sales","Sales, Support",10.0,60000,8,Yes,2025,10,October,4
+23,SAP,8000,2025-11-20,Enterprise Software,"Walldorf, Germany",Germany,Restructuring,"Engineering, Consulting",7.0,114000,14,Partial,2025,11,November,4
+24,Spotify,1500,2025-12-04,Music Streaming,"Stockholm, Sweden",Sweden,Profitability focus,"Marketing, Engineering",17.0,9000,14,No,2025,12,December,4
+25,Snap,1300,2025-12-05,Social Media,"Santa Monica, CA",USA,Revenue decline,"Engineering, Marketing",20.0,6500,16,No,2025,12,December,4
+26,TikTok,2200,2026-01-12,Social Media,"Los Angeles, CA",USA,US operations uncertainty,"Operations, Content Moderation",12.0,18333,10,Partial,2026,1,January,1
+27,Amazon,16000,2026-01-15,E-commerce/Cloud,"Seattle, WA",USA,Cost optimization,"AWS, Retail",1.0,1600000,16,Partial,2026,1,January,1
+28,X (Twitter),1200,2026-01-18,Social Media,"San Francisco, CA",USA,Further cost cutting,"Engineering, Sales",30.0,4000,4,No,2026,1,January,1
+29,Microsoft,3000,2026-01-20,Software/Cloud,"Redmond, WA",USA,"AI automation, restructuring","Azure, Sales",1.3,230000,12,Yes,2026,1,January,1
+30,Tesla,14000,2026-01-25,Automotive/EV,"Austin, TX",USA,Production slowdown,"Manufacturing, Engineering",10.0,140000,8,No,2026,1,January,1
+31,Adobe,680,2026-01-28,Software,"San Jose, CA",USA,AI integration efficiency,"Sales, Support",2.3,29565,14,Yes,2026,1,January,1
+32,Meta,5000,2026-02-01,Social Media,"Menlo Park, CA",USA,Efficiency measures,"Reality Labs, Engineering",7.5,67000,20,No,2026,2,February,1
+33,Nvidia,450,2026-02-05,Semiconductors/AI,"Santa Clara, CA",USA,Department restructuring,"Sales, Marketing",1.5,30000,12,No,2026,2,February,1
+34,Google,2500,2026-02-10,Search/AI,"Mountain View, CA",USA,AI integration,"Cloud, Hardware",1.4,180000,16,Yes,2026,2,February,1
+35,Airbnb,890,2026-02-12,Travel Tech,"San Francisco, CA",USA,AI automation of support,"Customer Support, Operations",11.0,8091,16,Yes,2026,2,February,1
+
+
+### HIRING TRENDS ###
+ID,Company,Role,Number_Positions,Date_Posted,Salary_Min,Salary_Max,Location,Country,Remote,Skills_Required,Experience_Years,Department,Year,Month,Salary_Average
+1,Meta,AI Safety Engineer,80,2026-01-15,175000,320000,"Menlo Park, CA",USA,Hybrid,"RLHF, AI Alignment, Python",3,AI Research,2026,1,247500.0
+2,Cisco,Cybersecurity Analyst,95,2026-01-18,110000,175000,"San Jose, CA",USA,Hybrid,"SIEM, Threat Detection, Incident Response",3,Security,2026,1,142500.0
+3,Apple,AR/VR Engineer,85,2026-01-19,160000,270000,"Cupertino, CA",USA,Onsite,"Unity, ARKit, 3D Graphics, Swift",5,Hardware,2026,1,215000.0
+4,Anthropic,Prompt Engineer,45,2026-01-20,140000,220000,"San Francisco, CA",USA,Remote,"LLMs, API Integration, Testing",2,Product,2026,1,180000.0
+5,Snowflake,Data Engineer,130,2026-01-22,135000,210000,"San Mateo, CA",USA,Remote,"SQL, Python, ETL, Data Pipelines",3,Engineering,2026,1,172500.0
+6,Shopify,Backend Engineer,90,2026-01-24,130000,200000,"Ottawa, Canada",Canada,Remote,"Ruby, Rails, Microservices, SQL",4,Engineering,2026,1,165000.0
+7,Microsoft,AI Product Manager,120,2026-01-25,150000,250000,"Redmond, WA",USA,Hybrid,"Product Strategy, AI/ML, Copilot",5,Product,2026,1,200000.0
+8,Tableau,Analytics Engineer,60,2026-01-28,115000,180000,"Seattle, WA",USA,Hybrid,"SQL, Python, BI Tools, dbt",3,Analytics,2026,1,147500.0
+9,Canva,Product Manager,65,2026-01-29,135000,210000,"Sydney, Australia",Australia,Hybrid,"Product Strategy, User Research, Analytics",5,Product,2026,1,172500.0
+10,HashiCorp,Site Reliability Engineer,55,2026-01-30,145000,225000,"San Francisco, CA",USA,Remote,"SRE, Monitoring, Automation, Go",5,Infrastructure,2026,1,185000.0
+11,GitLab,DevOps Engineer,75,2026-02-01,125000,195000,Remote,USA,Remote,"CI/CD, Kubernetes, Terraform, AWS",4,Infrastructure,2026,2,160000.0
+12,OpenAI,AI Research Scientist,150,2026-02-01,180000,350000,"San Francisco, CA",USA,Hybrid,"PyTorch, Transformers, NLP, Research",5,Research,2026,2,265000.0
+13,Adobe,AI Product Designer,50,2026-02-02,125000,190000,"San Jose, CA",USA,Hybrid,"UX/UI, Figma, AI Tools, Prototyping",4,Design,2026,2,157500.0
+14,Databricks,MLOps Engineer,85,2026-02-03,150000,240000,"San Francisco, CA",USA,Remote,"Kubernetes, Docker, ML Pipelines, Spark",4,Engineering,2026,2,195000.0
+15,Amazon,Cloud Security Engineer,180,2026-02-05,145000,230000,"Seattle, WA",USA,Hybrid,"AWS Security, IAM, Zero Trust",4,Security,2026,2,187500.0
+16,Tesla,Robotics Engineer,140,2026-02-06,140000,230000,"Austin, TX",USA,Onsite,"ROS, Computer Vision, C++, Python",4,Engineering,2026,2,185000.0
+17,Stripe,Full Stack Engineer,110,2026-02-07,140000,220000,"San Francisco, CA",USA,Hybrid,"React, Node.js, TypeScript, APIs",3,Engineering,2026,2,180000.0
+18,Google,ML Engineer - Gemini,200,2026-02-08,160000,280000,"Mountain View, CA",USA,Hybrid,"TensorFlow, Python, LLMs, MLOps",4,AI,2026,2,220000.0
+19,Nvidia,GPU Architect,60,2026-02-09,180000,300000,"Santa Clara, CA",USA,Hybrid,"GPU Architecture, CUDA, Hardware Design",8,Hardware,2026,2,240000.0
+20,Palo Alto Networks,Security Architect,70,2026-02-10,165000,275000,"Santa Clara, CA",USA,Hybrid,"Network Security, Cloud Security, Architecture",7,Security,2026,2,220000.0
+21,Atlassian,Senior Software Engineer,100,2026-02-11,155000,235000,"Sydney, Australia",Australia,Hybrid,"Java, Spring, Distributed Systems",6,Engineering,2026,2,195000.0
+
+
+### BY INDUSTRY ###
+Industry,Total_Layoffs,Number_Companies,Avg_Workforce_Percentage,Avg_Severance_Weeks
+Semiconductors,34000,1,15.0,10.0
+Consulting,19000,1,2.5,8.0
+E-commerce/Cloud,16000,1,1.0,16.0
+Automotive/EV,15000,2,10.0,8.0
+Hardware,12650,2,7.5,8.0
+Enterprise Software,11900,2,4.2,13.0
+Social Media,9700,4,17.38,12.5
+Networking,7000,1,8.5,10.0
+SaaS/CRM,4000,1,5.5,12.0
+E-commerce,3950,2,18.0,13.0
+Fintech,3600,2,11.5,13.0
+Software/Cloud,3000,1,1.3,12.0
+Search/AI,2500,1,1.4,16.0
+Gaming/Software,1800,1,25.0,12.0
+Music Streaming,1500,1,17.0,14.0
+Video Conferencing,1300,1,15.0,16.0
+Ridesharing,1072,1,26.0,10.0
+Cryptocurrency,950,1,20.0,14.0
+Travel Tech,890,1,11.0,16.0
+Fitness Tech,800,1,15.0,12.0
+Software,680,1,2.3,14.0
+Cloud Storage,500,1,16.0,16.0
+Live Streaming,500,1,35.0,14.0
+Semiconductors/AI,450,1,1.5,12.0
+Streaming,360,1,10.0,10.0
+EdTech,250,1,10.0,10.0
+Communication,170,1,17.0,12.0
+
+
+### BY GEOGRAPHY ###
+Country,Total_Layoffs,Number_Companies,Percentage_of_Total
+USA,122722,31,79.94
+Ireland,19000,1,12.38
+Germany,8000,1,5.21
+Canada,2300,1,1.5
+Sweden,1500,1,0.98
+
+
+### BY US STATE ###
+State,Total_Layoffs,Number_Companies,Percentage_of_USA
+CA,76472,23,62.31
+TX,20650,2,16.83
+WA,19000,2,15.48
+NY,4700,2,3.83
+MA,1650,1,1.34
+PA,250,1,0.2
+
+
+### BY DEPARTMENT ###
+Department,Total_Affected,Number_Events
+Manufacturing,24900,4
+Engineering,20505,15
+R&D,17000,1
+Sales,16220,11
+Consulting,15450,3
+Operations,14206,7
+Support,9686,8
+AWS,8000,1
+Retail,8000,1
+Marketing,6285,9
+Reality Labs,2500,1
+Customer Support,2445,2
+IT Services,1950,1
+Azure,1500,1
+Cloud,1250,1
+Hardware,1250,1
+Logistics,1150,1
+Content Moderation,1100,1
+Content,125,1
+
+
+### BY MONTH ###
+Year,Month_Name,Quarter,Total_Layoffs,Number_Events
+2025,January,1,6020,6
+2025,February,1,15950,4
+2025,March,1,24360,4
+2025,April,2,1572,2
+2025,May,2,4900,3
+2025,August,3,34000,1
+2025,September,3,4000,1
+2025,October,4,6000,1
+2025,November,4,8000,1
+2025,December,4,2800,2
+2026,January,1,37080,6
+2026,February,1,8840,4
+
+
+### BY SEVERANCE ###
+Severance_Weeks,Number_Companies,Total_Employees
+4,1,1200
+8,5,46650
+10,7,46532
+12,8,16620
+14,6,12730
+16,7,24790
+20,1,5000
+
+
+### AI IMPACT ###
+AI_Related,Total_Layoffs,Number_Companies,Percentage
+No,83030,20,54.08
+Partial,48772,6,31.77
+Yes,21720,9,14.15
+
+
+### CAREER TRANSITIONS ###
+Old_Role,New_Role,Transferable_Skills,Skills_Gap,Reskilling_Time_Months,Success_Rate,Companies_Offering
+Customer Support Agent,AI Prompt Engineer,"Communication, Problem-solving, Product Knowledge","Prompt Engineering, API Integration, Testing",3,75,"Salesforce, Zendesk, Intercom"
+Content Writer,AI Content Strategist,"Writing, SEO, Creativity","AI Tools (ChatGPT, Claude), Content Optimization",2,80,"Adobe, HubSpot, Jasper"
+Data Analyst,ML Engineer,"SQL, Python, Statistics","PyTorch/TensorFlow, Deep Learning, MLOps",6,65,"Google, Meta, Microsoft"
+Software Engineer,AI Safety Engineer,"Programming, System Design, Testing","RLHF, AI Alignment, Ethics",4,70,"OpenAI, Anthropic, DeepMind"
+QA Tester,MLOps Engineer,"Testing, CI/CD, Automation","Kubernetes, ML Pipelines, Model Monitoring",5,60,"Databricks, Snowflake, AWS"
+IT Support,Cloud Security Engineer,"Troubleshooting, Networking, Security Basics","Cloud Platforms, IAM, Zero Trust",6,55,"Amazon, Microsoft, Google"
+Graphic Designer,AI Product Designer,"Design Thinking, UI/UX, Tools","AI Integration, Prototyping, User Research",4,72,"Adobe, Figma, Canva"
+Sales Engineer,DevOps Engineer,"Technical Knowledge, Communication","Terraform, Kubernetes, Infrastructure as Code",7,50,"GitLab, HashiCorp, Atlassian"
+Project Manager,AI Product Manager,"Leadership, Roadmapping, Stakeholder Management","AI/ML Fundamentals, Data Analysis",3,78,"Microsoft, Google, Meta"
+Marketing Analyst,Analytics Engineer,"Data Analysis, SQL, Reporting","dbt, Data Modeling, ETL Pipelines",4,68,"Tableau, Looker, dbt Labs"
+Hardware Engineer,Robotics Engineer,"Electronics, System Design, Testing","ROS, Computer Vision, AI Integration",5,65,"Tesla, Boston Dynamics, Waymo"
+Network Engineer,Site Reliability Engineer,"Networking, Troubleshooting, Automation","SRE Practices, Monitoring, Incident Response",5,62,"Google, Netflix, Uber"
+
+
+### KEY STATS ###
+Metric,Value
+Total Layoff Events,35
+Total Employees Affected,"153,522"
+Companies Involved,35
+Date Range,2025-01-08 to 2026-02-12
+Average Layoff Size,"4,386"
+Median Layoff Size,"1,650"
+Largest Single Layoff,"34,000 (Intel)"
+Average Workforce %,12.2%
+Average Severance (weeks),12.2
+AI-Related Layoffs,9
+AI-Related %,25.7%
+Most Affected Industry,Semiconductors
+Most Affected Country,USA
+Most Affected State (USA),California
+Total Hiring Positions,"2,045"
+Average New Role Salary,"$192,024"
+Top Hiring Category,AI/ML Engineering
+Average Reskilling Time,4.5 months

@@ -19,10 +19,14 @@ from __future__ import annotations
 import re
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
+
+if TYPE_CHECKING:
+    from bs4.element import NavigableString
 
 BASE_URL = "https://collab.dvb.bayern"
 OVERVIEW_PAGE_ID = "69901187"  # "TUM PREP Projects" — the ConfiForm project table
@@ -73,10 +77,10 @@ def fetch_export_view(page_id: str) -> str:
         timeout=30,
     )
     resp.raise_for_status()
-    return resp.json()["body"]["export_view"]["value"]
+    return str(resp.json()["body"]["export_view"]["value"])
 
 
-def _text(el: object) -> str:
+def _text(el: Tag | NavigableString | None) -> str:
     if el is None:
         return ""
     return re.sub(r"\s+", " ", el.get_text(" ", strip=True)).strip()
@@ -95,9 +99,12 @@ def parse_overview(html: str) -> list[dict[str, str]]:
         row = {col: "" for col in COLUMNS}
         for td in entry.select("td[cf-field]"):
             key = td.get("cf-field")
+            if not isinstance(key, str):
+                continue
             if key == "mylink":
                 link = td.find("a")
-                row["page_url"] = link.get("href", "").strip() if link else ""
+                href = link.get("href") if isinstance(link, Tag) else None
+                row["page_url"] = href.strip() if isinstance(href, str) else ""
             elif key in OVERVIEW_FIELDS:
                 row[OVERVIEW_FIELDS[key]] = _text(td)
         if row["project_name"]:
@@ -115,7 +122,8 @@ def enrich_from_detail(row: dict[str, str]) -> None:
     try:
         html = fetch_export_view(page_id)
     except requests.HTTPError as err:
-        print(f"  skipping {row['project_name']!r}: {err.response.status_code}")
+        status = err.response.status_code if err.response is not None else "?"
+        print(f"  skipping {row['project_name']!r}: {status}")
         return
 
     soup = BeautifulSoup(html, "html.parser")
