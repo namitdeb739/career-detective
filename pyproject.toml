@@ -17,7 +17,7 @@ dependencies = [
     "numpy>=1.26",
     "pandas>=2.2",
     "matplotlib>=3.9",
-    "anthropic>=0.116.0",
+    "ollama>=0.6.2",
 ]
 
 [project.urls]

@@ -1,34 +1,36 @@
 """LLM inferential tagging (step 5): skills, industries, and job titles.
 
-For each consolidated entity, Claude (Haiku 4.5 — the cheapest model) infers
+Runs locally and free via Ollama — no API key, no data leaves the machine.
+For each consolidated entity, a local model (default qwen2.5:7b) infers
 applicable skills and industries from the controlled vocabulary (canonical
 tags, plus open terms where nothing fits) and proposes plausible job titles,
-which are fuzzy-mapped to real postings in the distinct-title index. One small
-structured-output call per entity; the vocabulary is cached in the system
-prompt across calls.
+which are fuzzy-mapped to real postings in the distinct-title index.
 
-Requires an API key:
+One-time setup:
 
-    export ANTHROPIC_API_KEY=sk-ant-...
+    brew install ollama       # or download from https://ollama.com
+    ollama serve &            # start the local server
+    ollama pull qwen2.5:7b    # ~4.7 GB
+
+Run:
+
     uv run python scripts/tag_entities_llm.py              # all entities
-    uv run python scripts/tag_entities_llm.py --limit 10   # cheap dry run
+    uv run python scripts/tag_entities_llm.py --limit 10   # quick check
+    OLLAMA_MODEL=qwen2.5:14b uv run python scripts/tag_entities_llm.py
 """
 
 from __future__ import annotations
 
 import argparse
 import difflib
+import os
 from pathlib import Path
-from typing import TYPE_CHECKING
 
-import anthropic
+import ollama
 import pandas as pd
 from pydantic import BaseModel
 
-if TYPE_CHECKING:
-    from anthropic.types import TextBlockParam
-
-MODEL = "claude-haiku-4-5"
+MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:7b")
 ENTITIES = Path("data/processed/entities.csv")
 VOCAB = Path("data/reference/vocabulary.csv")
 JOB_TITLES = Path("data/processed/job_titles.csv")
@@ -87,27 +89,47 @@ def _map_title(proposed: str, titles: list[str]) -> tuple[str, str]:
     return match[0], f"{ratio:.3f}"
 
 
+def _ensure_model(model: str) -> None:
+    try:
+        available = {m.model for m in ollama.list().models}
+    except Exception as err:  # server unreachable / not installed
+        raise SystemExit(
+            f"Cannot reach Ollama ({err}). Install it (brew install ollama), "
+            f"start it (ollama serve), then: ollama pull {model}"
+        ) from err
+    if model not in available:
+        raise SystemExit(f"Model {model!r} not found — run: ollama pull {model}")
+
+
+def _tag(system: str, user: str) -> EntityTags | None:
+    response = ollama.chat(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        format=EntityTags.model_json_schema(),
+        options={"temperature": 0},
+    )
+    content = response.message.content
+    return EntityTags.model_validate_json(content) if content else None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=0, help="tag only the first N")
     args = parser.parse_args()
 
+    _ensure_model(MODEL)
     tag_type_of, skills, industries = _load_vocab()
     industry_set = {i.lower() for i in industries}
     titles = [str(t) for t in pd.read_csv(JOB_TITLES)["title"]]
-    system: list[TextBlockParam] = [
-        {
-            "type": "text",
-            "text": _system_prompt(skills, industries),
-            "cache_control": {"type": "ephemeral"},
-        }
-    ]
+    system = _system_prompt(skills, industries)
 
     entities = pd.read_csv(ENTITIES)
     if args.limit:
         entities = entities.head(args.limit)
 
-    client = anthropic.Anthropic()
     tag_rows: list[dict[str, object]] = []
     title_rows: list[dict[str, str]] = []
 
@@ -117,18 +139,10 @@ def main() -> None:
             f"Name: {_clean(entity['name'])}\nDetails: {_clean(entity['search_text'])}"
         )
         try:
-            response = client.messages.parse(
-                model=MODEL,
-                max_tokens=1024,
-                system=system,
-                messages=[{"role": "user", "content": user}],
-                output_format=EntityTags,
-            )
-        except anthropic.APIError as err:
+            tags = _tag(system, user)
+        except Exception as err:  # one bad entity shouldn't abort the run
             print(f"  {entity_id}: skipped ({err})")
             continue
-
-        tags = response.parsed_output
         if tags is None:
             continue
 

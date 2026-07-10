@@ -81,7 +81,7 @@ tag-dict:
 # Regenerate every processed CSV except the LLM tags (no API key needed)
 data: build-vocab build-entities build-jobs tag-dict
 
-# LLM tags: skills/industries/titles (needs ANTHROPIC_API_KEY; try --limit 10)
+# LLM tags: skills/industries/titles via local Ollama (try --limit 10)
 tag-llm *args:
     uv run python scripts/tag_entities_llm.py {{ args }}
 

@@ -38,13 +38,18 @@ just data          # runs build-vocab → build-entities → build-jobs → tag-
 Or run stages individually: `just build-vocab`, `just build-entities`,
 `just build-jobs`, `just tag-dict`.
 
-**LLM inferential tagging** (skills/industries/job titles) needs a Claude API
-key and makes ~one Haiku call per entity:
+**LLM inferential tagging** (skills/industries/job titles) runs **locally and
+free via [Ollama](https://ollama.com)** — no API key, no data leaves your
+machine. One-time setup, then run:
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-just tag-llm --limit 10   # cheap dry run first
+brew install ollama       # or download from https://ollama.com
+ollama serve &            # start the local server
+ollama pull qwen2.5:7b    # ~4.7 GB (default model)
+
+just tag-llm --limit 10   # quick check first
 just tag-llm              # all entities
+# pick a bigger model: OLLAMA_MODEL=qwen2.5:14b just tag-llm
 ```
 
 **Outputs** (in `data/`):
