@@ -60,6 +60,32 @@ coverage:
     uv run pytest --cov=src --cov-report=term-missing
 
 
+# --- Data pipeline ----------------------------------------------------------
+
+# Build the controlled tag vocabulary from the jobs dataset
+build-vocab:
+    uv run python scripts/build_vocabulary.py
+
+# Consolidate raw TUM sources into data/processed/entities.csv
+build-entities:
+    uv run python scripts/build_entities.py
+
+# Standardize the jobs dataset (jobs, job_tags, job_titles)
+build-jobs:
+    uv run python scripts/build_jobs.py
+
+# Dictionary-tag entities against the vocabulary (free, no API)
+tag-dict:
+    uv run python scripts/tag_entities_dict.py
+
+# Regenerate every processed CSV except the LLM tags (no API key needed)
+data: build-vocab build-entities build-jobs tag-dict
+
+# LLM tags: skills/industries/titles (needs ANTHROPIC_API_KEY; try --limit 10)
+tag-llm *args:
+    uv run python scripts/tag_entities_llm.py {{ args }}
+
+
 
 
 # Launch Jupyter notebook server

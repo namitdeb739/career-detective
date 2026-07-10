@@ -17,14 +17,60 @@ just release X   # bump version (patch/minor/major), tag, push
 just             # list all available recipes
 ```
 
+## Data pipeline
+
+Turns the raw TUM sources and the AI-jobs dataset into a standardized set of
+tables that match student clubs/programmes/projects to relevant skills,
+industries, and job titles.
+
+**Inputs** (in `data/`):
+
+- `data/raw/tum_clubs.csv`, `tum_student_groups.csv`, `tum_programmes.csv`,
+  `tum_prep_projects.csv` — scraped TUM sources (`scripts/scrape_tum_*.py`)
+- `data/cleaned/ai_jobs_2026_cleaned.csv` — the jobs dataset
+
+**Regenerate every processed CSV** (no API key needed):
+
+```bash
+just data          # runs build-vocab → build-entities → build-jobs → tag-dict
+```
+
+Or run stages individually: `just build-vocab`, `just build-entities`,
+`just build-jobs`, `just tag-dict`.
+
+**LLM inferential tagging** (skills/industries/job titles) needs a Claude API
+key and makes ~one Haiku call per entity:
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+just tag-llm --limit 10   # cheap dry run first
+just tag-llm              # all entities
+```
+
+**Outputs** (in `data/`):
+
+| File | Committed? | Produced by |
+| --- | --- | --- |
+| `data/reference/vocabulary.csv` | ✅ | `build-vocab` |
+| `data/processed/entities.csv` | regenerated | `build-entities` |
+| `data/processed/jobs.csv`, `job_tags.csv` | regenerated | `build-jobs` |
+| `data/processed/job_titles.csv` | ✅ | `build-jobs` |
+| `data/processed/entity_tags_dict.csv` | ✅ | `tag-dict` |
+| `data/processed/entity_tags_llm.csv`, `entity_job_titles.csv` | regenerated | `tag-llm` |
+
+Large derived tables (`entities.csv`, `jobs.csv`, `job_tags.csv`) are
+gitignored — regenerate them with `just data`. The scripts are their
+provenance.
+
 ## Project structure
 
 ```text
 src/career_detective/   Source package (src layout)
 src/career_detective/app.py   streamlit app — run with `just app`
+scripts/                  Scrapers + data-pipeline scripts (see Data pipeline)
 tests/                    Test suite (pytest)
 notebooks/                Jupyter notebooks
-data/                     Datasets (gitignored, DVC-ready)
+data/raw, data/cleaned, data/processed, data/reference   Datasets
 ```
 
 ## License
