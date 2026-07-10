@@ -49,6 +49,11 @@ output/*
 *.safetensors
 !data/.gitkeep
 
+# Large regenerable derived data (recreate with scripts/build_*.py)
+data/processed/entities.csv
+data/processed/jobs.csv
+data/processed/job_tags.csv
+
 # Environment
 .env
 .env.local

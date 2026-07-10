@@ -1,0 +1,92 @@
+tag,tag_type,job_count
+Automotive & Robotics,industry,5240
+Technology,industry,5229
+Education & EdTech,industry,5222
+Logistics & Supply Chain,industry,5214
+Finance & Banking,industry,5208
+Cybersecurity,industry,5206
+Entertainment & Media,industry,5196
+Healthcare & Biotech,industry,5186
+Retail & E-commerce,industry,5119
+Energy & Utilities,industry,5109
+Python,language,49918
+Go,language,11700
+Scala,language,11679
+R,language,11582
+C++,language,11581
+Julia,language,11530
+Bash,language,11514
+Java,language,11407
+SQL,language,11406
+Pandas,skill,24059
+LightGBM,skill,20402
+Scikit-learn,skill,20398
+XGBoost,skill,20383
+NumPy,skill,20381
+Regression,skill,20378
+Random Forest,skill,20364
+Supervised Learning,skill,20361
+Feature Engineering,skill,20318
+PyTorch,skill,11409
+Kubernetes,skill,9856
+Terraform,skill,9810
+Kubeflow,skill,9769
+Model Monitoring,skill,9761
+Docker,skill,9758
+Triton Inference Server,skill,9758
+CD,skill,9755
+CI,skill,9755
+Stable Diffusion,skill,9730
+Git,skill,9727
+LLMs,skill,9724
+LlamaIndex,skill,9723
+LangChain,skill,9715
+AWS SageMaker,skill,9713
+Vector Databases,skill,9712
+MLflow,skill,9711
+RAG (Retrieval-Augmented Generation),skill,9693
+Fine-tuning,skill,9679
+OpenAI API,skill,9659
+Prompt Engineering,skill,9637
+NLTK,skill,7278
+BERT,skill,7256
+Tokenization,skill,7254
+GPT,skill,7248
+Hugging Face,skill,7239
+Named Entity Recognition (NER),skill,7227
+Spacy,skill,7226
+Transformers,skill,7226
+Text Summarization,skill,7207
+Object Detection,skill,7141
+ResNet,skill,7122
+YOLO,skill,7105
+OCR,skill,7090
+OpenCV,skill,7080
+Image Segmentation,skill,7074
+Image Processing,skill,7051
+GANs,skill,7032
+CUDA,skill,4653
+JAX,skill,4640
+Keras,skill,4628
+Neural Networks,skill,4619
+Backpropagation,skill,4579
+TensorRT,skill,4575
+TensorFlow,skill,4562
+RNNs,skill,4522
+CNNs,skill,4512
+Matplotlib,skill,4451
+A,skill,4430
+B Testing,skill,4430
+Data Visualization,skill,4426
+R-Studio,skill,4426
+Data Wrangling,skill,4422
+Statsmodels,skill,4416
+Seaborn,skill,4383
+AWS,skill,2
+Machine Learning,specialization,19200
+MLOps,specialization,8158
+Generative AI,specialization,8134
+NLP,specialization,5565
+Computer Vision,specialization,5396
+Deep Learning,specialization,2813
+Data Science,specialization,2666

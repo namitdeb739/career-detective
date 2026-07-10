@@ -1,0 +1,70 @@
+entity_id,tag,tag_type,confidence,method,canonical
+biomatrix,Neural Networks,skill,1.0,dict,True
+biomatrix,Machine Learning,specialization,1.0,dict,True
+munich-nlp,NLP,specialization,1.0,dict,True
+openhardware,Machine Learning,specialization,1.0,dict,True
+techlabs,Data Science,specialization,1.0,dict,True
+neurotum,Machine Learning,specialization,1.0,dict,True
+neurotum,Deep Learning,specialization,1.0,dict,True
+tum-ai,Machine Learning,specialization,1.0,dict,True
+tumuchdata,Machine Learning,specialization,1.0,dict,True
+tumuchdata,Data Science,specialization,1.0,dict,True
+ai-meets-antitrust,NLP,specialization,1.0,dict,True
+ai-society-and-governance,LLMs,skill,1.0,dict,True
+ai-society-and-governance,Generative AI,specialization,1.0,dict,True
+coding-for-distributed-machine-learning,Machine Learning,specialization,1.0,dict,True
+safe-control-gym-a-unified-sim2real-benchmark-pipeline-for-safe-robot-learning-and-control,Python,language,1.0,dict,True
+safe-control-gym-a-unified-sim2real-benchmark-pipeline-for-safe-robot-learning-and-control,Machine Learning,specialization,1.0,dict,True
+brain-inspired-computing-for-edge-ai,Deep Learning,specialization,1.0,dict,True
+machine-learning-in-electrochemistry,Machine Learning,specialization,1.0,dict,True
+biological-learning-in-neural-networks,Neural Networks,skill,1.0,dict,True
+identify-missing-physics-in-der-based-dynamical-systems,Julia,language,1.0,dict,True
+identify-missing-physics-in-der-based-dynamical-systems,Neural Networks,skill,1.0,dict,True
+identify-missing-physics-in-der-based-dynamical-systems,Machine Learning,specialization,1.0,dict,True
+ml-based-surrogate-modelling-for-distribution-grid-planning-problems,Regression,skill,1.0,dict,True
+ml-based-surrogate-modelling-for-distribution-grid-planning-problems,Transformers,skill,1.0,dict,True
+ml-based-surrogate-modelling-for-distribution-grid-planning-problems,Machine Learning,specialization,1.0,dict,True
+atomic-scale-microscopy-on-the-dynamics-of-oxide-supported-cluster-catalysts,Python,language,1.0,dict,True
+understanding-nanoscale-dynamics-under-the-stm-by-advanced-data-processing,Python,language,1.0,dict,True
+physics-informed-deep-operator-networks-for-energy-applications,Neural Networks,skill,1.0,dict,True
+physics-informed-deep-operator-networks-for-energy-applications,Machine Learning,specialization,1.0,dict,True
+physics-informed-deep-operator-networks-for-energy-applications,Deep Learning,specialization,1.0,dict,True
+high-throughput-electrochemistry,Machine Learning,specialization,1.0,dict,True
+privacy-security-and-communication-efficiency-in-federated-learning,Machine Learning,specialization,1.0,dict,True
+dual-spaces-of-neural-networks-creating-maps-between-the-parameter-space-and-the-input-space,GPT,skill,1.0,dict,True
+dual-spaces-of-neural-networks-creating-maps-between-the-parameter-space-and-the-input-space,Neural Networks,skill,1.0,dict,True
+dual-spaces-of-neural-networks-creating-maps-between-the-parameter-space-and-the-input-space,Backpropagation,skill,1.0,dict,True
+dual-spaces-of-neural-networks-creating-maps-between-the-parameter-space-and-the-input-space,Machine Learning,specialization,1.0,dict,True
+dual-spaces-of-neural-networks-creating-maps-between-the-parameter-space-and-the-input-space,Deep Learning,specialization,1.0,dict,True
+enhancing-safety-of-personnel-during-indoor-operations-with-imu-sensors,Neural Networks,skill,1.0,dict,True
+enhancing-safety-of-personnel-during-indoor-operations-with-imu-sensors,Machine Learning,specialization,1.0,dict,True
+privacy-preserving-inertial-odometry-for-accurate-speed-estimation-in-clinical-trials-using-actibelt-technology,Transformers,skill,1.0,dict,True
+privacy-preserving-inertial-odometry-for-accurate-speed-estimation-in-clinical-trials-using-actibelt-technology,Neural Networks,skill,1.0,dict,True
+privacy-preserving-inertial-odometry-for-accurate-speed-estimation-in-clinical-trials-using-actibelt-technology,Deep Learning,specialization,1.0,dict,True
+explore-steroid-hormone-metabolism-in-human-associated-microbes,Python,language,1.0,dict,True
+explore-steroid-hormone-metabolism-in-human-associated-microbes,Bash,language,1.0,dict,True
+modeling-of-thermoacoustic-combustion-instabilities,Machine Learning,specialization,1.0,dict,True
+noisy-and-constrained-baysian-optimization,Machine Learning,specialization,1.0,dict,True
+vision-language-modeling-in-medical-imaging,Fine-tuning,skill,1.0,dict,True
+vision-language-modeling-in-medical-imaging,Machine Learning,specialization,1.0,dict,True
+vision-language-modeling-in-medical-imaging,Deep Learning,specialization,1.0,dict,True
+end-to-end-machine-learning-for-data-driven-inventory-control,Machine Learning,specialization,1.0,dict,True
+supporting-cognitive-and-sleep-health-in-older-adults-adapting-the-lightup-light-based-intervention-from-singapore-to-germany,Data Science,specialization,1.0,dict,True
+learning-to-collaborate-a-meta-learning-approach-to-forecast-integration,Python,language,1.0,dict,True
+learning-to-collaborate-a-meta-learning-approach-to-forecast-integration,Machine Learning,specialization,1.0,dict,True
+design-of-long-range-tunable-couplers-for-superconducting-quantum-circuits,Python,language,1.0,dict,True
+superconducting-quantum-processor-modeling,Python,language,1.0,dict,True
+view-visual-experience-and-wearables,Data Science,specialization,1.0,dict,True
+resilient-by-recipe-the-entrepreneur-s-diet-data-driven-analysis-of-mental-health-food-patterns,Regression,skill,1.0,dict,True
+resilient-by-recipe-the-entrepreneur-s-diet-data-driven-analysis-of-mental-health-food-patterns,Machine Learning,specialization,1.0,dict,True
+optimisation-in-atomistic-machine-learning,Machine Learning,specialization,1.0,dict,True
+momentum-research-platform,Python,language,1.0,dict,True
+momentum-research-platform,Docker,skill,1.0,dict,True
+momentum-research-platform,Git,skill,1.0,dict,True
+momentum-research-platform,NLP,specialization,1.0,dict,True
+momentum-research-platform,Data Science,specialization,1.0,dict,True
+resource-management-for-6g-in-x-subnetworks,Machine Learning,specialization,1.0,dict,True
+menostik-ai-based-diagnostics-of-menopause-using-wearables-and-digital-biomarkers,Machine Learning,specialization,1.0,dict,True
+menostik-ai-based-diagnostics-of-menopause-using-wearables-and-digital-biomarkers,Data Science,specialization,1.0,dict,True
+ai-based-condition-monitoring-for-sensor-integrated-gears,Machine Learning,specialization,1.0,dict,True
+byzantine-attack-strategies-in-federated-learning,Machine Learning,specialization,1.0,dict,True
