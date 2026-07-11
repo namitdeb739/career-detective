@@ -11,41 +11,73 @@ local-LLM step). See the [README](../README.md#data-pipeline) for commands.
 ## 1. At a glance
 
 ```mermaid
-flowchart TB
-    subgraph raw ["Raw TUM sources — data/raw/"]
-        clubs["tum_clubs.csv<br>200"]
-        groups["tum_student_groups.csv<br>140"]
-        progs["tum_programmes.csv<br>188"]
-        prep["tum_prep_projects.csv<br>83"]
+flowchart LR
+    classDef src fill:#eaf0fb,stroke:#5c79b8,color:#1c2c4a
+    classDef proc fill:#fff2e0,stroke:#d98a2b,color:#5a3500
+    classDef tbl fill:#e7f5ec,stroke:#4a9d66,color:#123a22
+    classDef key fill:#f4e9fa,stroke:#9a55b3,color:#3a1747,stroke-width:2px
+    classDef future fill:#f7f7f7,stroke:#9aa0a6,color:#3c4043,stroke-dasharray:5 3
+
+    subgraph RAW ["Raw TUM sources"]
+        direction TB
+        C[("tum_clubs.csv · 200")]
+        G[("tum_student_groups.csv · 140")]
+        P[("tum_programmes.csv · 188")]
+        R[("tum_prep_projects.csv · 83")]
     end
 
-    jobsraw["data/cleaned/<br>ai_jobs_2026_cleaned.csv<br>51,932"]
+    JRAW[("ai_jobs_2026_cleaned.csv · 51,932")]
 
-    clubs --> BE
-    groups --> BE
-    progs --> BE
-    prep --> BE
-    BE["build_experiences.py<br>union + dedupe by name"] --> experiences["tum_student_experiences.csv<br>402"]
+    BE["build_experiences.py<br/>union + dedupe by name"]
+    EXP[("tum_student_experiences.csv · 402")]
+    BV["build_vocabulary.py"]
+    VOC[("vocabulary.csv · 91 tags")]
+    BJ["build_jobs.py"]
+    JOBS[("jobs · job_tags · job_titles")]
 
-    jobsraw --> BV["build_vocabulary.py"] --> vocab["vocabulary.csv<br>91 tags"]
+    subgraph TAG ["Tag + merge experiences"]
+        direction TB
+        TD["tag_experiences_dict.py"]
+        TL["tag_experiences_llm.py · Ollama"]
+        MG["merge_experience_tags.py"]
+    end
+    ET[("experience_tags.csv · 2,930")]
 
-    experiences --> TD["tag_experiences_dict.py<br>verbatim match"] --> tdict["experience_tags_dict.csv"]
-    experiences --> TL["tag_experiences_llm.py<br>Ollama inference"] --> tllm["experience_tags_llm.csv"]
-    TL --> titles["experience_job_titles.csv"]
-    vocab -.canonical.-> TD
-    vocab -.canonical.-> TL
+    MATCH{{"match on shared tag + tag_type"}}
 
-    jobsraw --> BJ["build_jobs.py"]
-    BJ --> jobs["jobs.csv"]
-    BJ --> jtags["job_tags.csv"]
-    vocab -.filter.-> BJ
+    C --> BE
+    G --> BE
+    P --> BE
+    R --> BE
+    BE --> EXP
 
-    tdict -. shared tag .-> jtags
-    tllm -. shared tag .-> jtags
+    JRAW --> BV --> VOC
+    JRAW --> BJ --> JOBS
+
+    EXP --> TD --> MG
+    EXP --> TL --> MG
+    MG --> ET
+
+    VOC -. constrains .-> TD
+    VOC -. constrains .-> TL
+    VOC -. filters .-> BJ
+
+    ET ==> MATCH
+    JOBS ==> MATCH
+
+    class C,G,P,R,JRAW src
+    class BE,BV,BJ,TD,TL,MG proc
+    class EXP,JOBS,ET tbl
+    class VOC key
+    class MATCH future
 ```
 
-The **vocabulary** is the linchpin: the TUM side and the jobs side draw tags
-from the *same* controlled set, so matching is an exact join, not fuzzy NLP.
+**Reading it** — cylinders are data files, rectangles are scripts. Blue = raw
+inputs · orange = pipeline scripts · green = output tables · purple = the shared
+**vocabulary** (the join key) · dashed = planned (step 7). The vocabulary
+constrains both tagging passes *and* the jobs export, so `experience_tags` and
+`job_tags` land in the same tag space and join directly — an exact join, not
+fuzzy NLP.
 
 ---
 
