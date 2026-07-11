@@ -23,7 +23,7 @@ from __future__ import annotations
 import argparse
 import math
 import textwrap
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import pandas as pd
@@ -55,9 +55,6 @@ BROADEN_WEIGHTS = {
     "geo": 0.08,
 }
 SKILL_TYPES = frozenset({"skill", "language", "specialization"})
-# Universal prior: an experience saturates the transversal field at this many
-# confidence-weighted transferable skills (every job implicitly values them).
-TRANSVERSAL_CAP = 3.0
 
 # Layer 2 — MMR diversifies a relevance-ranked pool into two tracks: "direct"
 # leans on relevance, "broaden" leans on diversity and avoids the direct picks.
@@ -154,6 +151,17 @@ def _load_experience_tags(
             skills[eid][tag] = conf * idf.get(tag, 0.0)
         elif tag_type == "industry":
             industry[eid][tag] = conf
+
+    # idf-weight transversal tags by rarity across experiences, so distinctive
+    # transferable skills (public speaking) outweigh ubiquitous ones (teamwork).
+    doc_freq: Counter[str] = Counter()
+    for tag_map in transversal.values():
+        doc_freq.update(tag_map)
+    n_docs = len(transversal) or 1
+    for tag_map in transversal.values():
+        for tag in tag_map:
+            tag_map[tag] *= math.log(n_docs / doc_freq[tag]) if doc_freq[tag] else 0.0
+
     return skills, industry, transversal
 
 
@@ -232,13 +240,14 @@ def main() -> None:
     )
     country_set = set(set_countries)
 
+    transversal_raw = {eid: sum(v.values()) for eid, v in exp_transversal.items()}
+    max_transversal = max(transversal_raw.values(), default=0.0) or 1.0
+
     sims_by_eid: dict[str, Vector] = {}
     for eid in info:
         sims_by_eid[eid] = {
             "skills": _cosine(exp_skills.get(eid, {}), skill_p),
-            "transversal": min(
-                1.0, sum(exp_transversal.get(eid, {}).values()) / TRANSVERSAL_CAP
-            ),
+            "transversal": transversal_raw.get(eid, 0.0) / max_transversal,
             "industry": _cosine(exp_industry.get(eid, {}), industry_p),
             "title": (
                 len(exp_titles.get(eid, set()) & set_titles) / len(set_titles)

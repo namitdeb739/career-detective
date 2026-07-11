@@ -74,12 +74,16 @@ The foundational fix: give clubs a signal for what they actually build.
   transferable skills, and score an experience by how strongly it builds them:
 
   ```text
-  sim_transversal(e) = min(1, Σ confidence(transversal tags of e) / CAP)   # CAP = 3
+  raw(e) = Σ confidence(t) · idf(t)   over e's transversal tags
+  idf(t) = log(N_experiences / doc_freq(t))     # rare skills weigh more
+  sim_transversal(e) = raw(e) / max_e raw       # normalised to [0, 1]
   ```
 
-  This is job-independent — it lifts transferable-skill-rich clubs off zero
-  everywhere, without letting them dominate. Weight is modest (0.20) in the
-  rebalanced five-field score:
+  It is job-independent (a universal prior), but **idf-weighted** so a
+  *distinctive* transferable skill (public speaking, empathy) counts far more
+  than a ubiquitous one (teamwork) — this is what lets purely non-tech clubs
+  (a peer-support helpline, a debate society) rise rather than every club with
+  generic teamwork. Weight is modest (0.20) in the rebalanced five-field score:
 
   | field | weight |
   | --- | --- |
@@ -116,12 +120,11 @@ re-weight is what lifts transferable-skill clubs into the broaden lane — the
 beyond-accuracy / serendipity framing shown to drive engagement in
 [recommender research][recsys]. Tune with `--top`/`--broaden`.
 
-> **Known limitation.** The transversal prior *saturates* (≈1.0 for any club
-> with ≥3 soft skills), so it can't separate "has soft skills" from "is
-> primarily soft skills" — the broaden lane favours clubs that are transversal-
-> *and* tech-relevant over purely non-tech ones. An **idf-weighted transversal**
-> score (rewarding distinctive skills like *public speaking* over ubiquitous
-> *teamwork*) would sharpen this; it's the natural next refinement.
+> **Resolved:** an earlier version saturated the transversal prior (≈1.0 for any
+> club with ≥3 soft skills), so the broaden lane still favoured transversal-*and*-
+> tech clubs. The idf-weighting above fixed it — distinctive-soft-skill clubs
+> (a peer-support helpline via *empathy*, a leadership programme via *mentorship*)
+> now surface in the broaden lane.
 
 ### Layer 3 — semantic hybrid (optional)
 
