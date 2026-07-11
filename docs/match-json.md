@@ -9,6 +9,39 @@ just match --jobs job-1,job-2,job-3,job-4,job-5 --top 5 --json
 just match --jobs job-1,job-2 --prefs prefs.json --json   # prefs reshape ranking, not the shape
 ```
 
+## Programmatic bridge (findJobs → experiences)
+
+The CLI reads a job set out of the project's own `jobs.csv`. To match against a
+job set produced **at runtime** by `findJobs.search_jobs(answers)` — a different
+dataset with no `job_id` — call the in-memory bridge instead:
+
+```python
+import sys
+sys.path.insert(0, "scripts")  # scripts/ is a folder of modules, not a package
+from findJobs import search_jobs
+from match_experiences import match_from_job_records
+
+answers = {
+    "title":   {"data": "Machine Learning Engineer", "dealBreaker": True},
+    "domain":  {"data": "Computer Vision",            "dealBreaker": False},
+    "country": {"data": "Japan",                      "dealBreaker": True},
+    # …the same answer set that drove job selection
+}
+
+jobs = search_jobs(answers, top_k=5)          # findJobs' ranked job dicts
+payload = match_from_job_records(jobs, answers, top=5)
+# payload == {"jobs": [...verbatim...], "experiences": [...]}  (JSON-safe)
+```
+
+`match_from_job_records(records, answers=None, top=5)` tags each job record on
+the fly (using the same controlled vocabulary the offline pipeline uses), scores
+every experience against that job set, applies the answer-set preferences
+(including the dealbreaker reserved slot), and returns the **same payload shape**
+documented below. `records` may be any list of job dicts carrying the enriched
+columns (`Job Title`, `Industry`, `Country`, `Required Skills`,
+`Programming Languages Required`, `AI Specialization`); the `jobs` block echoes
+them back **verbatim** (numpy/NaN coerced to JSON-native types).
+
 ## Shape
 
 ```jsonc
