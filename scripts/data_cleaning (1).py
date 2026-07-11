@@ -18,7 +18,7 @@ Steps:
     7.  Rebuild Salary Range column in EUR format
     8.  Drop redundant columns
     9.  Calculate industry risk score (0-10) and risk label
-    10. Export as compressed .csv.gz
+
 """
 
 import pandas as pd
@@ -375,6 +375,19 @@ if len(unmapped) > 0:
 print(combined["company_size_category"].value_counts())
 
 # -----------------------------------------
+# 10. KEEP ONLY FULL-TIME POSTINGS
+# -----------------------------------------
+
+print("Filtering to Full-time only...")
+
+before_count = len(combined)
+combined = combined[combined["Employment Type"] == "Full-time"].copy()
+print(f"  {before_count:,} -> {len(combined):,} rows "
+      f"({before_count - len(combined):,} non-Full-time rows dropped)")
+
+
+
+# -----------------------------------------
 # 10. DROP REDUNDANT / UNNEEDED COLUMNS
 # -----------------------------------------
 
@@ -387,16 +400,6 @@ DROP_COLS = [
     "industry_low_sample_flag",
     "Salary Range",               # rebuilt above but superseded by low/high EUR cols
     "salary_mid_eur_converted",   # duplicate of salary_mid_eur
-    "salary_currency",            # all EUR now, redundant
-    "Job Location",
-    "Remote / Hybrid / On-site",
-    "Country",
-    "Experience Level",
-    "Employment Type",
-    "Required Skills",
-    "Programming Languages Required",
-    "AI Specialization",
-    "Education Requirements",
     "Years of Experience Required",
     "Job Description",
     "Posting Date",
@@ -498,11 +501,11 @@ combined  = combined.join(score_map, on="Industry")
 # -----------------------------------------
 
 print(f"\nSaving to {OUTPUT_PATH}...")
-combined.to_csv(OUTPUT_PATH, index=False, compression="gzip")
+combined.to_csv(OUTPUT_PATH, index=False)
 
 size_mb = os.path.getsize(OUTPUT_PATH) / (1024 * 1024)
 print(f"Done! File size: {size_mb:.1f} MB")
 print(f"Final shape: {combined.shape[0]:,} rows, {combined.shape[1]} columns")
 print("\nTo load in Python:")
 print("  import pandas as pd")
-print(f"  df = pd.read_csv('{OUTPUT_PATH}', compression='gzip')")
+print(f"  df = pd.read_csv('{OUTPUT_PATH}')")
