@@ -259,7 +259,9 @@ the weights can be re-tuned:
 `score = Σ wᵢ·simᵢ`. Only canonical tags join; idf down-weights ubiquitous tags
 (Python is on 49,918 jobs) so rare skills discriminate. Because scores are sums
 over shared tags, the top contributing tags are reported per match — the join
-key doubles as the explanation.
+key doubles as the explanation. Results are then **MMR-diversified into two
+tracks** — *direct skill matches* and *broaden your profile* — see
+[diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
 
 - **Transversal** is the fix for STEM-homogeneous results — since the tech-only
   vocabulary makes non-tech clubs score ≈ 0, a transferable-skills axis

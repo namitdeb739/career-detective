@@ -1,20 +1,20 @@
 """Match TUM experiences to a set of jobs (step 7).
 
-Given a set of N jobs, rank the experiences by fit and return the top M. Four
-weighted fields, each comparing an experience field to the pooled job set
-(collective centroid):
+Given a set of N jobs, score every experience against the pooled job set
+(collective centroid) on five weighted fields:
 
-    skills    idf-weighted cosine over skill/language/specialization tags
-    industry  cosine over the ~10 industries
-    title     overlap of the experience's inferred job titles with the set's
-    geo       fraction of the set's jobs whose country matches the experience's
-              cultural/linguistic regions (sparse — most experiences score 0)
+    skills       idf-weighted cosine over skill/language/specialization tags
+    transversal  transferable-skills universal prior (job-independent)
+    title        overlap of inferred job titles with the set's
+    industry     cosine over the ~10 industries
+    geo          fraction of the set's jobs whose country matches the
+                 experience's cultural/linguistic regions (sparse)
 
-Only canonical tags (in the shared vocabulary) join. Weights are constants
-below — the fields are kept separate precisely so they can be re-tuned. The
-geo field needs experience_regions.csv (from tag-llm); without it geo = 0.
+Results are then MMR-diversified into two tracks — "direct skill matches"
+(relevance-leaning) and "broaden your profile" (diversity-leaning, avoiding the
+direct picks). See docs/diversity-and-transferable-skills.md.
 
-    uv run python scripts/match_experiences.py --sample 5 --top 5
+    uv run python scripts/match_experiences.py --sample 5 --top 5 --broaden 3
     uv run python scripts/match_experiences.py --jobs job-1,job-2,job-3
 """
 
@@ -49,7 +49,22 @@ SKILL_TYPES = frozenset({"skill", "language", "specialization"})
 # confidence-weighted transferable skills (every job implicitly values them).
 TRANSVERSAL_CAP = 3.0
 
+# Layer 2 — MMR diversifies a relevance-ranked pool into two tracks: "direct"
+# leans on relevance, "broaden" leans on diversity and avoids the direct picks.
+CANDIDATE_POOL = 50
+MMR_LAMBDA_DIRECT = 0.7
+MMR_LAMBDA_BROADEN = 0.5
+
 Vector = dict[str, float]
+Scored = tuple[float, str, Vector]
+# (exp_skills, exp_transversal, exp_titles, exp_regions, skill_profile)
+Detail = tuple[
+    dict[str, Vector],
+    dict[str, Vector],
+    dict[str, set[str]],
+    dict[str, set[str]],
+    Vector,
+]
 
 
 def _cosine(a: Vector, b: Vector) -> float:
@@ -59,6 +74,40 @@ def _cosine(a: Vector, b: Vector) -> float:
     na = math.sqrt(sum(w * w for w in a.values()))
     nb = math.sqrt(sum(w * w for w in b.values()))
     return dot / (na * nb) if na and nb else 0.0
+
+
+def _jaccard(a: frozenset[str], b: frozenset[str]) -> float:
+    if not a or not b:
+        return 0.0
+    return len(a & b) / len(a | b)
+
+
+def _mmr(
+    pool: list[Scored],
+    tagsets: dict[str, frozenset[str]],
+    lam: float,
+    k: int,
+    seeds: set[str],
+) -> list[Scored]:
+    """Greedily pick k items balancing relevance against novelty (MMR)."""
+    max_rel = max((item[0] for item in pool), default=0.0) or 1.0
+    picked = [tagsets.get(s, frozenset()) for s in seeds]
+    remaining = [item for item in pool if item[1] not in seeds]
+    selected: list[Scored] = []
+    while remaining and len(selected) < k:
+        best_i, best_val = 0, float("-inf")
+        for i, (total, eid, _sims) in enumerate(remaining):
+            novelty = 1.0 - max(
+                (_jaccard(tagsets.get(eid, frozenset()), p) for p in picked),
+                default=0.0,
+            )
+            val = lam * (total / max_rel) + (1.0 - lam) * novelty
+            if val > best_val:
+                best_val, best_i = val, i
+        chosen = remaining.pop(best_i)
+        selected.append(chosen)
+        picked.append(tagsets.get(chosen[1], frozenset()))
+    return selected
 
 
 def _clean(value: object) -> str:
@@ -140,8 +189,9 @@ def main() -> None:
     parser.add_argument(
         "--sample", type=int, default=5, help="random N jobs if --jobs unset"
     )
+    parser.add_argument("--top", type=int, default=5, help="direct matches to return")
     parser.add_argument(
-        "--top", type=int, default=5, help="top M experiences to return"
+        "--broaden", type=int, default=3, help="broaden-your-profile picks"
     )
     parser.add_argument(
         "--seed", type=int, default=None, help="fix the sample for reproducibility"
@@ -196,19 +246,25 @@ def main() -> None:
         scored.append((total, eid, sims))
 
     scored.sort(key=lambda x: x[0], reverse=True)
-    _render(
-        job_ids,
-        jobs,
-        scored[: args.top],
-        info,
-        exp_skills,
-        exp_transversal,
-        exp_titles,
-        exp_regions,
-        skill_p,
-        set_titles,
-        country_set,
+    tagsets = {
+        eid: frozenset(exp_skills.get(eid, {}))
+        | frozenset(exp_industry.get(eid, {}))
+        | frozenset(exp_transversal.get(eid, {}))
+        for eid in info
+    }
+    pool = scored[:CANDIDATE_POOL]
+    direct = _mmr(pool, tagsets, MMR_LAMBDA_DIRECT, args.top, set())
+    broaden = _mmr(
+        pool, tagsets, MMR_LAMBDA_BROADEN, args.broaden, {e for _, e, _ in direct}
     )
+
+    detail = (exp_skills, exp_transversal, exp_titles, exp_regions, skill_p)
+    _render_jobset(job_ids, jobs)
+    _render_list("DIRECT SKILL MATCHES", direct, info, detail, set_titles, country_set)
+    if broaden:
+        _render_list(
+            "BROADEN YOUR PROFILE", broaden, info, detail, set_titles, country_set
+        )
 
 
 def _detail(label: str, content: str) -> None:
@@ -223,19 +279,7 @@ def _detail(label: str, content: str) -> None:
     print(f"     {label:<8} {wrapped}")
 
 
-def _render(
-    job_ids: list[str],
-    jobs: pd.DataFrame,
-    top: list[tuple[float, str, dict[str, float]]],
-    info: dict[str, tuple[str, str]],
-    exp_skills: dict[str, Vector],
-    exp_transversal: dict[str, Vector],
-    exp_titles: dict[str, set[str]],
-    exp_regions: dict[str, set[str]],
-    skill_p: Vector,
-    set_titles: set[str],
-    country_set: set[str],
-) -> None:
+def _render_jobset(job_ids: list[str], jobs: pd.DataFrame) -> None:
     rule = "─" * 78
     set_jobs = jobs[jobs["job_id"].isin(job_ids)]
     width = max((len(str(t)) for t in set_jobs["title"]), default=10)
@@ -248,8 +292,19 @@ def _render(
             f"{j['country']!s:<15} {money}"
         )
 
-    print(f"\n{rule}\nTOP {len(top)} EXPERIENCES\n{rule}")
-    for rank, (total, eid, sims) in enumerate(top, 1):
+
+def _render_list(
+    title: str,
+    items: list[Scored],
+    info: dict[str, tuple[str, str]],
+    detail: Detail,
+    set_titles: set[str],
+    country_set: set[str],
+) -> None:
+    exp_skills, exp_transversal, exp_titles, exp_regions, skill_p = detail
+    rule = "─" * 78
+    print(f"\n{rule}\n{title} · {len(items)}\n{rule}")
+    for rank, (total, eid, sims) in enumerate(items, 1):
         name, desc = info[eid]
         fields = " · ".join(
             f"{f} {sims[f]:.2f}" if sims[f] > 0 else f"{f} —" for f in WEIGHTS

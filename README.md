@@ -64,9 +64,12 @@ just tag-llm              # all experiences
 **Match experiences to a job set** (no LLM needed once tags exist):
 
 ```bash
-just match --sample 5 --top 5        # 5 random jobs → top 5 experiences
+just match --sample 5 --top 5 --broaden 3   # 5 random jobs → direct + broaden picks
 just match --jobs job-1,job-2 --top 10
 ```
+
+Results come in two MMR-diversified tracks — *direct skill matches* and
+*broaden your profile* (relevant-but-different, incl. transferable-skill clubs).
 
 **Outputs** (in `data/`):
 

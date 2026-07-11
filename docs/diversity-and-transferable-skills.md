@@ -49,7 +49,7 @@ flowchart TB
     end
     L1 --> total["weighted score"]
 
-    subgraph L2 ["Layer 2 · Re-rank & present (NEXT)"]
+    subgraph L2 ["Layer 2 · Re-rank & present (BUILT)"]
         direction LR
         mmr["MMR diversify"] --> two["two tracks:<br>direct match · broaden profile"]
     end
@@ -98,7 +98,7 @@ The foundational fix: give clubs a signal for what they actually build.
 > Scientist weights writing/collaboration), inferred per role via the LLM or
 > [ESCO occupation links][esco]. More precise, but the prior is the pragmatic v1.
 
-### Layer 2 — diversify & present (next)
+### Layer 2 — diversify & present (built)
 
 Even with Layer 1, pure ranking still clusters near-duplicates. Re-rank the
 top-K with **Maximal Marginal Relevance** ([Carbonell & Goldstein, 1998][mmr]):
@@ -107,10 +107,12 @@ top-K with **Maximal Marginal Relevance** ([Carbonell & Goldstein, 1998][mmr]):
 score'(e) = λ · relevance(e) − (1 − λ) · max similarity(e, already-picked)
 ```
 
-with `similarity` = shared-tag overlap; `λ` tunes relevance ↔ diversity.
-Present as **two tracks** — *"Direct skill matches"* (hard fields lead) and
-*"Broaden your profile"* (transversal + diversity lead) — the beyond-accuracy /
-serendipity framing shown to drive engagement in [recommender research][recsys].
+with `similarity` = shared-tag overlap (Jaccard); `λ` tunes relevance ↔
+diversity. `match_experiences.py` produces **two tracks** from one MMR pass over
+the top-50 candidates: *"Direct skill matches"* (`λ=0.7`, relevance-leaning) and
+*"Broaden your profile"* (`λ=0.5`, diversity-leaning, seeded with the direct
+picks so it stays distinct) — the beyond-accuracy / serendipity framing shown to
+drive engagement in [recommender research][recsys]. Tune with `--top`/`--broaden`.
 
 ### Layer 3 — semantic hybrid (optional)
 
