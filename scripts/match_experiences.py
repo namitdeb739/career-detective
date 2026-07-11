@@ -30,9 +30,11 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import textwrap
 from collections import Counter, defaultdict
 from pathlib import Path
+from typing import NamedTuple
 
 import pandas as pd
 
@@ -98,6 +100,15 @@ RESEARCH_TAGS = frozenset(
 SMALL_COMPANY = frozenset({"startup", "small", "micro"})
 SENIOR_LEVELS = frozenset({"senior", "lead", "principal", "staff"})
 
+# For the in-memory bridge: tag a raw job record (findJobs / enriched schema)
+# on the fly, using the same verbatim vocabulary match build_jobs.py applies.
+JOB_SKILL_COLUMNS = {
+    "Required Skills": "skill",
+    "Programming Languages Required": "language",
+    "AI Specialization": "specialization",
+}
+_JOB_SPLIT = re.compile(r"[;,/|]")
+
 Vector = dict[str, float]
 Prefs = dict[str, tuple[str, bool]]  # field -> (value, dealBreaker)
 Scored = tuple[float, str, Vector]
@@ -109,6 +120,22 @@ Detail = tuple[
     dict[str, set[str]],
     Vector,
 ]
+Profiles = tuple[
+    Vector, Vector, set[str], list[str]
+]  # skill, industry, titles, countries
+
+
+class ExpData(NamedTuple):
+    """Everything loaded once from disk, independent of the job set."""
+
+    idf: dict[str, float]
+    exp_skills: dict[str, Vector]
+    exp_industry: dict[str, Vector]
+    exp_transversal: dict[str, Vector]
+    exp_titles: dict[str, set[str]]
+    exp_regions: dict[str, set[str]]
+    info: dict[str, tuple[str, str]]
+    sources: dict[str, str]
 
 
 def _cosine(a: Vector, b: Vector) -> float:
@@ -154,15 +181,20 @@ def _mmr(
     return selected
 
 
+def _parse_prefs(mapping: dict[str, object]) -> Prefs:
+    """Normalize the answer set {field: {data, dealBreaker}} into Prefs."""
+    prefs: Prefs = {}
+    for field, val in mapping.items():
+        if isinstance(val, dict) and str(val.get("data", "")).strip():
+            prefs[field] = (str(val["data"]).strip(), bool(val.get("dealBreaker")))
+    return prefs
+
+
 def _load_prefs(arg: str) -> Prefs:
     if not arg:
         return {}
     raw = Path(arg).read_text() if Path(arg).exists() else arg
-    prefs: Prefs = {}
-    for field, val in json.loads(raw).items():
-        if isinstance(val, dict) and str(val.get("data", "")).strip():
-            prefs[field] = (str(val["data"]).strip(), bool(val.get("dealBreaker")))
-    return prefs
+    return _parse_prefs(json.loads(raw))
 
 
 def _pref_weights(base: dict[str, float], prefs: Prefs) -> dict[str, float]:
@@ -313,6 +345,247 @@ def job_set_profiles(
     return skill_profile, industry_profile, set_titles, set_countries
 
 
+def _load_tag_vocab() -> dict[str, set[str]]:
+    vocab: dict[str, set[str]] = defaultdict(set)
+    for _, row in pd.read_csv(VOCAB).iterrows():
+        vocab[str(row["tag_type"])].add(str(row["tag"]))
+    return vocab
+
+
+def _job_tokens(value: str) -> list[str]:
+    return [tok.strip() for tok in _JOB_SPLIT.split(value) if tok.strip()]
+
+
+def profiles_from_records(
+    records: list[dict[str, object]], idf: dict[str, float]
+) -> Profiles:
+    """Build the job-set profile from raw job dicts (findJobs / enriched schema),
+    tagging skills on the fly — the in-memory analogue of job_set_profiles."""
+    vocab = _load_tag_vocab()
+    n = len(records) or 1
+    tag_counts: Counter[str] = Counter()
+    industries: Counter[str] = Counter()
+    set_titles: set[str] = set()
+    set_countries: list[str] = []
+    for rec in records:
+        seen: set[str] = set()
+        for column, tag_type in JOB_SKILL_COLUMNS.items():
+            allowed = vocab.get(tag_type, set())
+            for tok in _job_tokens(_clean(rec.get(column))):
+                if tok in allowed and tok not in seen:
+                    seen.add(tok)
+                    tag_counts[tok] += 1
+        if industry := _clean(rec.get("Industry")):
+            industries[industry] += 1
+        if title := _clean(rec.get("Job Title")):
+            set_titles.add(title)
+        set_countries.append(_clean(rec.get("Country")))
+    skill_profile = {tag: c / n * idf.get(tag, 0.0) for tag, c in tag_counts.items()}
+    industry_profile = {k: v / n for k, v in industries.items()}
+    return skill_profile, industry_profile, set_titles, set_countries
+
+
+def _load_exp_data() -> ExpData:
+    total_jobs = len(pd.read_csv(JOBS, usecols=["job_id"]))
+    idf = _load_idf(total_jobs)
+    exp_skills, exp_industry, exp_transversal = _load_experience_tags(idf)
+    exp_titles = _load_sets(EXP_TITLES, "matched_job_title")
+    exp_regions = _load_sets(EXP_REGIONS, "country")
+    experiences = pd.read_csv(EXPERIENCES)
+    info = {
+        str(r["experience_id"]): (str(r["name"]), _clean(r["description"]))
+        for _, r in experiences.iterrows()
+    }
+    sources = {
+        str(r["experience_id"]): str(r["sources"]) for _, r in experiences.iterrows()
+    }
+    return ExpData(
+        idf,
+        exp_skills,
+        exp_industry,
+        exp_transversal,
+        exp_titles,
+        exp_regions,
+        info,
+        sources,
+    )
+
+
+def _score(
+    profiles: Profiles,
+    prefs: Prefs,
+    top: int,
+    broaden_n: int,
+    data: ExpData,
+) -> tuple[list[Scored], list[Scored], dict[str, list[str]]]:
+    """Score every experience against a job-set profile; return the MMR-selected
+    direct + broaden tracks and the per-experience preference reasons."""
+    skill_p, industry_p, set_titles, set_countries = profiles
+    exp_skills = data.exp_skills
+
+    transversal_raw = {eid: sum(v.values()) for eid, v in data.exp_transversal.items()}
+    max_transversal = max(transversal_raw.values(), default=0.0) or 1.0
+
+    # Skills use coverage (idf-weighted dot with the job profile), not cosine, so
+    # covering the jobs' specific, high-value skills beats a couple of generic
+    # aligned tags (Git/Python). Divided by sqrt(tag count) — pivoted-length
+    # normalisation (BM25-style) so an umbrella org tagged with the whole
+    # vocabulary can't max out coverage on breadth alone, without cosine's
+    # over-reward of tiny 2-tag clubs. Normalised by the best-covering experience.
+    skills_dot = {
+        eid: sum(w * skill_p.get(t, 0.0) for t, w in exp_skills.get(eid, {}).items())
+        / math.sqrt(len(exp_skills[eid]) if exp_skills.get(eid) else 1)
+        for eid in data.info
+    }
+    max_skills = max(skills_dot.values(), default=0.0) or 1.0
+
+    sims_by_eid: dict[str, Vector] = {}
+    for eid in data.info:
+        sims_by_eid[eid] = {
+            "skills": skills_dot[eid] / max_skills,
+            "transversal": transversal_raw.get(eid, 0.0) / max_transversal,
+            "industry": _cosine(data.exp_industry.get(eid, {}), industry_p),
+            "title": (
+                len(data.exp_titles.get(eid, set()) & set_titles) / len(set_titles)
+                if set_titles
+                else 0.0
+            ),
+            "geo": (
+                sum(1 for c in set_countries if c in data.exp_regions.get(eid, set()))
+                / len(set_countries)
+                if set_countries
+                else 0.0
+            ),
+        }
+
+    pref_effect = {
+        eid: _pref_boost(
+            prefs,
+            data.exp_regions.get(eid, set()),
+            exp_skills.get(eid, {}),
+            data.exp_transversal.get(eid, {}),
+            data.sources.get(eid, ""),
+        )
+        for eid in data.info
+    }
+    reasons = {eid: r for eid, (_, r) in pref_effect.items()}
+
+    def _rank(weights: dict[str, float], skills_floor: float) -> list[Scored]:
+        ranked = [
+            (
+                sum(weights[f] * sims[f] for f in weights)
+                * (1.0 + pref_effect[eid][0]),
+                eid,
+                sims,
+            )
+            for eid, sims in sims_by_eid.items()
+            if sims["skills"] >= skills_floor
+        ]
+        ranked.sort(key=lambda x: x[0], reverse=True)
+        return ranked[:CANDIDATE_POOL]
+
+    tagsets = {
+        eid: frozenset(exp_skills.get(eid, {}))
+        | frozenset(data.exp_industry.get(eid, {}))
+        | frozenset(data.exp_transversal.get(eid, {}))
+        for eid in data.info
+    }
+    # MMR selects a diverse-but-relevant set; display it in plain score order.
+    direct_weights = _pref_weights(WEIGHTS, prefs)
+    direct = _mmr(
+        _rank(direct_weights, SKILLS_FLOOR), tagsets, MMR_LAMBDA_DIRECT, top, set()
+    )
+
+    # A dealbreaker guarantees a slot: surface the best-matching experience even
+    # if it failed the skills floor (e.g. a Japanese culture club for country=Japan).
+    direct_score = {
+        eid: sum(direct_weights[f] * s[f] for f in direct_weights)
+        * (1.0 + pref_effect[eid][0])
+        for eid, s in sims_by_eid.items()
+    }
+    used = {e for _, e, _ in direct}
+    reserved: list[Scored] = []
+    for field, (value, deal) in prefs.items():
+        if not deal or field not in RESERVABLE_FIELDS or len(reserved) >= MAX_RESERVED:
+            continue
+        matchers = [
+            eid
+            for eid in data.info
+            if eid not in used
+            and _matches(
+                field,
+                value,
+                data.exp_regions.get(eid, set()),
+                exp_skills.get(eid, {}),
+                data.exp_transversal.get(eid, {}),
+                data.sources.get(eid, ""),
+            )
+        ]
+        if not matchers:
+            continue
+        # for country, surface a cultural representative (least skill-heavy);
+        # otherwise the strongest matcher.
+        if field == "country":
+            pick = min(matchers, key=lambda e: sims_by_eid[e]["skills"])
+        else:
+            pick = max(matchers, key=lambda e: direct_score[e])
+        reserved.append((direct_score[pick], pick, sims_by_eid[pick]))
+        used.add(pick)
+
+    if reserved:
+        direct = direct[: max(0, top - len(reserved))] + reserved
+    direct = sorted(direct, key=lambda x: x[0], reverse=True)
+
+    broaden = sorted(
+        _mmr(
+            _rank(_pref_weights(BROADEN_WEIGHTS, prefs), 0.0),
+            tagsets,
+            MMR_LAMBDA_BROADEN,
+            broaden_n,
+            {e for _, e, _ in direct},
+        ),
+        key=lambda x: x[0],
+        reverse=True,
+    )
+    return direct, broaden, reasons
+
+
+def _experiences_payload(
+    direct: list[Scored], data: ExpData
+) -> list[dict[str, object]]:
+    return [
+        {
+            "name": data.info[eid][0],
+            "description": data.info[eid][1],
+            "skills": sorted(data.exp_skills.get(eid, {})),
+            "score": round(total, 3),
+        }
+        for total, eid, _ in direct
+    ]
+
+
+def match_from_job_records(
+    records: list[dict[str, object]],
+    answers: dict[str, object] | None = None,
+    top: int = 5,
+) -> dict[str, object]:
+    """Bridge entry point for the frontend/integration layer.
+
+    Given findJobs' selected job list (raw dicts) and the same answer set that
+    drove job selection, rank the TUM experiences against that job set and
+    return the combined, JSON-safe payload:
+
+        {"jobs": [<the records, verbatim>], "experiences": [{name, description,
+         skills, score}, ...]}
+    """
+    data = _load_exp_data()
+    prefs = _parse_prefs(answers or {})
+    profiles = profiles_from_records(records, data.idf)
+    direct, _broaden, _reasons = _score(profiles, prefs, top, 0, data)
+    jobs = [{k: _jsonable(v) for k, v in rec.items()} for rec in records]
+    return {"jobs": jobs, "experiences": _experiences_payload(direct, data)}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--jobs", default="", help="comma-separated job_ids")
@@ -339,21 +612,10 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    data = _load_exp_data()
     jobs = pd.read_csv(JOBS)
     job_tags = pd.read_csv(JOB_TAGS)
-    idf = _load_idf(len(jobs))
-    exp_skills, exp_industry, exp_transversal = _load_experience_tags(idf)
-    exp_titles = _load_sets(EXP_TITLES, "matched_job_title")
-    exp_regions = _load_sets(EXP_REGIONS, "country")
     prefs = _load_prefs(args.prefs)
-    experiences = pd.read_csv(EXPERIENCES)
-    info = {
-        str(r["experience_id"]): (str(r["name"]), _clean(r["description"]))
-        for _, r in experiences.iterrows()
-    }
-    sources = {
-        str(r["experience_id"]): str(r["sources"]) for _, r in experiences.iterrows()
-    }
 
     if args.jobs:
         job_ids = [j.strip() for j in args.jobs.split(",") if j.strip()]
@@ -362,154 +624,31 @@ def main() -> None:
             str(j) for j in jobs.sample(args.sample, random_state=args.seed)["job_id"]
         ]
 
-    skill_p, industry_p, set_titles, set_countries = job_set_profiles(
-        job_ids, idf, jobs, job_tags
-    )
-    country_set = set(set_countries)
-
-    transversal_raw = {eid: sum(v.values()) for eid, v in exp_transversal.items()}
-    max_transversal = max(transversal_raw.values(), default=0.0) or 1.0
-
-    # Skills use coverage (idf-weighted dot with the job profile), not cosine, so
-    # covering the jobs' specific, high-value skills beats a couple of generic
-    # aligned tags (Git/Python). Divided by sqrt(tag count) — pivoted-length
-    # normalisation (BM25-style) so an umbrella org tagged with the whole
-    # vocabulary can't max out coverage on breadth alone, without cosine's
-    # over-reward of tiny 2-tag clubs. Normalised by the best-covering experience.
-    skills_dot = {
-        eid: sum(w * skill_p.get(t, 0.0) for t, w in exp_skills.get(eid, {}).items())
-        / math.sqrt(len(exp_skills[eid]) if exp_skills.get(eid) else 1)
-        for eid in info
-    }
-    max_skills = max(skills_dot.values(), default=0.0) or 1.0
-
-    sims_by_eid: dict[str, Vector] = {}
-    for eid in info:
-        sims_by_eid[eid] = {
-            "skills": skills_dot[eid] / max_skills,
-            "transversal": transversal_raw.get(eid, 0.0) / max_transversal,
-            "industry": _cosine(exp_industry.get(eid, {}), industry_p),
-            "title": (
-                len(exp_titles.get(eid, set()) & set_titles) / len(set_titles)
-                if set_titles
-                else 0.0
-            ),
-            "geo": (
-                sum(1 for c in set_countries if c in exp_regions.get(eid, set()))
-                / len(set_countries)
-                if set_countries
-                else 0.0
-            ),
-        }
-
-    pref_effect = {
-        eid: _pref_boost(
-            prefs,
-            exp_regions.get(eid, set()),
-            exp_skills.get(eid, {}),
-            exp_transversal.get(eid, {}),
-            sources.get(eid, ""),
-        )
-        for eid in info
-    }
-    reasons = {eid: r for eid, (_, r) in pref_effect.items()}
-
-    def _rank(weights: dict[str, float], skills_floor: float) -> list[Scored]:
-        ranked = [
-            (
-                sum(weights[f] * sims[f] for f in weights)
-                * (1.0 + pref_effect[eid][0]),
-                eid,
-                sims,
-            )
-            for eid, sims in sims_by_eid.items()
-            if sims["skills"] >= skills_floor
-        ]
-        ranked.sort(key=lambda x: x[0], reverse=True)
-        return ranked[:CANDIDATE_POOL]
-
-    tagsets = {
-        eid: frozenset(exp_skills.get(eid, {}))
-        | frozenset(exp_industry.get(eid, {}))
-        | frozenset(exp_transversal.get(eid, {}))
-        for eid in info
-    }
-    # MMR selects a diverse-but-relevant set; display it in plain score order.
-    direct_weights = _pref_weights(WEIGHTS, prefs)
-    direct = _mmr(
-        _rank(direct_weights, SKILLS_FLOOR),
-        tagsets,
-        MMR_LAMBDA_DIRECT,
-        args.top,
-        set(),
-    )
-
-    # A dealbreaker guarantees a slot: surface the best-matching experience even
-    # if it failed the skills floor (e.g. a Japanese culture club for country=Japan).
-    direct_score = {
-        eid: sum(direct_weights[f] * s[f] for f in direct_weights)
-        * (1.0 + pref_effect[eid][0])
-        for eid, s in sims_by_eid.items()
-    }
-    used = {e for _, e, _ in direct}
-    reserved: list[Scored] = []
-    for field, (value, deal) in prefs.items():
-        if not deal or field not in RESERVABLE_FIELDS or len(reserved) >= MAX_RESERVED:
-            continue
-        matchers = [
-            eid
-            for eid in info
-            if eid not in used
-            and _matches(
-                field,
-                value,
-                exp_regions.get(eid, set()),
-                exp_skills.get(eid, {}),
-                exp_transversal.get(eid, {}),
-                sources.get(eid, ""),
-            )
-        ]
-        if not matchers:
-            continue
-        # for country, surface a cultural representative (least skill-heavy);
-        # otherwise the strongest matcher.
-        if field == "country":
-            pick = min(matchers, key=lambda e: sims_by_eid[e]["skills"])
-        else:
-            pick = max(matchers, key=lambda e: direct_score[e])
-        reserved.append((direct_score[pick], pick, sims_by_eid[pick]))
-        used.add(pick)
-
-    if reserved:
-        direct = direct[: max(0, args.top - len(reserved))] + reserved
-    direct = sorted(direct, key=lambda x: x[0], reverse=True)
+    profiles = job_set_profiles(job_ids, data.idf, jobs, job_tags)
+    direct, broaden, reasons = _score(profiles, prefs, args.top, args.broaden, data)
 
     if args.json:
-        _emit_json(job_ids, jobs, direct, info, exp_skills)
+        _emit_json(job_ids, jobs, direct, data)
         return
 
-    broaden = sorted(
-        _mmr(
-            _rank(_pref_weights(BROADEN_WEIGHTS, prefs), 0.0),
-            tagsets,
-            MMR_LAMBDA_BROADEN,
-            args.broaden,
-            {e for _, e, _ in direct},
-        ),
-        key=lambda x: x[0],
-        reverse=True,
+    skill_p, _industry_p, set_titles, set_countries = profiles
+    country_set = set(set_countries)
+    detail = (
+        data.exp_skills,
+        data.exp_transversal,
+        data.exp_titles,
+        data.exp_regions,
+        skill_p,
     )
-
-    detail = (exp_skills, exp_transversal, exp_titles, exp_regions, skill_p)
     _render_jobset(job_ids, jobs, prefs)
     _render_list(
-        "TOP EXPERIENCES", direct, info, detail, set_titles, country_set, reasons
+        "TOP EXPERIENCES", direct, data.info, detail, set_titles, country_set, reasons
     )
     if broaden:
         _render_list(
             "BROADEN YOUR PROFILE",
             broaden,
-            info,
+            data.info,
             detail,
             set_titles,
             country_set,
@@ -528,8 +667,7 @@ def _emit_json(
     job_ids: list[str],
     jobs: pd.DataFrame,
     direct: list[Scored],
-    info: dict[str, tuple[str, str]],
-    exp_skills: dict[str, Vector],
+    data: ExpData,
 ) -> None:
     set_jobs = (
         jobs[jobs["job_id"].isin(job_ids)]
@@ -541,18 +679,9 @@ def _emit_json(
         {k: _jsonable(v) for k, v in r.items()}
         for r in set_jobs.to_dict(orient="records")
     ]
-    experiences = [
-        {
-            "name": info[eid][0],
-            "description": info[eid][1],
-            "skills": sorted(exp_skills.get(eid, {})),
-            "score": round(total, 3),
-        }
-        for total, eid, _ in direct
-    ]
     print(
         json.dumps(
-            {"jobs": job_records, "experiences": experiences},
+            {"jobs": job_records, "experiences": _experiences_payload(direct, data)},
             indent=2,
             ensure_ascii=False,
         )
