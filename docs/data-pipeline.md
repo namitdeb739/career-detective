@@ -275,8 +275,10 @@ transversal-forward *broaden your profile* lane — see
   experiences — so a preference only helps an *already-relevant* club (skills
   stay at the forefront), rather than floating a zero-skill cultural club to the
   top. Heuristic answers (small company → soft skills, senior level) reshape the
-  field weights. Dealbreakers apply the stronger coefficient, and the `boosted`
-  line shows which preferences fired.
+  field weights. A `dealBreaker` applies the stronger coefficient **and reserves
+  a guaranteed slot** — so a Japanese culture club (no tech skills, normally
+  floored out) still appears for a `country=Japan` dealbreaker, because it's
+  non-negotiable. The `boosted` line shows which preferences fired.
 - **Titles** are matched to the 37 real titles by *semantic* embedding
   similarity (`nomic-embed-text`), so "Aerospace Engineer" stays unmatched
   rather than collapsing onto "Prompt Engineer".

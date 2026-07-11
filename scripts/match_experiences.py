@@ -71,8 +71,15 @@ SKILLS_FLOOR = 0.10
 # Layer 2 — MMR diversifies a relevance-ranked pool into two tracks: "direct"
 # leans on relevance, "broaden" leans on diversity and avoids the direct picks.
 CANDIDATE_POOL = 50
-MMR_LAMBDA_DIRECT = 0.7
+MMR_LAMBDA_DIRECT = 0.6
 MMR_LAMBDA_BROADEN = 0.5
+
+# A dealbreaker preference guarantees representation: reserve up to this many
+# slots for experiences that match a value-match dealbreaker (country, domain,
+# PhD/research) even if they'd fail the skills floor — a dealbreaker is
+# non-negotiable, so at least one aligned experience must appear.
+MAX_RESERVED = 2
+RESERVABLE_FIELDS = frozenset({"country", "domain", "education_level"})
 
 # Career-preference tuning (all small + interpretable). Value-match preferences
 # *multiply* an experience's relevance when it aligns (so a preference only helps
@@ -196,6 +203,26 @@ def _pref_boost(
             factor += PREF_FACTOR[deal]
             reasons.append(f"{value} focus")
     return min(factor, PREF_FACTOR_CAP), reasons
+
+
+def _matches(
+    field: str,
+    value: str,
+    regions: set[str],
+    skills: Vector,
+    transversal: Vector,
+    source: str,
+) -> bool:
+    low = value.lower()
+    if field == "country":
+        return low in {r.lower() for r in regions}
+    if field == "domain":
+        return any(low in t.lower() or t.lower() in low for t in skills)
+    if field == "education_level":
+        return "phd" in low and (
+            "prep" in source or bool(set(transversal) & RESEARCH_TAGS)
+        )
+    return False
 
 
 def _clean(value: object) -> str:
@@ -395,17 +422,54 @@ def main() -> None:
         for eid in info
     }
     # MMR selects a diverse-but-relevant set; display it in plain score order.
-    direct = sorted(
-        _mmr(
-            _rank(_pref_weights(WEIGHTS, prefs), SKILLS_FLOOR),
-            tagsets,
-            MMR_LAMBDA_DIRECT,
-            args.top,
-            set(),
-        ),
-        key=lambda x: x[0],
-        reverse=True,
+    direct_weights = _pref_weights(WEIGHTS, prefs)
+    direct = _mmr(
+        _rank(direct_weights, SKILLS_FLOOR),
+        tagsets,
+        MMR_LAMBDA_DIRECT,
+        args.top,
+        set(),
     )
+
+    # A dealbreaker guarantees a slot: surface the best-matching experience even
+    # if it failed the skills floor (e.g. a Japanese culture club for country=Japan).
+    direct_score = {
+        eid: sum(direct_weights[f] * s[f] for f in direct_weights)
+        * (1.0 + pref_effect[eid][0])
+        for eid, s in sims_by_eid.items()
+    }
+    used = {e for _, e, _ in direct}
+    reserved: list[Scored] = []
+    for field, (value, deal) in prefs.items():
+        if not deal or field not in RESERVABLE_FIELDS or len(reserved) >= MAX_RESERVED:
+            continue
+        matchers = [
+            eid
+            for eid in info
+            if eid not in used
+            and _matches(
+                field,
+                value,
+                exp_regions.get(eid, set()),
+                exp_skills.get(eid, {}),
+                exp_transversal.get(eid, {}),
+                sources.get(eid, ""),
+            )
+        ]
+        if not matchers:
+            continue
+        # for country, surface a cultural representative (least skill-heavy);
+        # otherwise the strongest matcher.
+        if field == "country":
+            pick = min(matchers, key=lambda e: sims_by_eid[e]["skills"])
+        else:
+            pick = max(matchers, key=lambda e: direct_score[e])
+        reserved.append((direct_score[pick], pick, sims_by_eid[pick]))
+        used.add(pick)
+
+    if reserved:
+        direct = direct[: max(0, args.top - len(reserved))] + reserved
+    direct = sorted(direct, key=lambda x: x[0], reverse=True)
     broaden = sorted(
         _mmr(
             _rank(_pref_weights(BROADEN_WEIGHTS, prefs), 0.0),
