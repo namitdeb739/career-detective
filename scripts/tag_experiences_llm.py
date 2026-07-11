@@ -152,7 +152,9 @@ def _ensure_models(models: list[str]) -> None:
             f"Cannot reach Ollama ({err}). Install it (brew install ollama) and "
             "start it (ollama serve)."
         ) from err
-    missing = [m for m in models if m not in available]
+    missing = [
+        m for m in models if m not in available and f"{m}:latest" not in available
+    ]
     if missing:
         pulls = "; ".join(f"ollama pull {m}" for m in missing)
         raise SystemExit(
