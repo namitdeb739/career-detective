@@ -406,9 +406,6 @@ DROP_COLS = [
     "Benefits Offered",
     "Company Rating",
     "Number of Applicants",
-    "salary_low_eur",
-    "salary_high_eur",
-    "salary_mid_eur",
     "job_city",
     "job_region",
 ]
