@@ -1,0 +1,9 @@
+{
+  "title": {"data": "LLM Software Developer", "dealBreaker": true},
+  "domain": {"data": "Generative AI", "dealBreaker": true},
+  "country": {"data": "Germany", "dealBreaker": false},
+  "company_size": {"data": "large", "dealBreaker": false},
+  "work_format": {"data": "remote", "dealBreaker": false},
+  "experience_level": {"data": "mid", "dealBreaker": false},
+  "education_level": {"data": "master", "dealBreaker": false}
+}

@@ -1,0 +1,9 @@
+{
+  "title": {"data": "AI Product Manager", "dealBreaker": false},
+  "domain": {"data": "Generative AI", "dealBreaker": false},
+  "country": {"data": "United States", "dealBreaker": false},
+  "company_size": {"data": "startup", "dealBreaker": true},
+  "work_format": {"data": "hybrid", "dealBreaker": false},
+  "experience_level": {"data": "senior", "dealBreaker": true},
+  "education_level": {"data": "bachelor", "dealBreaker": false}
+}

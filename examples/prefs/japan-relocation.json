@@ -1,0 +1,9 @@
+{
+  "title": {"data": "Machine Learning Engineer", "dealBreaker": false},
+  "domain": {"data": "Computer Vision", "dealBreaker": false},
+  "country": {"data": "Japan", "dealBreaker": true},
+  "company_size": {"data": "mid", "dealBreaker": false},
+  "work_format": {"data": "on-site", "dealBreaker": false},
+  "experience_level": {"data": "entry", "dealBreaker": false},
+  "education_level": {"data": "master", "dealBreaker": false}
+}
