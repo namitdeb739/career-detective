@@ -250,7 +250,7 @@ the weights can be re-tuned:
 
 | Field | Compares | Signal |
 | --- | --- | --- |
-| **skills** (`0.55`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted **coverage** (dot with the job profile, normalized) — covering the jobs' specific skills beats a couple of generic aligned tags |
+| **skills** (`0.55`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted **coverage** (dot with the job profile) — covering the jobs' specific skills beats a couple of generic aligned tags. AI **specializations** outweigh commodity languages, and the dot is divided by √(tag count) so an umbrella org tagged with the whole vocabulary can't max out on breadth alone |
 | **title** (`0.17`) | `experience_job_titles.matched_job_title` ↔ the set's `jobs.title` | title-set overlap |
 | **transversal** (`0.13`) | experience `transversal` tags (transferable skills) | universal prior — job-independent; lifts non-tech clubs off zero (see below) |
 | **industry** (`0.08`) | experience `industry` tags ↔ the set's `jobs.industry` | cosine (coarse tiebreaker) |

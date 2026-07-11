@@ -3,7 +3,7 @@
 Given a set of N jobs, score every experience against the pooled job set
 (collective centroid) on five weighted fields:
 
-    skills       idf-weighted cosine over skill/language/specialization tags
+    skills       idf-weighted, breadth-normalised coverage of the job skills
     transversal  transferable-skills universal prior (job-independent)
     title        overlap of inferred job titles with the set's
     industry     cosine over the ~10 industries
@@ -63,6 +63,10 @@ BROADEN_WEIGHTS = {
     "geo": 0.08,
 }
 SKILL_TYPES = frozenset({"skill", "language", "specialization"})
+# Within the skills field, an AI specialization (Generative AI, Deep Learning)
+# signals relevance far more than a commodity language (Python, Julia). Weight
+# accordingly so a focused AI club beats a "we-use-every-language" umbrella org.
+SKILL_TYPE_WEIGHT = {"specialization": 1.3, "skill": 1.0, "language": 0.4}
 # The main list requires at least this much skill overlap — a club with no
 # relevant skills isn't a "skill match", however well its industry/soft skills
 # align. (The broaden track drops the floor to surface transferable-skill clubs.)
@@ -256,7 +260,7 @@ def _load_experience_tags(
         elif not bool(row["canonical"]):
             continue
         elif tag_type in SKILL_TYPES:
-            skills[eid][tag] = conf * idf.get(tag, 0.0)
+            skills[eid][tag] = conf * idf.get(tag, 0.0) * SKILL_TYPE_WEIGHT[tag_type]
         elif tag_type == "industry":
             industry[eid][tag] = conf
 
@@ -363,9 +367,13 @@ def main() -> None:
 
     # Skills use coverage (idf-weighted dot with the job profile), not cosine, so
     # covering the jobs' specific, high-value skills beats a couple of generic
-    # aligned tags (Git/Python). Normalised by the best-covering experience.
+    # aligned tags (Git/Python). Divided by sqrt(tag count) — pivoted-length
+    # normalisation (BM25-style) so an umbrella org tagged with the whole
+    # vocabulary can't max out coverage on breadth alone, without cosine's
+    # over-reward of tiny 2-tag clubs. Normalised by the best-covering experience.
     skills_dot = {
         eid: sum(w * skill_p.get(t, 0.0) for t, w in exp_skills.get(eid, {}).items())
+        / math.sqrt(len(exp_skills[eid]) if exp_skills.get(eid) else 1)
         for eid in info
     }
     max_skills = max(skills_dot.values(), default=0.0) or 1.0
