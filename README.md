@@ -31,14 +31,20 @@ diagrams.
   `tum_prep_projects.csv` — scraped TUM sources (`scripts/scrape_tum_*.py`)
 - `data/cleaned/ai_jobs_2026_cleaned.csv` — the jobs dataset
 
-**Regenerate every processed CSV** (no API key needed):
+**One command for the whole thing** (needs Ollama running — see setup below):
 
 ```bash
-just data          # runs build-vocab → build-experiences → build-jobs → tag-dict
+just pipeline      # build-vocab → build-experiences → build-jobs → tag-dict → tag-llm → merge-tags
 ```
 
-Or run stages individually: `just build-vocab`, `just build-experiences`,
-`just build-jobs`, `just tag-dict`.
+Or the no-Ollama subset (everything except the LLM tagging):
+
+```bash
+just data          # build-vocab → build-experiences → build-jobs → tag-dict → merge-tags
+```
+
+Stages also run individually: `just build-vocab`, `just build-experiences`,
+`just build-jobs`, `just tag-dict`, `just merge-tags`.
 
 **LLM inferential tagging** (skills/industries/job titles) runs **locally and
 free via [Ollama](https://ollama.com)** — no API key, no data leaves your
