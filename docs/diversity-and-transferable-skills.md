@@ -112,13 +112,13 @@ score'(e) = λ · relevance(e) − (1 − λ) · max similarity(e, already-picke
 ```
 
 with `similarity` = shared-tag overlap (Jaccard); `λ` tunes relevance ↔
-diversity. `match_experiences.py` produces **two tracks**, each MMR-ranked over
-its own top-50: *"Direct skill matches"* (`WEIGHTS`, skills-forward, `λ=0.7`) and
-*"Broaden your profile"* (`BROADEN_WEIGHTS`, **transversal-forward**, `λ=0.5`,
-seeded with the direct picks so it stays distinct). The transversal-forward
-re-weight is what lifts transferable-skill clubs into the broaden lane — the
-beyond-accuracy / serendipity framing shown to drive engagement in
-[recommender research][recsys]. Tune with `--top`/`--broaden`.
+diversity. The **default** output is a single skills-forward list of `--top`
+experiences (`WEIGHTS`, `λ=0.7`), MMR-*selected* for diversity then shown in
+score order, with a skills floor so a zero-skill club can't appear. An **opt-in**
+`--broaden N` lane adds transferable-skill picks (`BROADEN_WEIGHTS`,
+**transversal-forward**, `λ=0.5`, seeded with the main picks so it stays
+distinct, no skills floor) — the beyond-accuracy / serendipity framing shown to
+drive engagement in [recommender research][recsys].
 
 > **Resolved:** an earlier version saturated the transversal prior (≈1.0 for any
 > club with ≥3 soft skills), so the broaden lane still favoured transversal-*and*-

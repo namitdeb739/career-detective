@@ -46,15 +46,15 @@ JOBS = PROCESSED / "jobs.csv"
 VOCAB = Path("data/reference/vocabulary.csv")
 
 WEIGHTS = {
-    "skills": 0.45,
-    "transversal": 0.20,
-    "title": 0.15,
-    "industry": 0.12,
-    "geo": 0.08,
+    "skills": 0.55,
+    "title": 0.17,
+    "transversal": 0.13,
+    "industry": 0.08,
+    "geo": 0.07,
 }
-# The "broaden" track ranks transversal-forward, so transferable-skill clubs
-# (debate, sports, cultural) rise instead of tech clubs that merely also have
-# soft skills.
+# The opt-in "broaden" track ranks transversal-forward, so transferable-skill
+# clubs (debate, sports, cultural) rise instead of tech clubs that merely also
+# have soft skills.
 BROADEN_WEIGHTS = {
     "skills": 0.25,
     "transversal": 0.45,
@@ -63,6 +63,10 @@ BROADEN_WEIGHTS = {
     "geo": 0.08,
 }
 SKILL_TYPES = frozenset({"skill", "language", "specialization"})
+# The main list requires at least this much skill overlap — a club with no
+# relevant skills isn't a "skill match", however well its industry/soft skills
+# align. (The broaden track drops the floor to surface transferable-skill clubs.)
+SKILLS_FLOOR = 0.10
 
 # Layer 2 — MMR diversifies a relevance-ranked pool into two tracks: "direct"
 # leans on relevance, "broaden" leans on diversity and avoids the direct picks.
@@ -286,7 +290,10 @@ def main() -> None:
     )
     parser.add_argument("--top", type=int, default=5, help="direct matches to return")
     parser.add_argument(
-        "--broaden", type=int, default=3, help="broaden-your-profile picks"
+        "--broaden",
+        type=int,
+        default=0,
+        help="add N opt-in transferable-skill 'broaden your profile' picks",
     )
     parser.add_argument(
         "--seed", type=int, default=None, help="fix the sample for reproducibility"
@@ -327,10 +334,19 @@ def main() -> None:
     transversal_raw = {eid: sum(v.values()) for eid, v in exp_transversal.items()}
     max_transversal = max(transversal_raw.values(), default=0.0) or 1.0
 
+    # Skills use coverage (idf-weighted dot with the job profile), not cosine, so
+    # covering the jobs' specific, high-value skills beats a couple of generic
+    # aligned tags (Git/Python). Normalised by the best-covering experience.
+    skills_dot = {
+        eid: sum(w * skill_p.get(t, 0.0) for t, w in exp_skills.get(eid, {}).items())
+        for eid in info
+    }
+    max_skills = max(skills_dot.values(), default=0.0) or 1.0
+
     sims_by_eid: dict[str, Vector] = {}
     for eid in info:
         sims_by_eid[eid] = {
-            "skills": _cosine(exp_skills.get(eid, {}), skill_p),
+            "skills": skills_dot[eid] / max_skills,
             "transversal": transversal_raw.get(eid, 0.0) / max_transversal,
             "industry": _cosine(exp_industry.get(eid, {}), industry_p),
             "title": (
@@ -358,7 +374,7 @@ def main() -> None:
     }
     reasons = {eid: r for eid, (_, r) in pref_effect.items()}
 
-    def _rank(weights: dict[str, float]) -> list[Scored]:
+    def _rank(weights: dict[str, float], skills_floor: float) -> list[Scored]:
         ranked = [
             (
                 sum(weights[f] * sims[f] for f in weights)
@@ -367,6 +383,7 @@ def main() -> None:
                 sims,
             )
             for eid, sims in sims_by_eid.items()
+            if sims["skills"] >= skills_floor
         ]
         ranked.sort(key=lambda x: x[0], reverse=True)
         return ranked[:CANDIDATE_POOL]
@@ -377,25 +394,34 @@ def main() -> None:
         | frozenset(exp_transversal.get(eid, {}))
         for eid in info
     }
-    direct = _mmr(
-        _rank(_pref_weights(WEIGHTS, prefs)),
-        tagsets,
-        MMR_LAMBDA_DIRECT,
-        args.top,
-        set(),
+    # MMR selects a diverse-but-relevant set; display it in plain score order.
+    direct = sorted(
+        _mmr(
+            _rank(_pref_weights(WEIGHTS, prefs), SKILLS_FLOOR),
+            tagsets,
+            MMR_LAMBDA_DIRECT,
+            args.top,
+            set(),
+        ),
+        key=lambda x: x[0],
+        reverse=True,
     )
-    broaden = _mmr(
-        _rank(_pref_weights(BROADEN_WEIGHTS, prefs)),
-        tagsets,
-        MMR_LAMBDA_BROADEN,
-        args.broaden,
-        {e for _, e, _ in direct},
+    broaden = sorted(
+        _mmr(
+            _rank(_pref_weights(BROADEN_WEIGHTS, prefs), 0.0),
+            tagsets,
+            MMR_LAMBDA_BROADEN,
+            args.broaden,
+            {e for _, e, _ in direct},
+        ),
+        key=lambda x: x[0],
+        reverse=True,
     )
 
     detail = (exp_skills, exp_transversal, exp_titles, exp_regions, skill_p)
     _render_jobset(job_ids, jobs, prefs)
     _render_list(
-        "DIRECT SKILL MATCHES", direct, info, detail, set_titles, country_set, reasons
+        "TOP EXPERIENCES", direct, info, detail, set_titles, country_set, reasons
     )
     if broaden:
         _render_list(

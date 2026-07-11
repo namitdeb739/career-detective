@@ -250,17 +250,19 @@ the weights can be re-tuned:
 
 | Field | Compares | Signal |
 | --- | --- | --- |
-| **skills** (`0.45`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted cosine (idf from `vocabulary.job_count`) |
-| **transversal** (`0.20`) | experience `transversal` tags (transferable skills) | universal prior — job-independent; lifts non-tech clubs off zero (see below) |
-| **title** (`0.15`) | `experience_job_titles.matched_job_title` ↔ the set's `jobs.title` | title-set overlap |
-| **industry** (`0.12`) | experience `industry` tags ↔ the set's `jobs.industry` | cosine |
-| **geo** (`0.08`) | `experience_regions.country` ↔ the set's `jobs.country` | fraction of jobs whose country matches — sparse, only fires for cultural clubs |
+| **skills** (`0.55`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted **coverage** (dot with the job profile, normalized) — covering the jobs' specific skills beats a couple of generic aligned tags |
+| **title** (`0.17`) | `experience_job_titles.matched_job_title` ↔ the set's `jobs.title` | title-set overlap |
+| **transversal** (`0.13`) | experience `transversal` tags (transferable skills) | universal prior — job-independent; lifts non-tech clubs off zero (see below) |
+| **industry** (`0.08`) | experience `industry` tags ↔ the set's `jobs.industry` | cosine (coarse tiebreaker) |
+| **geo** (`0.07`) | `experience_regions.country` ↔ the set's `jobs.country` | fraction of jobs whose country matches — sparse, only fires for cultural clubs |
 
-`score = Σ wᵢ·simᵢ`. Only canonical tags join; idf down-weights ubiquitous tags
-(Python is on 49,918 jobs) so rare skills discriminate. Because scores are sums
-over shared tags, the top contributing tags are reported per match — the join
-key doubles as the explanation. Results are then **MMR-diversified into two
-tracks** — *direct skill matches* and *broaden your profile* — see
+`score = Σ wᵢ·simᵢ`, skills-forward. Only canonical tags join; idf down-weights
+ubiquitous tags (Python is on 49,918 jobs) so rare skills discriminate. A
+**skills floor** drops experiences with ~zero skill overlap from the main list.
+Because scores are sums over shared tags, the top contributing tags are reported
+per match — the join key doubles as the explanation. Results are **MMR-selected
+for diversity, then shown in score order**; `--broaden N` adds an opt-in,
+transversal-forward *broaden your profile* lane — see
 [diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
 
 - **Transversal** is the fix for STEM-homogeneous results — since the tech-only
