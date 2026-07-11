@@ -72,7 +72,8 @@ just match --jobs job-1,job-2 --json               # machine-readable output
 ```
 
 `--json` emits the received job set (verbatim) and the matched experiences
-(`name`, `description`, `skills`, `score`) for downstream consumers (e.g. the app).
+(`name`, `description`, `skills`, `score`) for downstream consumers (e.g. the
+app). Full contract for the frontend: [docs/match-json.md](docs/match-json.md).
 
 The default is a single skills-forward list (MMR-diversified). `--broaden N`
 adds an opt-in *broaden your profile* lane (transferable-skill clubs). `--prefs`
