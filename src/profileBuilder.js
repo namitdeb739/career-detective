@@ -26,26 +26,24 @@ function stripEmoji(value) {
 
 export function answersToPreferenceValues(answers) {
   const jobDomain = getAnswer(answers, "jobDomain");
-  const roles = ROLE_BY_DOMAIN[jobDomain] || ["AI Engineer"];
-
-  const domainByJob = {
-    "🤖 AI Engineering": "Generative AI",
-    "📊 Data Science": "Data Science",
-    "🧭 Product and Strategy": "Product & Strategy",
-    "⚙️ MLOps / Infrastructure": "MLOps & Infrastructure",
-  };
+  const roles = ROLE_BY_DOMAIN[jobDomain] || ["ML Engineer"];
 
   const countryByRelocate = {
     "🇩🇪 Germany only": "Germany",
-    "🇪🇺 EU wide": "European Union",
+    "🇪🇺 EU countries (in data)": "European Union",
     "🌍 Global": "Global",
     "💻 Remote-first anywhere": "Remote-first",
   };
 
+  // Keys match the 5 real company_size_category tiers from the cleaning
+  // pipeline (Micro <25 / Startup 25-200 / Small-Mid 200-500 /
+  // Mid-sized 500-5,000 / Mega 5,000+), plus a "flexible" no-preference option.
   const sizeByAnswer = {
-    "🌱 Startup vibe (under 200 people)": "startup",
-    "🚀 Scaling team (200–2,000)": "mid",
-    "🏢 Established corporation (2,000+)": "enterprise",
+    "🌱 Micro (under 25 people)": "micro",
+    "🚀 Startup (25–200)": "startup",
+    "📈 Small-Mid (200–500)": "small_mid",
+    "🏢 Mid-sized (500–5,000)": "mid_sized",
+    "🏛️ Mega Corporation (5,000+)": "mega",
     "🔀 Flexible on company size": "flexible",
   };
 
@@ -56,11 +54,13 @@ export function answersToPreferenceValues(answers) {
     "🧩 Flexible by project": "flexible",
   };
 
+  // Only 3 real experience levels exist in the data (Entry/Mid/Senior) —
+  // "Lead/Principal" was dropped since it doesn't exist as a category.
   const experienceByAnswer = {
-    "🌱 Junior / Entry": "junior",
+    "🌱 Entry": "entry",
     "📈 Mid-level": "mid",
     "🎯 Senior": "senior",
-    "🔬 Lead / Principal": "lead",
+    "🔀 Flexible": "flexible",
   };
 
   const educationByAnswer = {
@@ -78,7 +78,10 @@ export function answersToPreferenceValues(answers) {
 
   return {
     title: roles[0],
-    domain: domainByJob[jobDomain] || "Technology",
+    // Domain label is now derived directly from the real AI Specialization
+    // value (emoji stripped), since quiz options match the dataset exactly —
+    // no separate lookup dict needed for this one.
+    domain: stripEmoji(jobDomain) || "Technology",
     country: countryByRelocate[relocate] || stripEmoji(relocate),
     company_size: sizeByAnswer[companySize] || "flexible",
     work_format: formatByAnswer[workMode] || "flexible",

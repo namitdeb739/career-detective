@@ -29,18 +29,35 @@ const COUNTRY_NAME_MAP = {
   "United States": "United States of America",
 };
 
+// EU members actually present in the dataset's 12 countries.
+// (Switzerland and the United Kingdom are NOT EU members and were
+// previously included in error — fixed here.)
+const EU_COUNTRIES_IN_DATA = ["Germany", "France", "Netherlands", "Ireland"];
+
+// NOTE: DOMAIN_TO_INDUSTRY is a CURATED pairing for app variety, not a
+// statistical finding. Checked against the real dataset: AI specialization
+// and industry show no meaningful relationship (each specialization's most
+// common industry accounts for only ~10-11% of its postings, barely above
+// the ~10% baseline you'd expect from 10 industries by pure chance). Do not
+// present this mapping as data-derived if referenced elsewhere in the app.
 const DOMAIN_TO_INDUSTRY = {
-  "🤖 AI Engineering": "Technology",
-  "📊 Data Science": "Technology",
-  "🧭 Product and Strategy": "Finance & Banking",
-  "⚙️ MLOps / Infrastructure": "Cybersecurity",
+  "🤖 Machine Learning": "Technology",
+  "🧠 Deep Learning": "Automotive & Robotics",
+  "📊 Data Science": "Finance & Banking",
+  "💬 NLP": "Information Services",
+  "👁️ Computer Vision": "Healthcare & Biotech",
+  "✨ Generative AI": "Marketing & Creative Tech",
+  "⚙️ MLOps": "Cybersecurity",
 };
 
 const DOMAIN_TO_CLUBS = {
-  "🤖 AI Engineering": ["MLTech", "Munich NLP", "neuroTUM", "TUM Blockchain Club", "HackerFab Munich"],
-  "📊 Data Science": ["MLTech", "muniQuant", "Bioinformatics Munich Student Lab", "TUM.ai", "Munich Data Science"],
-  "🧭 Product and Strategy": ["TEDxTUM", "TUM Case Club", "STARTmunich", "TEG | The Entrepreneurial Group", "ConsulTUM Club"],
-  "⚙️ MLOps / Infrastructure": ["OpenSource @ TUM", "HackerFab Munich", "RoboTUM", "Game Development Club", "EESTEC Munich"],
+  "🤖 Machine Learning": ["MLTech", "TUM.ai", "Munich Data Science", "neuroTUM", "HackerFab Munich"],
+  "🧠 Deep Learning": ["MLTech", "neuroTUM", "RoboTUM", "TUM.ai", "OpenSource @ TUM"],
+  "📊 Data Science": ["muniQuant", "Munich Data Science", "Bioinformatics Munich Student Lab", "TUM.ai", "TUM Case Club"],
+  "💬 NLP": ["Munich NLP", "MLTech", "TUM.ai", "neuroTUM", "OpenSource @ TUM"],
+  "👁️ Computer Vision": ["MLTech", "RoboTUM", "HackerFab Munich", "neuroTUM", "Game Development Club"],
+  "✨ Generative AI": ["Munich NLP", "MLTech", "TUM.ai", "STARTmunich", "TEG | The Entrepreneurial Group"],
+  "⚙️ MLOps": ["OpenSource @ TUM", "HackerFab Munich", "EESTEC Munich", "RoboTUM", "MLTech"],
 };
 
 const CLUB_SKILLS = {
@@ -66,11 +83,16 @@ const CLUB_SKILLS = {
 
 export { ROLE_BY_DOMAIN };
 
+// Curated role-title suggestions per specialization (not a direct
+// extraction from the Job Title column — this is app-authored content).
 const ROLE_BY_DOMAIN = {
-  "🤖 AI Engineering": ["AI Engineer", "ML Engineer", "NLP Engineer"],
-  "📊 Data Science": ["Data Scientist", "ML Analyst", "Research Engineer"],
-  "🧭 Product and Strategy": ["AI Product Manager", "Solutions Consultant", "Tech Strategist"],
-  "⚙️ MLOps / Infrastructure": ["MLOps Engineer", "Platform Engineer", "Cloud AI Engineer"],
+  "🤖 Machine Learning": ["ML Engineer", "Applied Scientist", "ML Platform Engineer"],
+  "🧠 Deep Learning": ["Deep Learning Engineer", "Research Engineer", "AI Research Scientist"],
+  "📊 Data Science": ["Data Scientist", "ML Analyst", "Quantitative Analyst"],
+  "💬 NLP": ["NLP Engineer", "Conversational AI Engineer", "Language AI Researcher"],
+  "👁️ Computer Vision": ["Computer Vision Engineer", "Perception Engineer", "Imaging AI Engineer"],
+  "✨ Generative AI": ["Generative AI Engineer", "LLM Engineer", "AI Product Engineer"],
+  "⚙️ MLOps": ["MLOps Engineer", "Platform Engineer", "ML Infrastructure Engineer"],
 };
 
 function parseCsv(text) {
@@ -163,19 +185,28 @@ export function buildRecommendations(userProfile, industryRows) {
   const workMode = getAnswer(answers, "workMode");
 
   const industry = DOMAIN_TO_INDUSTRY[domainKey] || "Technology";
-  const roles = ROLE_BY_DOMAIN[domainKey] || [title || "AI Engineer"];
+  const roles = ROLE_BY_DOMAIN[domainKey] || [title || "ML Engineer"];
 
+  // NOTE: avgCompanySize thresholds below are a placeholder mapped onto
+  // the OLD single-average company size field from country-industry-summary.csv.
+  // That CSV does not yet reflect the new 5-tier company_size_category
+  // (Micro/Startup/Small-Mid/Mid-sized/Mega) built in the cleaning pipeline.
+  // For this filter to be accurate against the real tiers, regenerate that
+  // CSV to include category breakdowns per country x industry, and replace
+  // this numeric-threshold approach with a direct category match.
   const sizeFilter = (row) => {
-    if (companySize === "startup") return row.avgCompanySize < 1700;
-    if (companySize === "mid") return row.avgCompanySize >= 1400 && row.avgCompanySize <= 1900;
-    if (companySize === "enterprise") return row.avgCompanySize >= 1800;
+    if (companySize === "micro") return row.avgCompanySize < 25;
+    if (companySize === "startup") return row.avgCompanySize >= 25 && row.avgCompanySize < 200;
+    if (companySize === "small_mid") return row.avgCompanySize >= 200 && row.avgCompanySize < 500;
+    if (companySize === "mid_sized") return row.avgCompanySize >= 500 && row.avgCompanySize < 5000;
+    if (companySize === "mega") return row.avgCompanySize >= 5000;
     return true;
   };
 
   const countryFilter = (row) => {
     if (country === "Germany") return row.country === "Germany";
     if (country === "European Union") {
-      return ["Germany", "France", "Netherlands", "Ireland", "Switzerland", "United Kingdom"].includes(row.country);
+      return EU_COUNTRIES_IN_DATA.includes(row.country);
     }
     if (country === "United States") return row.country === "United States";
     if (country === "Global" || country === "Remote-first") return true;
@@ -210,7 +241,7 @@ export function buildRecommendations(userProfile, industryRows) {
     skills: CLUB_SKILLS[name] || ["Teamwork", "Problem Solving", "Communication"],
   }));
 
-  const experienceBonus = { junior: 0, mid: 4, senior: 8, lead: 12 }[experienceLevel] ?? 0;
+  const experienceBonus = { entry: 0, mid: 4, senior: 8, flexible: 2 }[experienceLevel] ?? 0;
   const educationBonus = { bachelor: 0, master: 4, phd: 8, flexible: 2 }[educationLevel] ?? 0;
 
   const topJobs = [];

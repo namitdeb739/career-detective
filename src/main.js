@@ -14,12 +14,24 @@ import {
 
 initAntigravity();
 
+// Quiz options below are grounded in the actual dataset:
+//   - relocate: "EU countries (in data)" = Germany, France, Netherlands,
+//     Ireland only (the actual EU members present in the 12-country data —
+//     Switzerland and UK are NOT in the EU and were fixed from a prior bug)
+//   - salary: brackets approximate the real EUR salary distribution
+//     (25th/median/75th percentile), not arbitrary round numbers
+//   - jobDomain: the 7 real AI Specialization values from the dataset
+//     (dropped "Product and Strategy", which doesn't exist as a category)
+//   - companySize: the 5 real company_size_category tiers from the
+//     cleaning pipeline (Micro/Startup/Small-Mid/Mid-sized/Mega)
+//   - experienceLevel: only 3 real values exist (Entry/Mid/Senior) —
+//     dropped "Lead/Principal", which isn't a category in the data
 const quizQuestions = [
   {
     id: "relocate",
     title: "Where are you open to relocate?",
     subtitle: "Pick one option for your next 1-2 years.",
-    options: ["🇩🇪 Germany only", "🇪🇺 EU wide", "🌍 Global", "💻 Remote-first anywhere"],
+    options: ["🇩🇪 Germany only", "🇪🇺 EU countries (in data)", "🌍 Global", "💻 Remote-first anywhere"],
   },
   {
     id: "workMode",
@@ -30,18 +42,21 @@ const quizQuestions = [
   {
     id: "salary",
     title: "Target yearly gross salary after graduation?",
-    subtitle: "Based on global AI salary benchmarks.",
-    options: ["💶 EUR 45-60k", "💶 EUR 60-75k", "💶 EUR 75-90k", "🚀 EUR 90k+"],
+    subtitle: "Based on approx. EUR salary distribution across our dataset.",
+    options: ["💶 Up to EUR 70k", "💶 EUR 70-95k", "💶 EUR 95-125k", "🚀 EUR 125k+"],
   },
   {
     id: "jobDomain",
-    title: "Most attractive AI/Tech domain?",
+    title: "Most attractive AI specialization?",
     subtitle: "We'll map this to trend signals.",
     options: [
-      "🤖 AI Engineering",
+      "🤖 Machine Learning",
+      "🧠 Deep Learning",
       "📊 Data Science",
-      "🧭 Product and Strategy",
-      "⚙️ MLOps / Infrastructure",
+      "💬 NLP",
+      "👁️ Computer Vision",
+      "✨ Generative AI",
+      "⚙️ MLOps",
     ],
   },
   {
@@ -49,9 +64,11 @@ const quizQuestions = [
     title: "What kind of company culture do you prefer?",
     subtitle: "Think team size and company stage.",
     options: [
-      "🌱 Startup vibe (under 200 people)",
-      "🚀 Scaling team (200–2,000)",
-      "🏢 Established corporation (2,000+)",
+      "🌱 Micro (under 25 people)",
+      "🚀 Startup (25–200)",
+      "📈 Small-Mid (200–500)",
+      "🏢 Mid-sized (500–5,000)",
+      "🏛️ Mega Corporation (5,000+)",
       "🔀 Flexible on company size",
     ],
   },
@@ -59,7 +76,7 @@ const quizQuestions = [
     id: "experienceLevel",
     title: "What experience level are you targeting?",
     subtitle: "Helps us match seniority expectations.",
-    options: ["🌱 Junior / Entry", "📈 Mid-level", "🎯 Senior", "🔬 Lead / Principal"],
+    options: ["🌱 Entry", "📈 Mid-level", "🎯 Senior", "🔀 Flexible"],
   },
   {
     id: "educationLevel",
