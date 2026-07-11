@@ -130,7 +130,9 @@ def main() -> None:
     parser.add_argument(
         "--top", type=int, default=5, help="top M experiences to return"
     )
-    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument(
+        "--seed", type=int, default=None, help="fix the sample for reproducibility"
+    )
     args = parser.parse_args()
 
     jobs = pd.read_csv(JOBS)
