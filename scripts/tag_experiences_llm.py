@@ -46,12 +46,30 @@ OUT_REGIONS = Path("data/processed/experience_regions.csv")
 # Cosine threshold on nomic-embed-text vectors; calibrate on the first run.
 TITLE_MATCH_CUTOFF = 0.65
 
+# ESCO-style transversal (transferable) skills — a small controlled set. These
+# apply across all jobs, so they let non-tech experiences earn a real score.
+TRANSVERSAL_SKILLS = [
+    "Communication",
+    "Teamwork",
+    "Leadership",
+    "Public Speaking",
+    "Project Management",
+    "Problem Solving",
+    "Critical Thinking",
+    "Adaptability",
+    "Intercultural Competence",
+    "Event Organization",
+    "Networking",
+    "Time Management",
+]
+
 
 class ExperienceTags(BaseModel):
     skills: list[str]
     industries: list[str]
     job_titles: list[str]
     regions: list[str]
+    transversal: list[str]
 
 
 def _clean(value: object) -> str:
@@ -91,8 +109,14 @@ def _system_prompt(
         "Portugal). Use these exact country names where they apply:\n"
         + ", ".join(countries)
         + "\nLeave `regions` empty for the vast majority.\n\n"
+        "For `transversal`: the transferable skills the experience builds, from "
+        "this exact list (most experiences build a few — a debate club builds "
+        "Public Speaking, Critical Thinking; a sports club builds Teamwork):\n"
+        + ", ".join(TRANSVERSAL_SKILLS)
+        + "\n\n"
         "Return only tags genuinely supported by the experience — an unrelated club "
-        "(hiking, choir) may yield empty skills. Propose 0-4 job titles."
+        "(hiking, choir) may yield empty technical skills but still has transversal "
+        "ones. Propose 0-4 job titles."
     )
 
 
@@ -218,6 +242,17 @@ def main() -> None:
                     "canonical": key in industry_set,
                 }
             )
+        for transversal in tags.transversal:
+            if transversal.strip():
+                tag_rows.append(
+                    {
+                        "experience_id": experience_id,
+                        "tag": transversal.strip(),
+                        "tag_type": "transversal",
+                        "method": "llm",
+                        "canonical": False,
+                    }
+                )
         proposed = [p.strip() for p in tags.job_titles if p.strip()]
         mapped = matcher.map_many(proposed)
         for title, (matched, similarity) in zip(proposed, mapped, strict=True):

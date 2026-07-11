@@ -88,7 +88,7 @@ data: build-vocab build-experiences build-jobs tag-dict merge-tags
 # Full pipeline INCLUDING local LLM tagging (needs Ollama running)
 pipeline: build-vocab build-experiences build-jobs tag-dict tag-llm merge-tags
 
-# LLM tags: skills/industries/titles/regions via local Ollama (try --limit 10)
+# LLM tags: skills/industries/titles/regions/transversal via Ollama (try --limit 10)
 tag-llm *args:
     uv run python scripts/tag_experiences_llm.py {{ args }}
 

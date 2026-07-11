@@ -46,7 +46,7 @@ just data          # build-vocab → build-experiences → build-jobs → tag-di
 Stages also run individually: `just build-vocab`, `just build-experiences`,
 `just build-jobs`, `just tag-dict`, `just merge-tags`.
 
-**LLM inferential tagging** (skills/industries/job titles) runs **locally and
+**LLM inferential tagging** (skills, industries, titles, regions, transversal skills) runs **locally and
 free via [Ollama](https://ollama.com)** — no API key, no data leaves your
 machine. One-time setup, then run:
 

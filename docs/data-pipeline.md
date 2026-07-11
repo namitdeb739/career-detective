@@ -245,14 +245,15 @@ experience_id, tag, tag_type, confidence, method, canonical
 
 Given a set of N jobs, `match_experiences.py` (`just match`) ranks the
 experiences and returns the top M. The job set is pooled into one profile
-(collective centroid) and scored on **four weighted fields**, kept separate so
+(collective centroid) and scored on **five weighted fields**, kept separate so
 the weights can be re-tuned:
 
 | Field | Compares | Signal |
 | --- | --- | --- |
-| **skills** (`0.55`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted cosine (idf from `vocabulary.job_count`) |
-| **title** (`0.22`) | `experience_job_titles.matched_job_title` ↔ the set's `jobs.title` | title-set overlap |
-| **industry** (`0.15`) | experience `industry` tags ↔ the set's `jobs.industry` | cosine |
+| **skills** (`0.45`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted cosine (idf from `vocabulary.job_count`) |
+| **transversal** (`0.20`) | experience `transversal` tags (transferable skills) | universal prior — job-independent; lifts non-tech clubs off zero (see below) |
+| **title** (`0.15`) | `experience_job_titles.matched_job_title` ↔ the set's `jobs.title` | title-set overlap |
+| **industry** (`0.12`) | experience `industry` tags ↔ the set's `jobs.industry` | cosine |
 | **geo** (`0.08`) | `experience_regions.country` ↔ the set's `jobs.country` | fraction of jobs whose country matches — sparse, only fires for cultural clubs |
 
 `score = Σ wᵢ·simᵢ`. Only canonical tags join; idf down-weights ubiquitous tags
@@ -260,6 +261,10 @@ the weights can be re-tuned:
 over shared tags, the top contributing tags are reported per match — the join
 key doubles as the explanation.
 
+- **Transversal** is the fix for STEM-homogeneous results — since the tech-only
+  vocabulary makes non-tech clubs score ≈ 0, a transferable-skills axis
+  (universal prior) gives them a real, modest score. Full write-up:
+  [diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
 - **Titles** are matched to the 37 real titles by *semantic* embedding
   similarity (`nomic-embed-text`), so "Aerospace Engineer" stays unmatched
   rather than collapsing onto "Prompt Engineer".

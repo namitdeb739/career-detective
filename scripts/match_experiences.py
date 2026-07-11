@@ -37,8 +37,17 @@ JOB_TAGS = PROCESSED / "job_tags.csv"
 JOBS = PROCESSED / "jobs.csv"
 VOCAB = Path("data/reference/vocabulary.csv")
 
-WEIGHTS = {"skills": 0.55, "title": 0.22, "industry": 0.15, "geo": 0.08}
+WEIGHTS = {
+    "skills": 0.45,
+    "transversal": 0.20,
+    "title": 0.15,
+    "industry": 0.12,
+    "geo": 0.08,
+}
 SKILL_TYPES = frozenset({"skill", "language", "specialization"})
+# Universal prior: an experience saturates the transversal field at this many
+# confidence-weighted transferable skills (every job implicitly values them).
+TRANSVERSAL_CAP = 3.0
 
 Vector = dict[str, float]
 
@@ -67,22 +76,26 @@ def _load_idf(total_jobs: int) -> dict[str, float]:
 
 def _load_experience_tags(
     idf: dict[str, float],
-) -> tuple[dict[str, Vector], dict[str, Vector]]:
+) -> tuple[dict[str, Vector], dict[str, Vector], dict[str, Vector]]:
     skills: dict[str, Vector] = defaultdict(dict)
     industry: dict[str, Vector] = defaultdict(dict)
-    tags = pd.read_csv(EXP_TAGS)
-    for _, row in tags[tags["canonical"]].iterrows():
+    transversal: dict[str, Vector] = defaultdict(dict)
+    for _, row in pd.read_csv(EXP_TAGS).iterrows():
         eid, tag, tag_type = (
             str(row["experience_id"]),
             str(row["tag"]),
             str(row["tag_type"]),
         )
         conf = float(row["confidence"])
-        if tag_type in SKILL_TYPES:
+        if tag_type == "transversal":  # its own axis; never in the jobs vocabulary
+            transversal[eid][tag] = conf
+        elif not bool(row["canonical"]):
+            continue
+        elif tag_type in SKILL_TYPES:
             skills[eid][tag] = conf * idf.get(tag, 0.0)
         elif tag_type == "industry":
             industry[eid][tag] = conf
-    return skills, industry
+    return skills, industry, transversal
 
 
 def _load_sets(path: Path, value_col: str) -> dict[str, set[str]]:
@@ -138,7 +151,7 @@ def main() -> None:
     jobs = pd.read_csv(JOBS)
     job_tags = pd.read_csv(JOB_TAGS)
     idf = _load_idf(len(jobs))
-    exp_skills, exp_industry = _load_experience_tags(idf)
+    exp_skills, exp_industry, exp_transversal = _load_experience_tags(idf)
     exp_titles = _load_sets(EXP_TITLES, "matched_job_title")
     exp_regions = _load_sets(EXP_REGIONS, "country")
     experiences = pd.read_csv(EXPERIENCES)
@@ -163,6 +176,9 @@ def main() -> None:
     for eid in info:
         sims = {
             "skills": _cosine(exp_skills.get(eid, {}), skill_p),
+            "transversal": min(
+                1.0, sum(exp_transversal.get(eid, {}).values()) / TRANSVERSAL_CAP
+            ),
             "industry": _cosine(exp_industry.get(eid, {}), industry_p),
             "title": (
                 len(exp_titles.get(eid, set()) & set_titles) / len(set_titles)
@@ -186,6 +202,7 @@ def main() -> None:
         scored[: args.top],
         info,
         exp_skills,
+        exp_transversal,
         exp_titles,
         exp_regions,
         skill_p,
@@ -212,6 +229,7 @@ def _render(
     top: list[tuple[float, str, dict[str, float]]],
     info: dict[str, tuple[str, str]],
     exp_skills: dict[str, Vector],
+    exp_transversal: dict[str, Vector],
     exp_titles: dict[str, set[str]],
     exp_regions: dict[str, set[str]],
     skill_p: Vector,
@@ -249,6 +267,9 @@ def _render(
         skills = ", ".join(t for t, _ in top_skills[:5] if skill_p.get(t))
         if skills:
             _detail("skills", skills)
+        soft = ", ".join(sorted(exp_transversal.get(eid, {})))
+        if soft:
+            _detail("soft", soft)
         if matched_titles:
             _detail("titles", ", ".join(matched_titles))
         if matched_regions:
