@@ -31,19 +31,13 @@ const quizQuestions = [
     id: "relocate",
     title: "Where are you open to relocate?",
     subtitle: "Pick one option for your next 1-2 years.",
-    options: ["🇩🇪 Germany only", "🇪🇺 EU countries (in data)", "🌍 Global", "💻 Remote-first anywhere"],
+    options: ["🇩🇪 Germany", "🇪🇺 EU Countries", "🌍 Global",],
   },
   {
     id: "workMode",
     title: "What work format fits your lifestyle?",
     subtitle: "Your preferred rhythm matters.",
-    options: ["🏢 Mostly on-site", "🔁 Hybrid", "🏠 Fully remote", "🧩 Flexible by project"],
-  },
-  {
-    id: "salary",
-    title: "Target yearly gross salary after graduation?",
-    subtitle: "Based on approx. EUR salary distribution across our dataset.",
-    options: ["💶 Up to EUR 70k", "💶 EUR 70-95k", "💶 EUR 95-125k", "🚀 EUR 125k+"],
+    options: ["🏢 On-site", "🔁 Hybrid", "🏠 Remote", "🧩 Flexible"],
   },
   {
     id: "jobDomain",
@@ -61,8 +55,8 @@ const quizQuestions = [
   },
   {
     id: "companySize",
-    title: "What kind of company culture do you prefer?",
-    subtitle: "Think team size and company stage.",
+    title: "What scale of work environment fits you best?",
+    subtitle: "Think company size and company stage.",
     options: [
       "🌱 Micro (under 25 people)",
       "🚀 Startup (25–200)",
@@ -82,7 +76,7 @@ const quizQuestions = [
     id: "educationLevel",
     title: "Highest education level?",
     subtitle: "TUM students often hold Master or PhD.",
-    options: ["🎓 Bachelor", "📘 Master (TUM)", "🔬 PhD", "📚 Flexible"],
+    options: ["🎓 Bachelor", "📘 Master", "🔬 PhD"],
   },
 ];
 

@@ -29,10 +29,9 @@ export function answersToPreferenceValues(answers) {
   const roles = ROLE_BY_DOMAIN[jobDomain] || ["ML Engineer"];
 
   const countryByRelocate = {
-    "🇩🇪 Germany only": "Germany",
-    "🇪🇺 EU countries (in data)": "European Union",
+    "🇩🇪 Germany": "Germany",
+    "🇪🇺 EU Countries": "European Union",
     "🌍 Global": "Global",
-    "💻 Remote-first anywhere": "Remote-first",
   };
 
   // Keys match the 5 real company_size_category tiers from the cleaning
@@ -48,10 +47,10 @@ export function answersToPreferenceValues(answers) {
   };
 
   const formatByAnswer = {
-    "🏢 Mostly on-site": "onsite",
+    "🏢 On-site": "onsite",
     "🔁 Hybrid": "hybrid",
-    "🏠 Fully remote": "remote",
-    "🧩 Flexible by project": "flexible",
+    "🏠 Remote": "remote",
+    "🧩 Flexible": "flexible",
   };
 
   // Only 3 real experience levels exist in the data (Entry/Mid/Senior) —
@@ -65,9 +64,8 @@ export function answersToPreferenceValues(answers) {
 
   const educationByAnswer = {
     "🎓 Bachelor": "bachelor",
-    "📘 Master (TUM)": "master",
+    "📘 Master": "master",
     "🔬 PhD": "phd",
-    "📚 Flexible": "flexible",
   };
 
   const relocate = getAnswer(answers, "relocate");
@@ -116,6 +114,7 @@ export function formatProfileForApi(preferences) {
     output[key] = {
       data: pref.data,
       dealBreaker: pref.dealBreaker,
+      ranking: pref.priority,
     };
   });
   return output;
