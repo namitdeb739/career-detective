@@ -68,7 +68,11 @@ just match --sample 5 --top 5                # 5 random jobs → top 5 experienc
 just match --jobs job-1,job-2 --top 10
 just match --jobs job-1,job-2 --prefs prefs.json   # bias by career preferences
 just match --jobs job-1,job-2 --broaden 3          # + opt-in "broaden" picks
+just match --jobs job-1,job-2 --json               # machine-readable output
 ```
+
+`--json` emits the received job set (verbatim) and the matched experiences
+(`name`, `description`, `skills`, `score`) for downstream consumers (e.g. the app).
 
 The default is a single skills-forward list (MMR-diversified). `--broaden N`
 adds an opt-in *broaden your profile* lane (transferable-skill clubs). `--prefs`

@@ -332,6 +332,11 @@ def main() -> None:
     parser.add_argument(
         "--prefs", default="", help="career preferences as JSON (string or file path)"
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="emit the job set and matched experiences as JSON instead of text",
+    )
     args = parser.parse_args()
 
     jobs = pd.read_csv(JOBS)
@@ -478,6 +483,11 @@ def main() -> None:
     if reserved:
         direct = direct[: max(0, args.top - len(reserved))] + reserved
     direct = sorted(direct, key=lambda x: x[0], reverse=True)
+
+    if args.json:
+        _emit_json(job_ids, jobs, direct, info, exp_skills)
+        return
+
     broaden = sorted(
         _mmr(
             _rank(_pref_weights(BROADEN_WEIGHTS, prefs), 0.0),
@@ -505,6 +515,48 @@ def main() -> None:
             country_set,
             reasons,
         )
+
+
+def _jsonable(value: object) -> object:
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return None
+    item = getattr(value, "item", None)
+    return item() if callable(item) else value
+
+
+def _emit_json(
+    job_ids: list[str],
+    jobs: pd.DataFrame,
+    direct: list[Scored],
+    info: dict[str, tuple[str, str]],
+    exp_skills: dict[str, Vector],
+) -> None:
+    set_jobs = (
+        jobs[jobs["job_id"].isin(job_ids)]
+        .set_index("job_id")
+        .reindex(job_ids)
+        .reset_index()
+    )
+    job_records = [
+        {k: _jsonable(v) for k, v in r.items()}
+        for r in set_jobs.to_dict(orient="records")
+    ]
+    experiences = [
+        {
+            "name": info[eid][0],
+            "description": info[eid][1],
+            "skills": sorted(exp_skills.get(eid, {})),
+            "score": round(total, 3),
+        }
+        for total, eid, _ in direct
+    ]
+    print(
+        json.dumps(
+            {"jobs": job_records, "experiences": experiences},
+            indent=2,
+            ensure_ascii=False,
+        )
+    )
 
 
 def _detail(label: str, content: str) -> None:

@@ -114,6 +114,12 @@ def _system_prompt(
         "Public Speaking, Critical Thinking; a sports club builds Teamwork):\n"
         + ", ".join(TRANSVERSAL_SKILLS)
         + "\n\n"
+        "Tag only skills the experience ITSELF develops through its own core "
+        "activity. A broad umbrella, incubator, or connector that merely links "
+        "students to external projects across many fields does NOT itself build "
+        "those fields' skills — tag only what its own work involves, never the "
+        "union of everything its members might touch. List at most 8 skills, the "
+        "most central ones.\n\n"
         "Return only tags genuinely supported by the experience — an unrelated club "
         "(hiking, choir) may yield empty technical skills but still has transversal "
         "ones. Propose 0-4 job titles."
