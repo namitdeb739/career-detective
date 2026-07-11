@@ -21,7 +21,9 @@ just             # list all available recipes
 
 Turns the raw TUM sources and the AI-jobs dataset into a standardized set of
 tables that match student clubs/programmes/projects to relevant skills,
-industries, and job titles.
+industries, and job titles. See
+[docs/data-pipeline.md](docs/data-pipeline.md) for the full flow, schema, and
+diagrams.
 
 **Inputs** (in `data/`):
 
