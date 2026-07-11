@@ -108,11 +108,20 @@ score'(e) = λ · relevance(e) − (1 − λ) · max similarity(e, already-picke
 ```
 
 with `similarity` = shared-tag overlap (Jaccard); `λ` tunes relevance ↔
-diversity. `match_experiences.py` produces **two tracks** from one MMR pass over
-the top-50 candidates: *"Direct skill matches"* (`λ=0.7`, relevance-leaning) and
-*"Broaden your profile"* (`λ=0.5`, diversity-leaning, seeded with the direct
-picks so it stays distinct) — the beyond-accuracy / serendipity framing shown to
-drive engagement in [recommender research][recsys]. Tune with `--top`/`--broaden`.
+diversity. `match_experiences.py` produces **two tracks**, each MMR-ranked over
+its own top-50: *"Direct skill matches"* (`WEIGHTS`, skills-forward, `λ=0.7`) and
+*"Broaden your profile"* (`BROADEN_WEIGHTS`, **transversal-forward**, `λ=0.5`,
+seeded with the direct picks so it stays distinct). The transversal-forward
+re-weight is what lifts transferable-skill clubs into the broaden lane — the
+beyond-accuracy / serendipity framing shown to drive engagement in
+[recommender research][recsys]. Tune with `--top`/`--broaden`.
+
+> **Known limitation.** The transversal prior *saturates* (≈1.0 for any club
+> with ≥3 soft skills), so it can't separate "has soft skills" from "is
+> primarily soft skills" — the broaden lane favours clubs that are transversal-
+> *and* tech-relevant over purely non-tech ones. An **idf-weighted transversal**
+> score (rewarding distinctive skills like *public speaking* over ubiquitous
+> *teamwork*) would sharpen this; it's the natural next refinement.
 
 ### Layer 3 — semantic hybrid (optional)
 

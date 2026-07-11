@@ -44,6 +44,16 @@ WEIGHTS = {
     "industry": 0.12,
     "geo": 0.08,
 }
+# The "broaden" track ranks transversal-forward, so transferable-skill clubs
+# (debate, sports, cultural) rise instead of tech clubs that merely also have
+# soft skills.
+BROADEN_WEIGHTS = {
+    "skills": 0.25,
+    "transversal": 0.45,
+    "title": 0.10,
+    "industry": 0.12,
+    "geo": 0.08,
+}
 SKILL_TYPES = frozenset({"skill", "language", "specialization"})
 # Universal prior: an experience saturates the transversal field at this many
 # confidence-weighted transferable skills (every job implicitly values them).
@@ -222,9 +232,9 @@ def main() -> None:
     )
     country_set = set(set_countries)
 
-    scored: list[tuple[float, str, dict[str, float]]] = []
+    sims_by_eid: dict[str, Vector] = {}
     for eid in info:
-        sims = {
+        sims_by_eid[eid] = {
             "skills": _cosine(exp_skills.get(eid, {}), skill_p),
             "transversal": min(
                 1.0, sum(exp_transversal.get(eid, {}).values()) / TRANSVERSAL_CAP
@@ -242,20 +252,28 @@ def main() -> None:
                 else 0.0
             ),
         }
-        total = sum(WEIGHTS[f] * sims[f] for f in WEIGHTS)
-        scored.append((total, eid, sims))
 
-    scored.sort(key=lambda x: x[0], reverse=True)
+    def _rank(weights: dict[str, float]) -> list[Scored]:
+        ranked = [
+            (sum(weights[f] * sims[f] for f in weights), eid, sims)
+            for eid, sims in sims_by_eid.items()
+        ]
+        ranked.sort(key=lambda x: x[0], reverse=True)
+        return ranked[:CANDIDATE_POOL]
+
     tagsets = {
         eid: frozenset(exp_skills.get(eid, {}))
         | frozenset(exp_industry.get(eid, {}))
         | frozenset(exp_transversal.get(eid, {}))
         for eid in info
     }
-    pool = scored[:CANDIDATE_POOL]
-    direct = _mmr(pool, tagsets, MMR_LAMBDA_DIRECT, args.top, set())
+    direct = _mmr(_rank(WEIGHTS), tagsets, MMR_LAMBDA_DIRECT, args.top, set())
     broaden = _mmr(
-        pool, tagsets, MMR_LAMBDA_BROADEN, args.broaden, {e for _, e, _ in direct}
+        _rank(BROADEN_WEIGHTS),
+        tagsets,
+        MMR_LAMBDA_BROADEN,
+        args.broaden,
+        {e for _, e, _ in direct},
     )
 
     detail = (exp_skills, exp_transversal, exp_titles, exp_regions, skill_p)
