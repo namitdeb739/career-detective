@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import textwrap
 from collections import defaultdict
 from pathlib import Path
 
@@ -139,7 +140,10 @@ def main() -> None:
     exp_titles = _load_sets(EXP_TITLES, "matched_job_title")
     exp_regions = _load_sets(EXP_REGIONS, "country")
     experiences = pd.read_csv(EXPERIENCES)
-    names = {str(r["experience_id"]): str(r["name"]) for _, r in experiences.iterrows()}
+    info = {
+        str(r["experience_id"]): (str(r["name"]), _clean(r["description"]))
+        for _, r in experiences.iterrows()
+    }
 
     if args.jobs:
         job_ids = [j.strip() for j in args.jobs.split(",") if j.strip()]
@@ -151,13 +155,10 @@ def main() -> None:
     skill_p, industry_p, set_titles, set_countries = job_set_profiles(
         job_ids, idf, jobs, job_tags
     )
-
-    print(f"Job set ({len(job_ids)}):")
-    for _, j in jobs[jobs["job_id"].isin(job_ids)].iterrows():
-        print(f"  {j['title']} — {j['industry']} — {j['country']}")
+    country_set = set(set_countries)
 
     scored: list[tuple[float, str, dict[str, float]]] = []
-    for eid in names:
+    for eid in info:
         sims = {
             "skills": _cosine(exp_skills.get(eid, {}), skill_p),
             "industry": _cosine(exp_industry.get(eid, {}), industry_p),
@@ -177,19 +178,81 @@ def main() -> None:
         scored.append((total, eid, sims))
 
     scored.sort(key=lambda x: x[0], reverse=True)
+    _render(
+        job_ids,
+        jobs,
+        scored[: args.top],
+        info,
+        exp_skills,
+        exp_titles,
+        exp_regions,
+        skill_p,
+        set_titles,
+        country_set,
+    )
 
-    print(f"\nTop {args.top} experiences:")
-    for total, eid, sims in scored[: args.top]:
-        breakdown = " ".join(f"{f}={sims[f]:.2f}" for f in WEIGHTS if sims[f] > 0)
+
+def _detail(label: str, content: str) -> None:
+    wrapped = textwrap.fill(
+        content,
+        width=90,
+        initial_indent="",
+        subsequent_indent=" " * 14,
+        max_lines=3,
+        placeholder=" …",
+    )
+    print(f"     {label:<8} {wrapped}")
+
+
+def _render(
+    job_ids: list[str],
+    jobs: pd.DataFrame,
+    top: list[tuple[float, str, dict[str, float]]],
+    info: dict[str, tuple[str, str]],
+    exp_skills: dict[str, Vector],
+    exp_titles: dict[str, set[str]],
+    exp_regions: dict[str, set[str]],
+    skill_p: Vector,
+    set_titles: set[str],
+    country_set: set[str],
+) -> None:
+    rule = "─" * 78
+    set_jobs = jobs[jobs["job_id"].isin(job_ids)]
+    width = max((len(str(t)) for t in set_jobs["title"]), default=10)
+    print(f"{rule}\nJOB SET · {len(job_ids)} jobs\n{rule}")
+    for _, j in set_jobs.iterrows():
+        salary = j["salary_mid_usd"]
+        money = f"${int(salary) // 1000}k" if pd.notna(salary) else "—"
+        print(
+            f"  {j['title']!s:<{width}}  {j['industry']!s:<22} "
+            f"{j['country']!s:<15} {money}"
+        )
+
+    print(f"\n{rule}\nTOP {len(top)} EXPERIENCES\n{rule}")
+    for rank, (total, eid, sims) in enumerate(top, 1):
+        name, desc = info[eid]
+        fields = " · ".join(
+            f"{f} {sims[f]:.2f}" if sims[f] > 0 else f"{f} —" for f in WEIGHTS
+        )
         top_skills = sorted(
-            (exp_skills.get(eid, {}).items()),
+            exp_skills.get(eid, {}).items(),
             key=lambda kv: kv[1] * skill_p.get(kv[0], 0.0),
             reverse=True,
         )
-        why = ", ".join(t for t, _ in top_skills[:4] if skill_p.get(t))
-        print(f"  {total:.3f}  {names[eid][:40]:40} [{breakdown}]")
-        if why:
-            print(f"          via: {why}")
+        matched_titles = sorted(exp_titles.get(eid, set()) & set_titles)
+        matched_regions = sorted(exp_regions.get(eid, set()) & country_set)
+
+        print(f"\n{rank:>2}. {total:.3f}  {name}")
+        _detail("match", fields)
+        skills = ", ".join(t for t, _ in top_skills[:5] if skill_p.get(t))
+        if skills:
+            _detail("skills", skills)
+        if matched_titles:
+            _detail("titles", ", ".join(matched_titles))
+        if matched_regions:
+            _detail("regions", ", ".join(matched_regions))
+        if desc:
+            _detail("about", desc)
 
 
 if __name__ == "__main__":
