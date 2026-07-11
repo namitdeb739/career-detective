@@ -134,7 +134,10 @@ def _get_model():
             "pip install sentence-transformers"
         ) from e
 
-    _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME)
+    try:
+        _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME, local_files_only=True)
+    except Exception:
+        _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME)
     return _EMBEDDING_MODEL
 
 
