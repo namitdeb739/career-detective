@@ -1,7 +1,7 @@
 """Standardize the AI-jobs dataset: slim jobs table + tag table + title index.
 
 Explodes the native skill/industry columns into `job_tags`, filtered to the
-controlled vocabulary so job tags join exactly to entity tags. No NLP — the
+controlled vocabulary so job tags join exactly to experience tags. No NLP — the
 job columns already are the vocabulary. Also emits a distinct-title index,
 the grounding target for LLM-proposed job titles in step 5.
 

@@ -1,4 +1,4 @@
-entity_id,tag,tag_type,confidence,method,canonical
+experience_id,tag,tag_type,confidence,method,canonical
 biomatrix,Neural Networks,skill,1.0,dict,True
 biomatrix,Machine Learning,specialization,1.0,dict,True
 munich-nlp,NLP,specialization,1.0,dict,True

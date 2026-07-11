@@ -66,24 +66,24 @@ coverage:
 build-vocab:
     uv run python scripts/build_vocabulary.py
 
-# Consolidate raw TUM sources into data/processed/entities.csv
-build-entities:
-    uv run python scripts/build_entities.py
+# Consolidate raw TUM sources into data/processed/tum_student_experiences.csv
+build-experiences:
+    uv run python scripts/build_experiences.py
 
 # Standardize the jobs dataset (jobs, job_tags, job_titles)
 build-jobs:
     uv run python scripts/build_jobs.py
 
-# Dictionary-tag entities against the vocabulary (free, no API)
+# Dictionary-tag experiences against the vocabulary (free, no API)
 tag-dict:
-    uv run python scripts/tag_entities_dict.py
+    uv run python scripts/tag_experiences_dict.py
 
 # Regenerate every processed CSV except the LLM tags (no API key needed)
-data: build-vocab build-entities build-jobs tag-dict
+data: build-vocab build-experiences build-jobs tag-dict
 
 # LLM tags: skills/industries/titles via local Ollama (try --limit 10)
 tag-llm *args:
-    uv run python scripts/tag_entities_llm.py {{ args }}
+    uv run python scripts/tag_experiences_llm.py {{ args }}
 
 
 

@@ -1,7 +1,7 @@
 """LLM inferential tagging (step 5): skills, industries, and job titles.
 
 Runs locally and free via Ollama — no API key, no data leaves the machine.
-For each consolidated entity, a local model (default qwen2.5:7b) infers
+For each consolidated experience, a local model (default qwen2.5:7b) infers
 applicable skills and industries from the controlled vocabulary (canonical
 tags, plus open terms where nothing fits) and proposes plausible job titles,
 which are fuzzy-mapped to real postings in the distinct-title index.
@@ -14,9 +14,9 @@ One-time setup:
 
 Run:
 
-    uv run python scripts/tag_entities_llm.py              # all entities
-    uv run python scripts/tag_entities_llm.py --limit 10   # quick check
-    OLLAMA_MODEL=qwen2.5:14b uv run python scripts/tag_entities_llm.py
+    uv run python scripts/tag_experiences_llm.py              # all experiences
+    uv run python scripts/tag_experiences_llm.py --limit 10   # quick check
+    OLLAMA_MODEL=qwen2.5:14b uv run python scripts/tag_experiences_llm.py
 """
 
 from __future__ import annotations
@@ -31,16 +31,16 @@ import pandas as pd
 from pydantic import BaseModel
 
 MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:7b")
-ENTITIES = Path("data/processed/entities.csv")
+EXPERIENCES = Path("data/processed/tum_student_experiences.csv")
 VOCAB = Path("data/reference/vocabulary.csv")
 JOB_TITLES = Path("data/processed/job_titles.csv")
-OUT_TAGS = Path("data/processed/entity_tags_llm.csv")
-OUT_TITLES = Path("data/processed/entity_job_titles.csv")
+OUT_TAGS = Path("data/processed/experience_tags_llm.csv")
+OUT_TITLES = Path("data/processed/experience_job_titles.csv")
 
 TITLE_MATCH_CUTOFF = 0.6
 
 
-class EntityTags(BaseModel):
+class ExperienceTags(BaseModel):
     skills: list[str]
     industries: list[str]
     job_titles: list[str]
@@ -68,7 +68,7 @@ def _system_prompt(skills: list[str], industries: list[str]) -> str:
         "You tag TUM student clubs, programmes, and research projects with the "
         "skills, industries, and job roles they could plausibly lead to, to match "
         "students with AI/tech jobs.\n\n"
-        "Infer from what the entity actually does, not only literal wording: a "
+        "Infer from what the experience actually does, not only literal wording: a "
         "robotics club implies C++, ROS, control systems and a Robotics Engineer "
         "path even if unstated.\n\n"
         "Prefer these canonical SKILLS (use the exact spelling); add other terms "
@@ -76,7 +76,7 @@ def _system_prompt(skills: list[str], industries: list[str]) -> str:
         "Prefer these canonical INDUSTRIES (use the exact spelling):\n"
         + ", ".join(industries)
         + "\n\n"
-        "Return only tags genuinely supported by the entity — an unrelated club "
+        "Return only tags genuinely supported by the experience — an unrelated club "
         "(hiking, choir) may yield an empty skills list. Propose 0-4 job titles."
     )
 
@@ -101,18 +101,18 @@ def _ensure_model(model: str) -> None:
         raise SystemExit(f"Model {model!r} not found — run: ollama pull {model}")
 
 
-def _tag(system: str, user: str) -> EntityTags | None:
+def _tag(system: str, user: str) -> ExperienceTags | None:
     response = ollama.chat(
         model=MODEL,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
-        format=EntityTags.model_json_schema(),
+        format=ExperienceTags.model_json_schema(),
         options={"temperature": 0},
     )
     content = response.message.content
-    return EntityTags.model_validate_json(content) if content else None
+    return ExperienceTags.model_validate_json(content) if content else None
 
 
 def main() -> None:
@@ -126,22 +126,23 @@ def main() -> None:
     titles = [str(t) for t in pd.read_csv(JOB_TITLES)["title"]]
     system = _system_prompt(skills, industries)
 
-    entities = pd.read_csv(ENTITIES)
+    experiences = pd.read_csv(EXPERIENCES)
     if args.limit:
-        entities = entities.head(args.limit)
+        experiences = experiences.head(args.limit)
 
     tag_rows: list[dict[str, object]] = []
     title_rows: list[dict[str, str]] = []
 
-    for i, (_, entity) in enumerate(entities.iterrows()):
-        entity_id = _clean(entity["entity_id"])
+    for i, (_, experience) in enumerate(experiences.iterrows()):
+        experience_id = _clean(experience["experience_id"])
         user = (
-            f"Name: {_clean(entity['name'])}\nDetails: {_clean(entity['search_text'])}"
+            f"Name: {_clean(experience['name'])}\n"
+            f"Details: {_clean(experience['search_text'])}"
         )
         try:
             tags = _tag(system, user)
-        except Exception as err:  # one bad entity shouldn't abort the run
-            print(f"  {entity_id}: skipped ({err})")
+        except Exception as err:  # one bad experience shouldn't abort the run
+            print(f"  {experience_id}: skipped ({err})")
             continue
         if tags is None:
             continue
@@ -150,7 +151,7 @@ def main() -> None:
             key = skill.strip().lower()
             tag_rows.append(
                 {
-                    "entity_id": entity_id,
+                    "experience_id": experience_id,
                     "tag": skill.strip(),
                     "tag_type": tag_type_of.get(key, "skill"),
                     "method": "llm",
@@ -161,7 +162,7 @@ def main() -> None:
             key = industry.strip().lower()
             tag_rows.append(
                 {
-                    "entity_id": entity_id,
+                    "experience_id": experience_id,
                     "tag": industry.strip(),
                     "tag_type": "industry",
                     "method": "llm",
@@ -172,7 +173,7 @@ def main() -> None:
             matched, similarity = _map_title(proposed.strip(), titles)
             title_rows.append(
                 {
-                    "entity_id": entity_id,
+                    "experience_id": experience_id,
                     "proposed_title": proposed.strip(),
                     "matched_job_title": matched,
                     "similarity": similarity,
@@ -180,15 +181,15 @@ def main() -> None:
             )
 
         if (i + 1) % 25 == 0:
-            print(f"  tagged {i + 1}/{len(entities)}")
+            print(f"  tagged {i + 1}/{len(experiences)}")
 
     OUT_TAGS.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(
-        tag_rows, columns=["entity_id", "tag", "tag_type", "method", "canonical"]
+        tag_rows, columns=["experience_id", "tag", "tag_type", "method", "canonical"]
     ).to_csv(OUT_TAGS, index=False)
     pd.DataFrame(
         title_rows,
-        columns=["entity_id", "proposed_title", "matched_job_title", "similarity"],
+        columns=["experience_id", "proposed_title", "matched_job_title", "similarity"],
     ).to_csv(OUT_TITLES, index=False)
     print(
         f"Wrote {len(tag_rows)} tags to {OUT_TAGS} and "

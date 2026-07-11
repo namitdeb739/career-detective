@@ -1,6 +1,6 @@
-# Data pipeline: raw TUM sources → entity schema
+# Data pipeline: raw TUM sources → experience schema
 
-How four scraped TUM datasets become one standardized, tagged **entity** schema
+How four scraped TUM datasets become one standardized, tagged **experience** schema
 that matches student clubs / programmes / research projects to AI-tech jobs.
 
 The whole thing regenerates with **`just data`** (+ `just tag-llm` for the
@@ -25,13 +25,13 @@ flowchart TB
     groups --> BE
     progs --> BE
     prep --> BE
-    BE["build_entities.py<br>union + dedupe by name"] --> entities["entities.csv<br>402"]
+    BE["build_experiences.py<br>union + dedupe by name"] --> experiences["tum_student_experiences.csv<br>402"]
 
     jobsraw --> BV["build_vocabulary.py"] --> vocab["vocabulary.csv<br>91 tags"]
 
-    entities --> TD["tag_entities_dict.py<br>verbatim match"] --> tdict["entity_tags_dict.csv"]
-    entities --> TL["tag_entities_llm.py<br>Ollama inference"] --> tllm["entity_tags_llm.csv"]
-    TL --> titles["entity_job_titles.csv"]
+    experiences --> TD["tag_experiences_dict.py<br>verbatim match"] --> tdict["experience_tags_dict.csv"]
+    experiences --> TL["tag_experiences_llm.py<br>Ollama inference"] --> tllm["experience_tags_llm.csv"]
+    TL --> titles["experience_job_titles.csv"]
     vocab -.canonical.-> TD
     vocab -.canonical.-> TL
 
@@ -73,10 +73,10 @@ is missed:
 | programmes | sub-program · program · description · tags |
 | prep | project_name · department · keyword · research_area · chair_institute · student_background · further_disciplines · description |
 
-Result — `entities.csv` (402 rows; 137 appear in >1 source):
+Result — `tum_student_experiences.csv` (402 rows; 137 appear in >1 source):
 
 ```text
-entity_id    slug of the name (PK)
+experience_id    slug of the name (PK)
 name         display name
 sources      provenance, e.g. "clubs|groups|programmes"
 category     best-effort (programme category / focus area / dept)
@@ -87,22 +87,22 @@ url          first non-empty link
 
 ---
 
-## 3. Tagging entities
+## 3. Tagging experiences
 
 Two passes write to long/tidy tag tables. Both reference `vocabulary.csv`
 (`tag, tag_type, job_count`), whose `tag_type` ∈ `skill | language |
 specialization | industry`.
 
-- **`tag_entities_dict.py`** → `entity_tags_dict.csv` — high-precision
+- **`tag_experiences_dict.py`** → `experience_tags_dict.csv` — high-precision
   **verbatim** matches of canonical terms (`method=dict`, `confidence=1.0`).
-- **`tag_entities_llm.py`** → `entity_tags_llm.csv` — **inferential** local-LLM
+- **`tag_experiences_llm.py`** → `experience_tags_llm.csv` — **inferential** local-LLM
   tags: a robotics club yields ROS / Control Systems even if unstated
-  (`method=llm`). Also emits `entity_job_titles.csv`.
+  (`method=llm`). Also emits `experience_job_titles.csv`.
 
 ```text
-entity_tags_dict   entity_id, tag, tag_type, confidence, method, canonical
-entity_tags_llm    entity_id, tag, tag_type, method, canonical
-entity_job_titles  entity_id, proposed_title, matched_job_title, similarity
+experience_tags_dict   experience_id, tag, tag_type, confidence, method, canonical
+experience_tags_llm    experience_id, tag, tag_type, method, canonical
+experience_job_titles  experience_id, proposed_title, matched_job_title, similarity
 ```
 
 `canonical = True` means the tag is in the vocabulary (joins to jobs);
@@ -119,17 +119,17 @@ titles, so they don't fit the `(tag, tag_type)` shape.
 
 ```mermaid
 erDiagram
-    ENTITIES ||--o{ ENTITY_TAGS_DICT : has
-    ENTITIES ||--o{ ENTITY_TAGS_LLM : has
-    ENTITIES ||--o{ ENTITY_JOB_TITLES : has
-    VOCABULARY ||--o{ ENTITY_TAGS_DICT : constrains
-    VOCABULARY ||--o{ ENTITY_TAGS_LLM : constrains
+    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_TAGS_DICT : has
+    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_TAGS_LLM : has
+    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_JOB_TITLES : has
+    VOCABULARY ||--o{ EXPERIENCE_TAGS_DICT : constrains
+    VOCABULARY ||--o{ EXPERIENCE_TAGS_LLM : constrains
     VOCABULARY ||--o{ JOB_TAGS : constrains
     JOBS ||--o{ JOB_TAGS : has
-    ENTITY_TAGS_LLM }o--o{ JOB_TAGS : "match on tag+tag_type"
+    EXPERIENCE_TAGS_LLM }o--o{ JOB_TAGS : "match on tag+tag_type"
 
-    ENTITIES {
-        string entity_id PK
+    TUM_STUDENT_EXPERIENCES {
+        string experience_id PK
         string name
         string sources
         string category
@@ -137,23 +137,23 @@ erDiagram
         string search_text
         string url
     }
-    ENTITY_TAGS_LLM {
-        string entity_id FK
+    EXPERIENCE_TAGS_LLM {
+        string experience_id FK
         string tag
         string tag_type
         string method
         bool canonical
     }
-    ENTITY_TAGS_DICT {
-        string entity_id FK
+    EXPERIENCE_TAGS_DICT {
+        string experience_id FK
         string tag
         string tag_type
         float confidence
         string method
         bool canonical
     }
-    ENTITY_JOB_TITLES {
-        string entity_id FK
+    EXPERIENCE_JOB_TITLES {
+        string experience_id FK
         string proposed_title
         string matched_job_title
         float similarity
@@ -178,7 +178,7 @@ erDiagram
     }
 ```
 
-An entity matches a job by **overlap of shared canonical `(tag, tag_type)`**;
+An experience matches a job by **overlap of shared canonical `(tag, tag_type)`**;
 `jobs` supplies salary / geography / demand context.
 
 ---
@@ -187,22 +187,22 @@ An entity matches a job by **overlap of shared canonical `(tag, tag_type)`**;
 
 - **Dimension + long tag tables, not one wide table.** The four sources have
   very different columns; a wide table would be mostly NULLs. Long tables
-  (`entity_id, tag, tag_type`) are the tidy form that powers filtering and joins.
+  (`experience_id, tag, tag_type`) are the tidy form that powers filtering and joins.
 - **Union, not "pick the richest source".** programmes misses 128/200 clubs, so
-  every source contributes; `sources` records where each entity came from.
+  every source contributes; `sources` records where each experience came from.
 - **One `search_text` field** guarantees the tagger sees every relevant signal
   from every source in one place.
 - **`canonical` flag = the hybrid vocabulary decision** — canonical tags join to
   jobs, open tags enrich the profile without forcing everything into an AI/ML
   taxonomy.
 - **Split tag tables by `method`** (dict vs llm) preserve provenance and trust;
-  they are merged into a single `entity_tags` in step 6.
+  they are merged into a single `experience_tags` in step 6.
 
 ---
 
 ## 6. Not yet built (step 6+)
 
-- A unified `entity_tags` (merge dict + llm, dedupe on `entity_id, tag,
+- A unified `experience_tags` (merge dict + llm, dedupe on `experience_id, tag,
   tag_type`; reconcile the `confidence` column — present on dict, absent on llm).
-- Entity ↔ job matching on shared canonical tags, ranked and enriched with
+- Experience ↔ job matching on shared canonical tags, ranked and enriched with
   `jobs` fields.

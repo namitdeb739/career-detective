@@ -34,10 +34,10 @@ diagrams.
 **Regenerate every processed CSV** (no API key needed):
 
 ```bash
-just data          # runs build-vocab → build-entities → build-jobs → tag-dict
+just data          # runs build-vocab → build-experiences → build-jobs → tag-dict
 ```
 
-Or run stages individually: `just build-vocab`, `just build-entities`,
+Or run stages individually: `just build-vocab`, `just build-experiences`,
 `just build-jobs`, `just tag-dict`.
 
 **LLM inferential tagging** (skills/industries/job titles) runs **locally and
@@ -50,7 +50,7 @@ ollama serve &            # start the local server
 ollama pull qwen2.5:7b    # ~4.7 GB (default model)
 
 just tag-llm --limit 10   # quick check first
-just tag-llm              # all entities
+just tag-llm              # all experiences
 # pick a bigger model: OLLAMA_MODEL=qwen2.5:14b just tag-llm
 ```
 
@@ -59,13 +59,13 @@ just tag-llm              # all entities
 | File | Committed? | Produced by |
 | --- | --- | --- |
 | `data/reference/vocabulary.csv` | ✅ | `build-vocab` |
-| `data/processed/entities.csv` | regenerated | `build-entities` |
+| `data/processed/tum_student_experiences.csv` | regenerated | `build-experiences` |
 | `data/processed/jobs.csv`, `job_tags.csv` | regenerated | `build-jobs` |
 | `data/processed/job_titles.csv` | ✅ | `build-jobs` |
-| `data/processed/entity_tags_dict.csv` | ✅ | `tag-dict` |
-| `data/processed/entity_tags_llm.csv`, `entity_job_titles.csv` | regenerated | `tag-llm` |
+| `data/processed/experience_tags_dict.csv` | ✅ | `tag-dict` |
+| `data/processed/experience_tags_llm.csv`, `experience_job_titles.csv` | regenerated | `tag-llm` |
 
-Large derived tables (`entities.csv`, `jobs.csv`, `job_tags.csv`) are
+Large derived tables (`tum_student_experiences.csv`, `jobs.csv`, `job_tags.csv`) are
 gitignored — regenerate them with `just data`. The scripts are their
 provenance.
 

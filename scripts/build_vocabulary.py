@@ -1,6 +1,6 @@
 """Build the controlled tag vocabulary from the AI-jobs dataset.
 
-The job dataset's own labels are our matching vocabulary: TUM entities are
+The job dataset's own labels are our matching vocabulary: TUM experiences are
 tagged against this set so their tags join exactly to job postings. Sources
 (column -> tag_type):
 

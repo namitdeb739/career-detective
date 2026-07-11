@@ -1,7 +1,7 @@
-"""Consolidate the raw TUM datasets into one standardized entities table.
+"""Consolidate the raw TUM datasets into one standardized experiences table.
 
 Unions clubs, student groups, programmes, and PREP research projects, deduped
-by normalized name, into `data/processed/entities.csv`. Every
+by normalized name, into `data/processed/tum_student_experiences.csv`. Every
 skill/industry-relevant text field from each source is folded into
 `search_text` — the single field downstream tagging reads — so nothing is
 missed (PREP keyword/research_area/department, club focus_areas, programme
@@ -9,7 +9,7 @@ tags, etc.). programmes covers only ~72/200 clubs, so all four sources are
 unioned rather than treating any one as canonical.
 
 Run:
-    uv run python scripts/build_entities.py
+    uv run python scripts/build_experiences.py
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from pathlib import Path
 
 import pandas as pd
 
-OUTPUT = Path("data/processed/entities.csv")
+OUTPUT = Path("data/processed/tum_student_experiences.csv")
 
 
 @dataclass(frozen=True)
@@ -84,7 +84,7 @@ SOURCES: tuple[Source, ...] = (
 
 
 @dataclass
-class Entity:
+class Experience:
     name: str
     sources: list[str] = field(default_factory=list)
     fragments: list[str] = field(default_factory=list)
@@ -107,11 +107,11 @@ def _norm(name: str) -> str:
 
 
 def _slug(name: str) -> str:
-    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-") or "entity"
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-") or "experience"
 
 
-def build_entities() -> pd.DataFrame:
-    entities: dict[str, Entity] = {}
+def build_experiences() -> pd.DataFrame:
+    experiences: dict[str, Experience] = {}
     order: list[str] = []
 
     for src in SOURCES:
@@ -121,10 +121,10 @@ def build_entities() -> pd.DataFrame:
             if not name:
                 continue
             key = _norm(name)
-            ent = entities.get(key)
+            ent = experiences.get(key)
             if ent is None:
-                ent = Entity(name=name)
-                entities[key] = ent
+                ent = Experience(name=name)
+                experiences[key] = ent
                 order.append(key)
             if src.key not in ent.sources:
                 ent.sources.append(src.key)
@@ -143,7 +143,7 @@ def build_entities() -> pd.DataFrame:
     rows: list[dict[str, str]] = []
     used_slugs: set[str] = set()
     for key in order:
-        ent = entities[key]
+        ent = experiences[key]
         base = _slug(ent.name)
         slug = base
         suffix = 2
@@ -153,7 +153,7 @@ def build_entities() -> pd.DataFrame:
         used_slugs.add(slug)
         rows.append(
             {
-                "entity_id": slug,
+                "experience_id": slug,
                 "name": ent.name,
                 "sources": "|".join(ent.sources),
                 "category": ent.category,
@@ -166,7 +166,7 @@ def build_entities() -> pd.DataFrame:
     return pd.DataFrame(
         rows,
         columns=[
-            "entity_id",
+            "experience_id",
             "name",
             "sources",
             "category",
@@ -178,11 +178,11 @@ def build_entities() -> pd.DataFrame:
 
 
 def main() -> None:
-    entities = build_entities()
+    experiences = build_experiences()
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    entities.to_csv(OUTPUT, index=False)
-    merged = int(entities["sources"].str.contains("|", regex=False).sum())
-    print(f"Wrote {len(entities)} entities to {OUTPUT} ({merged} multi-source)")
+    experiences.to_csv(OUTPUT, index=False)
+    merged = int(experiences["sources"].str.contains("|", regex=False).sum())
+    print(f"Wrote {len(experiences)} experiences to {OUTPUT} ({merged} multi-source)")
 
 
 if __name__ == "__main__":

@@ -1,13 +1,13 @@
-"""Dictionary tagging: match controlled-vocabulary terms verbatim in entities.
+"""Dictionary tagging: match controlled-vocabulary terms verbatim in experiences.
 
 High-precision, zero-cost first pass. Each canonical tag (>= 3 chars, to skip
 short-token noise like 'R'/'Go' which the later LLM pass handles) is matched
-against entity `search_text` with word boundaries. Emits entity_tags with
+against experience `search_text` with word boundaries. Emits experience_tags with
 method=dict, confidence=1.0. The LLM pass later adds inferential/paraphrase
 tags on top.
 
 Run:
-    uv run python scripts/tag_entities_dict.py
+    uv run python scripts/tag_experiences_dict.py
 """
 
 from __future__ import annotations
@@ -17,9 +17,9 @@ from pathlib import Path
 
 import pandas as pd
 
-ENTITIES = Path("data/processed/entities.csv")
+EXPERIENCES = Path("data/processed/tum_student_experiences.csv")
 VOCAB = Path("data/reference/vocabulary.csv")
-OUTPUT = Path("data/processed/entity_tags_dict.csv")
+OUTPUT = Path("data/processed/experience_tags_dict.csv")
 MIN_TAG_LEN = 3
 
 
@@ -39,14 +39,14 @@ def main() -> None:
     ]
 
     rows: list[dict[str, object]] = []
-    for _, entity in pd.read_csv(ENTITIES).iterrows():
-        text = _clean(entity["search_text"])
-        entity_id = str(entity["entity_id"])
+    for _, experience in pd.read_csv(EXPERIENCES).iterrows():
+        text = _clean(experience["search_text"])
+        experience_id = str(experience["experience_id"])
         for tag, tag_type, pattern in patterns:
             if pattern.search(text):
                 rows.append(
                     {
-                        "entity_id": entity_id,
+                        "experience_id": experience_id,
                         "tag": tag,
                         "tag_type": tag_type,
                         "confidence": 1.0,
@@ -57,12 +57,19 @@ def main() -> None:
 
     out = pd.DataFrame(
         rows,
-        columns=["entity_id", "tag", "tag_type", "confidence", "method", "canonical"],
+        columns=[
+            "experience_id",
+            "tag",
+            "tag_type",
+            "confidence",
+            "method",
+            "canonical",
+        ],
     )
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(OUTPUT, index=False)
-    tagged = int(out["entity_id"].nunique()) if len(out) else 0
-    print(f"Wrote {len(out)} dict tags across {tagged} entities to {OUTPUT}")
+    tagged = int(out["experience_id"].nunique()) if len(out) else 0
+    print(f"Wrote {len(out)} dict tags across {tagged} experiences to {OUTPUT}")
 
 
 def _clean(value: object) -> str:
