@@ -4,6 +4,7 @@ import careerOrbitLogo from "./assets/career-orbit-logo.svg";
 import { initAntigravity } from "./antigravity.js";
 import { initPlanet } from "./planet.js";
 import { loadMarketData, buildRecommendations } from "./dataService.js";
+import { fetchJobMatches } from "./apiService.js";
 import { renderResultsPage, saveResultsPdf } from "./results.js";
 import {
   PREFERENCE_KEYS,
@@ -205,8 +206,22 @@ function goHome() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function openResultsPage() {
+async function openResultsPage() {
   const recommendations = buildRecommendations(state.userProfile, marketData.industryRows);
+
+  const viewResultsBtn = document.querySelector("#viewResultsBtn");
+  viewResultsBtn.disabled = true;
+  viewResultsBtn.textContent = "Finding matches…";
+  try {
+    const jobs = await fetchJobMatches(state.userProfile, 5);
+    if (jobs.length) recommendations.topJobs = jobs;
+  } catch (err) {
+    console.warn("Job match API unavailable, using client-side estimate:", err);
+  } finally {
+    viewResultsBtn.disabled = false;
+    viewResultsBtn.textContent = "View results";
+  }
+
   const resultsContent = document.querySelector("#resultsContent");
   renderResultsPage(resultsContent, recommendations, state.userProfile);
   closeQuizOverlay();

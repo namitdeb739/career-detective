@@ -141,6 +141,10 @@ dvc-init:
 app:
     uv run streamlit run src/career_detective/app.py
 
+# Run the job-matching API the Vite frontend talks to (localhost:8000)
+api:
+    uv run uvicorn career_detective.api:app --reload --port 8000
+
 
 
 
