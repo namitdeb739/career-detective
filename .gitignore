@@ -55,6 +55,7 @@ data/processed/jobs.csv
 data/processed/job_tags.csv
 data/processed/experience_tags_llm.csv
 data/processed/experience_job_titles.csv
+data/processed/experience_regions.csv
 data/processed/experience_tags.csv
 
 # Environment
