@@ -31,28 +31,54 @@ diagrams.
   `tum_prep_projects.csv` — scraped TUM sources (`scripts/scrape_tum_*.py`)
 - `data/cleaned/ai_jobs_2026_cleaned.csv` — the jobs dataset
 
-**Regenerate every processed CSV** (no API key needed):
+**One command for the whole thing** (needs Ollama running — see setup below):
 
 ```bash
-just data          # runs build-vocab → build-experiences → build-jobs → tag-dict
+just pipeline      # build-vocab → build-experiences → build-jobs → tag-dict → tag-llm → merge-tags
 ```
 
-Or run stages individually: `just build-vocab`, `just build-experiences`,
-`just build-jobs`, `just tag-dict`.
+Or the no-Ollama subset (everything except the LLM tagging):
 
-**LLM inferential tagging** (skills/industries/job titles) runs **locally and
+```bash
+just data          # build-vocab → build-experiences → build-jobs → tag-dict → merge-tags
+```
+
+Stages also run individually: `just build-vocab`, `just build-experiences`,
+`just build-jobs`, `just tag-dict`, `just merge-tags`.
+
+**LLM inferential tagging** (skills, industries, titles, regions, transversal skills) runs **locally and
 free via [Ollama](https://ollama.com)** — no API key, no data leaves your
 machine. One-time setup, then run:
 
 ```bash
-brew install ollama       # or download from https://ollama.com
-ollama serve &            # start the local server
-ollama pull qwen2.5:7b    # ~4.7 GB (default model)
+brew install ollama            # or download from https://ollama.com
+ollama serve &                 # start the local server
+ollama pull qwen2.5:7b         # ~4.7 GB — tagging model (default)
+ollama pull nomic-embed-text   # ~0.3 GB — semantic title matching
 
 just tag-llm --limit 10   # quick check first
 just tag-llm              # all experiences
 # pick a bigger model: OLLAMA_MODEL=qwen2.5:14b just tag-llm
 ```
+
+**Match experiences to a job set** (no LLM needed once tags exist):
+
+```bash
+just match --sample 5 --top 5                # 5 random jobs → top 5 experiences
+just match --jobs job-1,job-2 --top 10
+just match --jobs job-1,job-2 --prefs prefs.json   # bias by career preferences
+just match --jobs job-1,job-2 --broaden 3          # + opt-in "broaden" picks
+just match --jobs job-1,job-2 --json               # machine-readable output
+```
+
+`--json` emits the received job set (verbatim) and the matched experiences
+(`name`, `description`, `skills`, `score`) for downstream consumers (e.g. the
+app). Full contract for the frontend: [docs/match-json.md](docs/match-json.md).
+
+The default is a single skills-forward list (MMR-diversified). `--broaden N`
+adds an opt-in *broaden your profile* lane (transferable-skill clubs). `--prefs`
+takes a JSON career profile (desired country/title/domain/company-size/education,
+each with a `dealBreaker` flag) that sharpens the experience search.
 
 **Outputs** (in `data/`):
 
@@ -63,7 +89,7 @@ just tag-llm              # all experiences
 | `data/processed/jobs.csv`, `job_tags.csv` | regenerated | `build-jobs` |
 | `data/processed/job_titles.csv` | ✅ | `build-jobs` |
 | `data/processed/experience_tags_dict.csv` | ✅ | `tag-dict` |
-| `data/processed/experience_tags_llm.csv`, `experience_job_titles.csv` | regenerated | `tag-llm` |
+| `data/processed/experience_tags_llm.csv`, `experience_job_titles.csv`, `experience_regions.csv` | regenerated | `tag-llm` |
 | `data/processed/experience_tags.csv` (unified dict + llm) | regenerated | `merge-tags` |
 
 Large derived tables (`tum_student_experiences.csv`, `jobs.csv`, `job_tags.csv`) are

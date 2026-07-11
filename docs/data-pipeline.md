@@ -16,7 +16,6 @@ flowchart LR
     classDef proc fill:#fff2e0,stroke:#d98a2b,color:#5a3500
     classDef tbl fill:#e7f5ec,stroke:#4a9d66,color:#123a22
     classDef key fill:#f4e9fa,stroke:#9a55b3,color:#3a1747,stroke-width:2px
-    classDef future fill:#f7f7f7,stroke:#9aa0a6,color:#3c4043,stroke-dasharray:5 3
 
     subgraph RAW ["Raw TUM sources"]
         direction TB
@@ -69,12 +68,11 @@ flowchart LR
     class BE,BV,BJ,TD,TL,MG proc
     class EXP,JOBS,ET tbl
     class VOC key
-    class MATCH future
 ```
 
 **Reading it** — cylinders are data files, rectangles are scripts. Blue = raw
 inputs · orange = pipeline scripts · green = output tables · purple = the shared
-**vocabulary** (the join key) · dashed = planned (step 7). The vocabulary
+**vocabulary** (the join key) · hexagon = the match step. The vocabulary
 constrains both tagging passes *and* the jobs export, so `experience_tags` and
 `job_tags` land in the same tag space and join directly — an exact join, not
 fuzzy NLP.
@@ -153,10 +151,13 @@ titles, so they don't fit the `(tag, tag_type)` shape.
 erDiagram
     TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_TAGS : has
     TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_JOB_TITLES : has
+    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_REGIONS : has
     VOCABULARY ||--o{ EXPERIENCE_TAGS : constrains
     VOCABULARY ||--o{ JOB_TAGS : constrains
     JOBS ||--o{ JOB_TAGS : has
     EXPERIENCE_TAGS }o--o{ JOB_TAGS : "match on tag+tag_type"
+    EXPERIENCE_JOB_TITLES }o--o{ JOBS : "match on title"
+    EXPERIENCE_REGIONS }o--o{ JOBS : "match on country"
 
     TUM_STUDENT_EXPERIENCES {
         string experience_id PK
@@ -180,6 +181,10 @@ erDiagram
         string proposed_title
         string matched_job_title
         float similarity
+    }
+    EXPERIENCE_REGIONS {
+        string experience_id FK
+        string country
     }
     VOCABULARY {
         string tag PK
@@ -236,7 +241,47 @@ experience_id, tag, tag_type, confidence, method, canonical
 - **`method`** = `dict` | `llm` | `both` (found by both passes → keeps `1.0`).
 - Runs with the dict pass alone if the LLM output isn't present.
 
-## 7. Not yet built (step 7+)
+## 7. Matching — `match_experiences.py`
 
-- Experience ↔ job matching on shared canonical tags, ranked and enriched with
-  `jobs` fields.
+Given a set of N jobs, `match_experiences.py` (`just match`) ranks the
+experiences and returns the top M. The job set is pooled into one profile
+(collective centroid) and scored on **five weighted fields**, kept separate so
+the weights can be re-tuned:
+
+| Field | Compares | Signal |
+| --- | --- | --- |
+| **skills** (`0.55`) | experience `skill/language/specialization` tags ↔ job skills | idf-weighted **coverage** (dot with the job profile) — covering the jobs' specific skills beats a couple of generic aligned tags. AI **specializations** outweigh commodity languages, and the dot is divided by √(tag count) so an umbrella org tagged with the whole vocabulary can't max out on breadth alone |
+| **title** (`0.17`) | `experience_job_titles.matched_job_title` ↔ the set's `jobs.title` | title-set overlap |
+| **transversal** (`0.13`) | experience `transversal` tags (transferable skills) | universal prior — job-independent; lifts non-tech clubs off zero (see below) |
+| **industry** (`0.08`) | experience `industry` tags ↔ the set's `jobs.industry` | cosine (coarse tiebreaker) |
+| **geo** (`0.07`) | `experience_regions.country` ↔ the set's `jobs.country` | fraction of jobs whose country matches — sparse, only fires for cultural clubs |
+
+`score = Σ wᵢ·simᵢ`, skills-forward. Only canonical tags join; idf down-weights
+ubiquitous tags (Python is on 49,918 jobs) so rare skills discriminate. A
+**skills floor** drops experiences with ~zero skill overlap from the main list.
+Because scores are sums over shared tags, the top contributing tags are reported
+per match — the join key doubles as the explanation. Results are **MMR-selected
+for diversity, then shown in score order**; `--broaden N` adds an opt-in,
+transversal-forward *broaden your profile* lane — see
+[diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
+
+- **Transversal** is the fix for STEM-homogeneous results — since the tech-only
+  vocabulary makes non-tech clubs score ≈ 0, a transferable-skills axis
+  (universal prior) gives them a real, modest score. Full write-up:
+  [diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
+- **Career preferences** (`--prefs`, a JSON profile with `dealBreaker` flags)
+  sharpen the experience search *without touching the job set*: value-match
+  answers (country, education=PhD, domain) **multiply** the relevance of aligned
+  experiences — so a preference only helps an *already-relevant* club (skills
+  stay at the forefront), rather than floating a zero-skill cultural club to the
+  top. Heuristic answers (small company → soft skills, senior level) reshape the
+  field weights. A `dealBreaker` applies the stronger coefficient **and reserves
+  a guaranteed slot** — so a Japanese culture club (no tech skills, normally
+  floored out) still appears for a `country=Japan` dealbreaker, because it's
+  non-negotiable. The `boosted` line shows which preferences fired.
+- **Titles** are matched to the 37 real titles by *semantic* embedding
+  similarity (`nomic-embed-text`), so "Aerospace Engineer" stays unmatched
+  rather than collapsing onto "Prompt Engineer".
+- **Geo** is a deliberate low-weight tiebreaker: `experience_regions` is empty
+  for ~all experiences, so it only ever helps the small cultural-club subset
+  when the job set includes their country.

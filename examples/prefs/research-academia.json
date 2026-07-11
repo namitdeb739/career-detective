@@ -1,0 +1,9 @@
+{
+  "title": {"data": "AI Research Scientist", "dealBreaker": true},
+  "domain": {"data": "Deep Learning", "dealBreaker": false},
+  "country": {"data": "Switzerland", "dealBreaker": false},
+  "company_size": {"data": "large", "dealBreaker": false},
+  "work_format": {"data": "on-site", "dealBreaker": false},
+  "experience_level": {"data": "mid", "dealBreaker": false},
+  "education_level": {"data": "phd", "dealBreaker": true}
+}
