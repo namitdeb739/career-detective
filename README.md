@@ -66,10 +66,13 @@ just tag-llm              # all experiences
 ```bash
 just match --sample 5 --top 5 --broaden 3   # 5 random jobs → direct + broaden picks
 just match --jobs job-1,job-2 --top 10
+just match --jobs job-1,job-2 --prefs prefs.json   # bias by career preferences
 ```
 
 Results come in two MMR-diversified tracks — *direct skill matches* and
 *broaden your profile* (relevant-but-different, incl. transferable-skill clubs).
+`--prefs` takes a JSON career profile (desired country/title/domain/company-size/
+education, each with a `dealBreaker` flag) that sharpens the experience search.
 
 **Outputs** (in `data/`):
 

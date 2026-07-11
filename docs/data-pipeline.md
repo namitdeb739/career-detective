@@ -267,6 +267,13 @@ tracks** — *direct skill matches* and *broaden your profile* — see
   vocabulary makes non-tech clubs score ≈ 0, a transferable-skills axis
   (universal prior) gives them a real, modest score. Full write-up:
   [diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
+- **Career preferences** (`--prefs`, a JSON profile with `dealBreaker` flags)
+  sharpen the experience search *without touching the job set*: value-match
+  answers (country, education=PhD, domain) add a bonus to aligned experiences
+  (a German-affinity club for a Germany dealbreaker; a research project for a
+  PhD path); heuristic answers (small company → soft skills, senior level)
+  reshape the field weights. Dealbreakers apply the stronger coefficient, and
+  the `boosted` line shows which preferences fired.
 - **Titles** are matched to the 37 real titles by *semantic* embedding
   similarity (`nomic-embed-text`), so "Aerospace Engineer" stays unmatched
   rather than collapsing onto "Prompt Engineer".

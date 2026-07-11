@@ -14,13 +14,19 @@ Results are then MMR-diversified into two tracks — "direct skill matches"
 (relevance-leaning) and "broaden your profile" (diversity-leaning, avoiding the
 direct picks). See docs/diversity-and-transferable-skills.md.
 
+Optional career preferences (--prefs) sharpen the experience search without
+touching the job set: value-match answers (country, education=PhD, domain) add
+a bonus to aligned experiences; heuristic answers (small company, senior level)
+reshape the field weights. A `dealBreaker` flag applies the stronger coefficient.
+
     uv run python scripts/match_experiences.py --sample 5 --top 5 --broaden 3
-    uv run python scripts/match_experiences.py --jobs job-1,job-2,job-3
+    uv run python scripts/match_experiences.py --jobs job-1,job-2 --prefs prefs.json
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import math
 import textwrap
 from collections import Counter, defaultdict
@@ -62,7 +68,20 @@ CANDIDATE_POOL = 50
 MMR_LAMBDA_DIRECT = 0.7
 MMR_LAMBDA_BROADEN = 0.5
 
+# Career-preference tuning (all small + interpretable). Value-match preferences
+# add a bonus when an experience aligns; heuristic ones multiply a field weight.
+# A dealbreaker applies the stronger coefficient.
+PREF_BOOST = {False: 0.05, True: 0.20}  # keyed by dealBreaker
+PREF_WEIGHT_MULT = {False: 1.4, True: 1.9}
+PREF_BOOST_CAP = 0.30  # a stack of preferences can't overpower the skills match
+RESEARCH_TAGS = frozenset(
+    {"Research", "Scientific Writing", "Analysis", "Technical Documentation"}
+)
+SMALL_COMPANY = frozenset({"startup", "small", "micro"})
+SENIOR_LEVELS = frozenset({"senior", "lead", "principal", "staff"})
+
 Vector = dict[str, float]
+Prefs = dict[str, tuple[str, bool]]  # field -> (value, dealBreaker)
 Scored = tuple[float, str, Vector]
 # (exp_skills, exp_transversal, exp_titles, exp_regions, skill_profile)
 Detail = tuple[
@@ -115,6 +134,61 @@ def _mmr(
         selected.append(chosen)
         picked.append(tagsets.get(chosen[1], frozenset()))
     return selected
+
+
+def _load_prefs(arg: str) -> Prefs:
+    if not arg:
+        return {}
+    raw = Path(arg).read_text() if Path(arg).exists() else arg
+    prefs: Prefs = {}
+    for field, val in json.loads(raw).items():
+        if isinstance(val, dict) and str(val.get("data", "")).strip():
+            prefs[field] = (str(val["data"]).strip(), bool(val.get("dealBreaker")))
+    return prefs
+
+
+def _pref_weights(base: dict[str, float], prefs: Prefs) -> dict[str, float]:
+    """Heuristic preferences reshape the field weights (renormalized)."""
+    weights = dict(base)
+    if "company_size" in prefs and prefs["company_size"][0].lower() in SMALL_COMPANY:
+        weights["transversal"] *= PREF_WEIGHT_MULT[prefs["company_size"][1]]
+    if (
+        "experience_level" in prefs
+        and prefs["experience_level"][0].lower() in SENIOR_LEVELS
+    ):
+        weights["transversal"] *= PREF_WEIGHT_MULT[prefs["experience_level"][1]]
+    if "title" in prefs:
+        weights["title"] *= PREF_WEIGHT_MULT[prefs["title"][1]]
+    total = sum(weights.values())
+    return {f: w / total for f, w in weights.items()} if total else weights
+
+
+def _pref_boost(
+    prefs: Prefs,
+    regions: set[str],
+    skills: Vector,
+    transversal: Vector,
+    source: str,
+) -> tuple[float, list[str]]:
+    """Value-match preferences add a bonus (+ a reason) when the experience aligns."""
+    boost, reasons = 0.0, []
+    if "country" in prefs:
+        value, deal = prefs["country"]
+        if value.lower() in {r.lower() for r in regions}:
+            boost += PREF_BOOST[deal]
+            reasons.append(f"{value} affinity")
+    if "education_level" in prefs and "phd" in prefs["education_level"][0].lower():
+        _, deal = prefs["education_level"]
+        if "prep" in source or set(transversal) & RESEARCH_TAGS:
+            boost += PREF_BOOST[deal]
+            reasons.append("research focus")
+    if "domain" in prefs:
+        value, deal = prefs["domain"]
+        low = value.lower()
+        if any(low in t.lower() or t.lower() in low for t in skills):
+            boost += PREF_BOOST[deal]
+            reasons.append(f"{value} focus")
+    return min(boost, PREF_BOOST_CAP), reasons
 
 
 def _clean(value: object) -> str:
@@ -214,6 +288,9 @@ def main() -> None:
     parser.add_argument(
         "--seed", type=int, default=None, help="fix the sample for reproducibility"
     )
+    parser.add_argument(
+        "--prefs", default="", help="career preferences as JSON (string or file path)"
+    )
     args = parser.parse_args()
 
     jobs = pd.read_csv(JOBS)
@@ -222,10 +299,14 @@ def main() -> None:
     exp_skills, exp_industry, exp_transversal = _load_experience_tags(idf)
     exp_titles = _load_sets(EXP_TITLES, "matched_job_title")
     exp_regions = _load_sets(EXP_REGIONS, "country")
+    prefs = _load_prefs(args.prefs)
     experiences = pd.read_csv(EXPERIENCES)
     info = {
         str(r["experience_id"]): (str(r["name"]), _clean(r["description"]))
         for _, r in experiences.iterrows()
+    }
+    sources = {
+        str(r["experience_id"]): str(r["sources"]) for _, r in experiences.iterrows()
     }
 
     if args.jobs:
@@ -262,9 +343,25 @@ def main() -> None:
             ),
         }
 
+    pref_effect = {
+        eid: _pref_boost(
+            prefs,
+            exp_regions.get(eid, set()),
+            exp_skills.get(eid, {}),
+            exp_transversal.get(eid, {}),
+            sources.get(eid, ""),
+        )
+        for eid in info
+    }
+    reasons = {eid: r for eid, (_, r) in pref_effect.items()}
+
     def _rank(weights: dict[str, float]) -> list[Scored]:
         ranked = [
-            (sum(weights[f] * sims[f] for f in weights), eid, sims)
+            (
+                sum(weights[f] * sims[f] for f in weights) + pref_effect[eid][0],
+                eid,
+                sims,
+            )
             for eid, sims in sims_by_eid.items()
         ]
         ranked.sort(key=lambda x: x[0], reverse=True)
@@ -276,9 +373,15 @@ def main() -> None:
         | frozenset(exp_transversal.get(eid, {}))
         for eid in info
     }
-    direct = _mmr(_rank(WEIGHTS), tagsets, MMR_LAMBDA_DIRECT, args.top, set())
+    direct = _mmr(
+        _rank(_pref_weights(WEIGHTS, prefs)),
+        tagsets,
+        MMR_LAMBDA_DIRECT,
+        args.top,
+        set(),
+    )
     broaden = _mmr(
-        _rank(BROADEN_WEIGHTS),
+        _rank(_pref_weights(BROADEN_WEIGHTS, prefs)),
         tagsets,
         MMR_LAMBDA_BROADEN,
         args.broaden,
@@ -286,11 +389,19 @@ def main() -> None:
     )
 
     detail = (exp_skills, exp_transversal, exp_titles, exp_regions, skill_p)
-    _render_jobset(job_ids, jobs)
-    _render_list("DIRECT SKILL MATCHES", direct, info, detail, set_titles, country_set)
+    _render_jobset(job_ids, jobs, prefs)
+    _render_list(
+        "DIRECT SKILL MATCHES", direct, info, detail, set_titles, country_set, reasons
+    )
     if broaden:
         _render_list(
-            "BROADEN YOUR PROFILE", broaden, info, detail, set_titles, country_set
+            "BROADEN YOUR PROFILE",
+            broaden,
+            info,
+            detail,
+            set_titles,
+            country_set,
+            reasons,
         )
 
 
@@ -306,7 +417,7 @@ def _detail(label: str, content: str) -> None:
     print(f"     {label:<8} {wrapped}")
 
 
-def _render_jobset(job_ids: list[str], jobs: pd.DataFrame) -> None:
+def _render_jobset(job_ids: list[str], jobs: pd.DataFrame, prefs: Prefs) -> None:
     rule = "─" * 78
     set_jobs = jobs[jobs["job_id"].isin(job_ids)]
     width = max((len(str(t)) for t in set_jobs["title"]), default=10)
@@ -318,6 +429,9 @@ def _render_jobset(job_ids: list[str], jobs: pd.DataFrame) -> None:
             f"  {j['title']!s:<{width}}  {j['industry']!s:<22} "
             f"{j['country']!s:<15} {money}"
         )
+    if prefs:
+        chips = " · ".join(f"{v}{'!' if deal else ''}" for v, deal in prefs.values())
+        print(f"\nPREFERENCES  {chips}   (! = dealbreaker)")
 
 
 def _render_list(
@@ -327,6 +441,7 @@ def _render_list(
     detail: Detail,
     set_titles: set[str],
     country_set: set[str],
+    reasons: dict[str, list[str]],
 ) -> None:
     exp_skills, exp_transversal, exp_titles, exp_regions, skill_p = detail
     rule = "─" * 78
@@ -346,6 +461,8 @@ def _render_list(
 
         print(f"\n{rank:>2}. {total:.3f}  {name}")
         _detail("match", fields)
+        if reasons.get(eid):
+            _detail("boosted", ", ".join(reasons[eid]))
         skills = ", ".join(t for t, _ in top_skills[:5] if skill_p.get(t))
         if skills:
             _detail("skills", skills)
