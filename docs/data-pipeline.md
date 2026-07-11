@@ -151,14 +151,12 @@ titles, so they don't fit the `(tag, tag_type)` shape.
 
 ```mermaid
 erDiagram
-    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_TAGS_DICT : has
-    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_TAGS_LLM : has
+    TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_TAGS : has
     TUM_STUDENT_EXPERIENCES ||--o{ EXPERIENCE_JOB_TITLES : has
-    VOCABULARY ||--o{ EXPERIENCE_TAGS_DICT : constrains
-    VOCABULARY ||--o{ EXPERIENCE_TAGS_LLM : constrains
+    VOCABULARY ||--o{ EXPERIENCE_TAGS : constrains
     VOCABULARY ||--o{ JOB_TAGS : constrains
     JOBS ||--o{ JOB_TAGS : has
-    EXPERIENCE_TAGS_LLM }o--o{ JOB_TAGS : "match on tag+tag_type"
+    EXPERIENCE_TAGS }o--o{ JOB_TAGS : "match on tag+tag_type"
 
     TUM_STUDENT_EXPERIENCES {
         string experience_id PK
@@ -169,14 +167,7 @@ erDiagram
         string search_text
         string url
     }
-    EXPERIENCE_TAGS_LLM {
-        string experience_id FK
-        string tag
-        string tag_type
-        string method
-        bool canonical
-    }
-    EXPERIENCE_TAGS_DICT {
+    EXPERIENCE_TAGS {
         string experience_id FK
         string tag
         string tag_type
