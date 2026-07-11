@@ -15,9 +15,11 @@ Results are then MMR-diversified into two tracks — "direct skill matches"
 direct picks). See docs/diversity-and-transferable-skills.md.
 
 Optional career preferences (--prefs) sharpen the experience search without
-touching the job set: value-match answers (country, education=PhD, domain) add
-a bonus to aligned experiences; heuristic answers (small company, senior level)
-reshape the field weights. A `dealBreaker` flag applies the stronger coefficient.
+touching the job set: value-match answers (country, education=PhD, domain)
+*multiply* the relevance of aligned experiences (so a preference only helps an
+already-relevant club — skills stay at the forefront); heuristic answers (small
+company, senior level) reshape the field weights. A `dealBreaker` flag applies
+the stronger coefficient.
 
     uv run python scripts/match_experiences.py --sample 5 --top 5 --broaden 3
     uv run python scripts/match_experiences.py --jobs job-1,job-2 --prefs prefs.json
@@ -69,11 +71,12 @@ MMR_LAMBDA_DIRECT = 0.7
 MMR_LAMBDA_BROADEN = 0.5
 
 # Career-preference tuning (all small + interpretable). Value-match preferences
-# add a bonus when an experience aligns; heuristic ones multiply a field weight.
-# A dealbreaker applies the stronger coefficient.
-PREF_BOOST = {False: 0.05, True: 0.20}  # keyed by dealBreaker
+# *multiply* an experience's relevance when it aligns (so a preference only helps
+# an already-relevant club — skills stay at the forefront); heuristic ones
+# multiply a field weight. A dealbreaker applies the stronger coefficient.
+PREF_FACTOR = {False: 0.08, True: 0.25}  # by dealBreaker: x1.08 / x1.25
 PREF_WEIGHT_MULT = {False: 1.4, True: 1.9}
-PREF_BOOST_CAP = 0.30  # a stack of preferences can't overpower the skills match
+PREF_FACTOR_CAP = 0.5  # combined boost caps at +50%, so relevance stays dominant
 RESEARCH_TAGS = frozenset(
     {"Research", "Scientific Writing", "Analysis", "Technical Documentation"}
 )
@@ -170,25 +173,25 @@ def _pref_boost(
     transversal: Vector,
     source: str,
 ) -> tuple[float, list[str]]:
-    """Value-match preferences add a bonus (+ a reason) when the experience aligns."""
-    boost, reasons = 0.0, []
+    """Value-match preferences give a relevance *multiplier* (+ a reason)."""
+    factor, reasons = 0.0, []
     if "country" in prefs:
         value, deal = prefs["country"]
         if value.lower() in {r.lower() for r in regions}:
-            boost += PREF_BOOST[deal]
+            factor += PREF_FACTOR[deal]
             reasons.append(f"{value} affinity")
     if "education_level" in prefs and "phd" in prefs["education_level"][0].lower():
         _, deal = prefs["education_level"]
         if "prep" in source or set(transversal) & RESEARCH_TAGS:
-            boost += PREF_BOOST[deal]
+            factor += PREF_FACTOR[deal]
             reasons.append("research focus")
     if "domain" in prefs:
         value, deal = prefs["domain"]
         low = value.lower()
         if any(low in t.lower() or t.lower() in low for t in skills):
-            boost += PREF_BOOST[deal]
+            factor += PREF_FACTOR[deal]
             reasons.append(f"{value} focus")
-    return min(boost, PREF_BOOST_CAP), reasons
+    return min(factor, PREF_FACTOR_CAP), reasons
 
 
 def _clean(value: object) -> str:
@@ -358,7 +361,8 @@ def main() -> None:
     def _rank(weights: dict[str, float]) -> list[Scored]:
         ranked = [
             (
-                sum(weights[f] * sims[f] for f in weights) + pref_effect[eid][0],
+                sum(weights[f] * sims[f] for f in weights)
+                * (1.0 + pref_effect[eid][0]),
                 eid,
                 sims,
             )

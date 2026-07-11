@@ -269,11 +269,12 @@ tracks** — *direct skill matches* and *broaden your profile* — see
   [diversity-and-transferable-skills.md](diversity-and-transferable-skills.md).
 - **Career preferences** (`--prefs`, a JSON profile with `dealBreaker` flags)
   sharpen the experience search *without touching the job set*: value-match
-  answers (country, education=PhD, domain) add a bonus to aligned experiences
-  (a German-affinity club for a Germany dealbreaker; a research project for a
-  PhD path); heuristic answers (small company → soft skills, senior level)
-  reshape the field weights. Dealbreakers apply the stronger coefficient, and
-  the `boosted` line shows which preferences fired.
+  answers (country, education=PhD, domain) **multiply** the relevance of aligned
+  experiences — so a preference only helps an *already-relevant* club (skills
+  stay at the forefront), rather than floating a zero-skill cultural club to the
+  top. Heuristic answers (small company → soft skills, senior level) reshape the
+  field weights. Dealbreakers apply the stronger coefficient, and the `boosted`
+  line shows which preferences fired.
 - **Titles** are matched to the 37 real titles by *semantic* embedding
   similarity (`nomic-embed-text`), so "Aerospace Engineer" stays unmatched
   rather than collapsing onto "Prompt Engineer".
