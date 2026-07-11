@@ -64,6 +64,7 @@ just tag-llm              # all experiences
 | `data/processed/job_titles.csv` | ✅ | `build-jobs` |
 | `data/processed/experience_tags_dict.csv` | ✅ | `tag-dict` |
 | `data/processed/experience_tags_llm.csv`, `experience_job_titles.csv` | regenerated | `tag-llm` |
+| `data/processed/experience_tags.csv` (unified dict + llm) | regenerated | `merge-tags` |
 
 Large derived tables (`tum_student_experiences.csv`, `jobs.csv`, `job_tags.csv`) are
 gitignored — regenerate them with `just data`. The scripts are their

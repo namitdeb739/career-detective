@@ -78,8 +78,12 @@ build-jobs:
 tag-dict:
     uv run python scripts/tag_experiences_dict.py
 
+# Merge dict + LLM tags into data/processed/experience_tags.csv
+merge-tags:
+    uv run python scripts/merge_experience_tags.py
+
 # Regenerate every processed CSV except the LLM tags (no API key needed)
-data: build-vocab build-experiences build-jobs tag-dict
+data: build-vocab build-experiences build-jobs tag-dict merge-tags
 
 # LLM tags: skills/industries/titles via local Ollama (try --limit 10)
 tag-llm *args:

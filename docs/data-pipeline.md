@@ -196,13 +196,24 @@ An experience matches a job by **overlap of shared canonical `(tag, tag_type)`**
   jobs, open tags enrich the profile without forcing everything into an AI/ML
   taxonomy.
 - **Split tag tables by `method`** (dict vs llm) preserve provenance and trust;
-  they are merged into a single `experience_tags` in step 6.
+  `merge_experience_tags.py` combines them into a single `experience_tags`.
 
 ---
 
-## 6. Not yet built (step 6+)
+## 6. Unified tags — `experience_tags.csv`
 
-- A unified `experience_tags` (merge dict + llm, dedupe on `experience_id, tag,
-  tag_type`; reconcile the `confidence` column — present on dict, absent on llm).
+`merge_experience_tags.py` (`just merge-tags`) merges the dict + llm passes,
+deduped on `(experience_id, tag, tag_type)` (case-insensitive on the tag):
+
+```text
+experience_id, tag, tag_type, confidence, method, canonical
+```
+
+- **`confidence`** reconciled: verbatim dict = `1.0`, LLM-only = `0.7`.
+- **`method`** = `dict` | `llm` | `both` (found by both passes → keeps `1.0`).
+- Runs with the dict pass alone if the LLM output isn't present.
+
+## 7. Not yet built (step 7+)
+
 - Experience ↔ job matching on shared canonical tags, ranked and enriched with
   `jobs` fields.
