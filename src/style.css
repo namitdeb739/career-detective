@@ -1026,10 +1026,25 @@ main {
 }
 
 .club-skill-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(0, 15, 35, 0.88);
+  border: 1px solid rgba(0, 101, 189, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-top: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.22s;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .job-hover-panel {
@@ -1061,6 +1076,7 @@ main {
   color: rgba(200, 220, 240, 0.85);
 }
 
+.club-card:hover .club-skill-list,
 .job-card:hover .job-hover-panel {
   opacity: 1;
   visibility: visible;
