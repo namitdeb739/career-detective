@@ -213,8 +213,14 @@ async function openResultsPage() {
   viewResultsBtn.disabled = true;
   viewResultsBtn.textContent = "Finding matches…";
   try {
-    const jobs = await fetchJobMatches(state.userProfile, 5);
-    if (jobs.length) recommendations.topJobs = jobs;
+    const { jobs, experiences } = await fetchJobMatches(state.userProfile, 5);
+    if (jobs?.length) recommendations.topJobs = jobs;
+    if (experiences?.length) {
+      recommendations.topClubs = experiences.map((e) => ({
+        name: e.name,
+        skills: e.skills,
+      }));
+    }
   } catch (err) {
     console.warn("Job match API unavailable, using client-side estimate:", err);
   } finally {

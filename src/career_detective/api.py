@@ -8,6 +8,8 @@ Run with:  just api   (or: uv run uvicorn career_detective.api:app --reload)
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -16,6 +18,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from career_detective.job_matching import search_jobs
+
+# The experience matcher is the single-source module in scripts/ (not a
+# package); make it importable without duplicating it into the package.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+from match_experiences import match_from_job_records
 
 app = FastAPI(title="career-detective API")
 
@@ -78,7 +85,7 @@ def _clean(value: Any) -> Any:
 
 
 @app.post("/api/jobs")
-def match_jobs(request: JobMatchRequest) -> list[dict[str, Any]]:
+def match_jobs(request: JobMatchRequest) -> dict[str, Any]:
     filters = adapt_filters(request.filters)
     results = search_jobs(filters, top_k=request.top_k, max_per_company=1)
 
@@ -96,7 +103,16 @@ def match_jobs(request: JobMatchRequest) -> list[dict[str, Any]]:
                 "match": round(match_score * 100) if match_score is not None else None,
             }
         )
-    return jobs
+
+    # Match real TUM experiences against exactly these jobs. Use the *raw*
+    # answer set (not adapt_filters' job-dataset-narrowed values) so intent
+    # like country=Japan survives to reach cultural clubs.
+    matched = match_from_job_records(results, request.filters, top=request.top_k)
+    experiences = [
+        {"name": e["name"], "skills": e["skills"], "description": e["description"]}
+        for e in matched["experiences"]
+    ]
+    return {"jobs": jobs, "experiences": experiences}
 
 
 @app.get("/health")

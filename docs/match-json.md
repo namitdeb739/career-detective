@@ -17,8 +17,8 @@ dataset with no `job_id` — call the in-memory bridge instead:
 
 ```python
 import sys
-sys.path.insert(0, "scripts")  # scripts/ is a folder of modules, not a package
-from findJobs import search_jobs
+sys.path.insert(0, "scripts")  # match_experiences lives in scripts/, not a package
+from career_detective.job_matching import search_jobs
 from match_experiences import match_from_job_records
 
 answers = {

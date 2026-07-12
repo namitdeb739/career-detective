@@ -50,37 +50,6 @@ const DOMAIN_TO_INDUSTRY = {
   "⚙️ MLOps": "Cybersecurity",
 };
 
-const DOMAIN_TO_CLUBS = {
-  "🤖 Machine Learning": ["MLTech", "TUM.ai", "Munich Data Science", "neuroTUM", "HackerFab Munich"],
-  "🧠 Deep Learning": ["MLTech", "neuroTUM", "RoboTUM", "TUM.ai", "OpenSource @ TUM"],
-  "📊 Data Science": ["muniQuant", "Munich Data Science", "Bioinformatics Munich Student Lab", "TUM.ai", "TUM Case Club"],
-  "💬 NLP": ["Munich NLP", "MLTech", "TUM.ai", "neuroTUM", "OpenSource @ TUM"],
-  "👁️ Computer Vision": ["MLTech", "RoboTUM", "HackerFab Munich", "neuroTUM", "Game Development Club"],
-  "✨ Generative AI": ["Munich NLP", "MLTech", "TUM.ai", "STARTmunich", "TEG | The Entrepreneurial Group"],
-  "⚙️ MLOps": ["OpenSource @ TUM", "HackerFab Munich", "EESTEC Munich", "RoboTUM", "MLTech"],
-};
-
-const CLUB_SKILLS = {
-  MLTech: ["PyTorch", "Deep Learning", "Computer Vision", "MLOps"],
-  "Munich NLP": ["LLMs", "Transformers", "NLP", "Python"],
-  neuroTUM: ["Neuroscience", "AI Research", "Python", "Data Analysis"],
-  "TUM Blockchain Club": ["Solidity", "Web3", "Smart Contracts", "Cryptography"],
-  "HackerFab Munich": ["Hardware", "IoT", "Prototyping", "Embedded Systems"],
-  muniQuant: ["Statistics", "R", "Python", "Financial Modeling"],
-  "Bioinformatics Munich Student Lab": ["Bioinformatics", "Genomics", "Python", "R"],
-  "TUM.ai": ["AI Strategy", "Product", "Machine Learning", "Startups"],
-  "Munich Data Science": ["Pandas", "SQL", "Visualization", "Statistics"],
-  TEDxTUM: ["Public Speaking", "Storytelling", "Leadership", "Networking"],
-  "TUM Case Club": ["Case Solving", "Strategy", "Consulting", "Presentation"],
-  STARTmunich: ["Entrepreneurship", "Pitching", "Business Model", "Networking"],
-  "TEG | The Entrepreneurial Group": ["Venture Building", "Strategy", "Finance", "Leadership"],
-  "ConsulTUM Club": ["Consulting", "Problem Solving", "Analytics", "Communication"],
-  "OpenSource @ TUM": ["Git", "Linux", "Cloud", "DevOps"],
-  RoboTUM: ["ROS", "Robotics", "C++", "Computer Vision"],
-  "Game Development Club": ["Unity", "C#", "3D Graphics", "Game Design"],
-  "EESTEC Munich": ["Electronics", "Embedded", "C", "Team Projects"],
-};
-
 export { ROLE_BY_DOMAIN };
 
 // Curated role-title suggestions per specialization (not a direct
@@ -235,11 +204,9 @@ export function buildRecommendations(userProfile, industryRows) {
   }
 
   const topMarkets = filtered.slice(0, 5);
-  const clubNames = (DOMAIN_TO_CLUBS[domainKey] || ["MLTech", "TEDxTUM"]).slice(0, 5);
-  const topClubs = clubNames.map((name) => ({
-    name,
-    skills: CLUB_SKILLS[name] || ["Teamwork", "Problem Solving", "Communication"],
-  }));
+  // Real TUM experiences are matched by the backend and injected in main.js;
+  // left empty here so the UI never shows fabricated clubs.
+  const topClubs = [];
 
   const experienceBonus = { entry: 0, mid: 4, senior: 8, flexible: 2 }[experienceLevel] ?? 0;
   const educationBonus = { bachelor: 0, master: 4, phd: 8, flexible: 2 }[educationLevel] ?? 0;

@@ -74,12 +74,13 @@ import pandas as pd
 
 from career_detective.config import Config
 
-
 # ---------------------------------------------------------------------------
 # Configurable constants
 # ---------------------------------------------------------------------------
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
-NLP_HARD_THRESHOLD = 0.35  # min cosine similarity (embedding space) to "pass" a hard NLP filter
+NLP_HARD_THRESHOLD = (
+    0.35  # min cosine similarity (embedding space) to "pass" a hard NLP filter
+)
 
 COMPANY_SIZE_ORDINAL = {"small": 1, "mid": 2, "large": 3}
 EXPERIENCE_ORDINAL = {"start": 1, "mid": 2, "senior": 3}
@@ -107,7 +108,7 @@ FACTOR1 = 1.0
 FACTOR2 = 1.0
 FACTOR3 = 1.0
 
-DOMAIN_PRIMARY_WEIGHT = 0.7   # weight on AI Specialization
+DOMAIN_PRIMARY_WEIGHT = 0.7  # weight on AI Specialization
 DOMAIN_SECONDARY_WEIGHT = 0.3  # weight on Industry + Required Skills blend
 
 NLP_FIELDS = {"title", "domain"}
@@ -139,11 +140,12 @@ def _get_model():
         ) from e
 
     try:
-        _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME, local_files_only=True)
+        _EMBEDDING_MODEL = SentenceTransformer(
+            EMBEDDING_MODEL_NAME, local_files_only=True
+        )
     except Exception:
         _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME)
     return _EMBEDDING_MODEL
-
 
 
 def _get_corpus_embeddings(corpus: list) -> np.ndarray:
@@ -152,7 +154,9 @@ def _get_corpus_embeddings(corpus: list) -> np.ndarray:
     re-run the model."""
     key = tuple(corpus)
     if key not in _CORPUS_EMBEDDING_CACHE:
-        _CORPUS_EMBEDDING_CACHE[key] = _get_model().encode(corpus, normalize_embeddings=True)
+        _CORPUS_EMBEDDING_CACHE[key] = _get_model().encode(
+            corpus, normalize_embeddings=True
+        )
     return _CORPUS_EMBEDDING_CACHE[key]
 
 
@@ -183,7 +187,9 @@ def _alias_match(value: str, filter_key: str, alias_map: dict) -> bool:
     return any(alias in value_l for alias in aliases)
 
 
-def _bucket_for_alias(value, alias_map: dict, ordinal_map: dict, default: int = 2) -> int:
+def _bucket_for_alias(
+    value, alias_map: dict, ordinal_map: dict, default: int = 2
+) -> int:
     """Find which canonical bucket `value` matches via alias substrings and
     return its ordinal, or `default` if nothing matches."""
     if pd.isna(value):
@@ -222,8 +228,16 @@ def _score_title(query, df: pd.DataFrame) -> np.ndarray:
 
 def _score_domain(query, df: pd.DataFrame) -> np.ndarray:
     primary = _text_similarity(query, df["AI Specialization"].tolist())
-    industry = df["Industry"].fillna("") if "Industry" in df.columns else pd.Series([""] * len(df))
-    skills = df["Required Skills"].fillna("") if "Required Skills" in df.columns else pd.Series([""] * len(df))
+    industry = (
+        df["Industry"].fillna("")
+        if "Industry" in df.columns
+        else pd.Series([""] * len(df))
+    )
+    skills = (
+        df["Required Skills"].fillna("")
+        if "Required Skills" in df.columns
+        else pd.Series([""] * len(df))
+    )
     secondary_text = industry + " " + skills
     secondary = _text_similarity(query, secondary_text.tolist())
     return DOMAIN_PRIMARY_WEIGHT * primary + DOMAIN_SECONDARY_WEIGHT * secondary
@@ -238,7 +252,12 @@ def _score_country(query, df: pd.DataFrame) -> np.ndarray:
 
 def _score_company_size(query, df: pd.DataFrame) -> np.ndarray:
     target_ord = COMPANY_SIZE_ORDINAL.get(str(query).strip().lower(), 2)
-    bucket_ord = df["company_size_midpoint"].apply(_company_size_bucket).map(COMPANY_SIZE_ORDINAL).fillna(2)
+    bucket_ord = (
+        df["company_size_midpoint"]
+        .apply(_company_size_bucket)
+        .map(COMPANY_SIZE_ORDINAL)
+        .fillna(2)
+    )
     diff = (bucket_ord - target_ord).abs()
     # exact bucket = 1.0, adjacent bucket = 0.5, two buckets apart = 0.0
     return (1.0 - 0.5 * diff).clip(lower=0.0).to_numpy()
@@ -247,7 +266,12 @@ def _score_company_size(query, df: pd.DataFrame) -> np.ndarray:
 def _make_alias_scorer(column: str, alias_map: dict):
     def _scorer(query, df: pd.DataFrame) -> np.ndarray:
         target = str(query).strip().lower()
-        return df[column].apply(lambda v: float(_alias_match(v, target, alias_map))).to_numpy()
+        return (
+            df[column]
+            .apply(lambda v: float(_alias_match(v, target, alias_map)))
+            .to_numpy()
+        )
+
     return _scorer
 
 
@@ -271,7 +295,7 @@ def find_top_k_jobs(
     jobs_df: pd.DataFrame,
     filters: dict,
     top_k: int = 10,
-    max_per_company: int = None,
+    max_per_company: int | None = None,
 ) -> list:
     """
     Rank jobs against a set of filters and return the top_k matches.
@@ -315,14 +339,17 @@ def find_top_k_jobs(
     # ---- Validate filters ----
     unknown = set(filters.keys()) - SUPPORTED_FIELDS
     if unknown:
-        warnings.warn(f"Ignoring unsupported filter fields: {unknown}")
+        warnings.warn(f"Ignoring unsupported filter fields: {unknown}", stacklevel=2)
     filters = {k: v for k, v in filters.items() if k in SUPPORTED_FIELDS}
 
-    malformed = {k: v for k, v in filters.items() if v.get("dealBreaker") not in (True, False)}
+    malformed = {
+        k: v for k, v in filters.items() if v.get("dealBreaker") not in (True, False)
+    }
     if malformed:
         warnings.warn(
             f"Ignoring filters with a non-boolean 'dealBreaker' (neither scored nor "
-            f"filtered): {list(malformed)}"
+            f"filtered): {list(malformed)}",
+            stacklevel=2,
         )
     filters = {k: v for k, v in filters.items() if k not in malformed}
 
@@ -363,18 +390,34 @@ def find_top_k_jobs(
 
     # ---- Risk formula (informational only, not used for ranking) ----
     company_size_ord = (
-        df["company_size_midpoint"].apply(_company_size_bucket).map(COMPANY_SIZE_ORDINAL).fillna(2).to_numpy()
+        df["company_size_midpoint"]
+        .apply(_company_size_bucket)
+        .map(COMPANY_SIZE_ORDINAL)
+        .fillna(2)
+        .to_numpy()
     )
-    exp_ord = df["Experience Level"].apply(
-        lambda v: _bucket_for_alias(v, EXPERIENCE_ALIASES, EXPERIENCE_ORDINAL)
-    ).to_numpy()
+    exp_ord = (
+        df["Experience Level"]
+        .apply(lambda v: _bucket_for_alias(v, EXPERIENCE_ALIASES, EXPERIENCE_ORDINAL))
+        .to_numpy()
+    )
 
     industry_risk_level = (
-        df["layoff_total_events"].fillna(0) * df["layoff_total_employees_laid_off"].fillna(0)
+        df["layoff_total_events"].fillna(0)
+        * df["layoff_total_employees_laid_off"].fillna(0)
     ).to_numpy()
-    industry_risk_level_safe = np.where(industry_risk_level == 0, 1, industry_risk_level)
+    industry_risk_level_safe = np.where(
+        industry_risk_level == 0, 1, industry_risk_level
+    )
 
-    denom = FACTOR1 * company_size_ord * FACTOR2 * exp_ord * FACTOR3 * industry_risk_level_safe
+    denom = (
+        FACTOR1
+        * company_size_ord
+        * FACTOR2
+        * exp_ord
+        * FACTOR3
+        * industry_risk_level_safe
+    )
     denom = np.where(denom == 0, 1e-9, denom)
     risk_level = 1.0 / denom
 
@@ -394,8 +437,7 @@ def find_top_k_jobs(
     # Attach per-field scores as a column BEFORE sorting/capping/slicing, so
     # row identity (and therefore field_scores) is never ambiguous afterward.
     df["_field_scores"] = [
-        {f: float(field_scores[f][pos]) for f in field_scores}
-        for pos in range(len(df))
+        {f: float(field_scores[f][pos]) for f in field_scores} for pos in range(len(df))
     ]
 
     # ---- Rank: match_score desc, then Company Rating desc, then risk asc ----
