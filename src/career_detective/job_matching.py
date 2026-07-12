@@ -56,8 +56,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from career_detective.config import Config
-
 # ---------------------------------------------------------------------------
 # Configurable constants
 # ---------------------------------------------------------------------------
@@ -91,7 +89,7 @@ FACTOR1 = 1.0
 FACTOR2 = 1.0
 FACTOR3 = 1.0
 
-# MMR: candidate pool size and default lambda (1.0 = pure relevance, 0.0 = pure diversity).
+# MMR: candidate pool size and default lambda (1.0 = relevance, 0.0 = diversity).
 MMR_CANDIDATE_POOL = 200
 MMR_LAMBDA_DEFAULT = 0.7
 
@@ -135,7 +133,9 @@ def _get_model():
         ) from e
 
     try:
-        _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME, local_files_only=True)
+        _EMBEDDING_MODEL = SentenceTransformer(
+            EMBEDDING_MODEL_NAME, local_files_only=True
+        )
     except Exception:
         _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME)
     return _EMBEDDING_MODEL
@@ -182,7 +182,9 @@ def _alias_match(value: str, filter_key: str, alias_map: dict) -> bool:
     return any(alias in value_l for alias in aliases)
 
 
-def _bucket_for_alias(value, alias_map: dict, ordinal_map: dict, default: int = 2) -> int:
+def _bucket_for_alias(
+    value, alias_map: dict, ordinal_map: dict, default: int = 2
+) -> int:
     """Return the ordinal for whichever bucket `value` matches, or `default`."""
     if pd.isna(value):
         return default
@@ -219,8 +221,16 @@ def _hard_score_title(query: str, df: pd.DataFrame) -> np.ndarray:
 
 def _hard_score_domain(query: str, df: pd.DataFrame) -> np.ndarray:
     primary = _text_similarity(query, df["AI Specialization"].tolist())
-    industry = df["Industry"].fillna("") if "Industry" in df.columns else pd.Series([""] * len(df))
-    skills = df["Required Skills"].fillna("") if "Required Skills" in df.columns else pd.Series([""] * len(df))
+    industry = (
+        df["Industry"].fillna("")
+        if "Industry" in df.columns
+        else pd.Series([""] * len(df))
+    )
+    skills = (
+        df["Required Skills"].fillna("")
+        if "Required Skills" in df.columns
+        else pd.Series([""] * len(df))
+    )
     secondary = _text_similarity(query, (industry + " " + skills).tolist())
     return 0.7 * primary + 0.3 * secondary
 
@@ -231,27 +241,46 @@ def _hard_score_country(query: str, df: pd.DataFrame) -> np.ndarray:
 
 
 def _hard_score_work_format(query: str, df: pd.DataFrame) -> np.ndarray:
-    return df["Remote / Hybrid / On-site"].apply(
-        lambda v: float(_alias_match(v, str(query).strip().lower(), WORK_FORMAT_ALIASES))
-    ).to_numpy()
+    return (
+        df["Remote / Hybrid / On-site"]
+        .apply(
+            lambda v: float(
+                _alias_match(v, str(query).strip().lower(), WORK_FORMAT_ALIASES)
+            )
+        )
+        .to_numpy()
+    )
 
 
 def _hard_score_experience_level(query: str, df: pd.DataFrame) -> np.ndarray:
-    return df["Experience Level"].apply(
-        lambda v: float(_alias_match(v, str(query).strip().lower(), EXPERIENCE_ALIASES))
-    ).to_numpy()
+    return (
+        df["Experience Level"]
+        .apply(
+            lambda v: float(
+                _alias_match(v, str(query).strip().lower(), EXPERIENCE_ALIASES)
+            )
+        )
+        .to_numpy()
+    )
 
 
 def _hard_score_education_level(query: str, df: pd.DataFrame) -> np.ndarray:
-    return df["Education Requirements"].apply(
-        lambda v: float(_alias_match(v, str(query).strip().lower(), EDUCATION_ALIASES))
-    ).to_numpy()
+    return (
+        df["Education Requirements"]
+        .apply(
+            lambda v: float(
+                _alias_match(v, str(query).strip().lower(), EDUCATION_ALIASES)
+            )
+        )
+        .to_numpy()
+    )
 
 
 def _hard_score_company_size(query: str, df: pd.DataFrame) -> np.ndarray:
     target_ord = COMPANY_SIZE_ORDINAL.get(str(query).strip().lower(), 2)
     bucket_ord = (
-        df["company_size_midpoint"].apply(_company_size_bucket)
+        df["company_size_midpoint"]
+        .apply(_company_size_bucket)
         .map(COMPANY_SIZE_ORDINAL)
         .fillna(2)
     )
@@ -280,7 +309,11 @@ def _job_text(row: pd.Series) -> str:
 
     def _safe(col: str) -> str:
         val = row.get(col, "")
-        return str(val).strip() if pd.notna(val) and str(val).strip().lower() != "nan" else ""
+        return (
+            str(val).strip()
+            if pd.notna(val) and str(val).strip().lower() != "nan"
+            else ""
+        )
 
     parts = [
         _safe("Job Title"),
@@ -353,8 +386,8 @@ def find_top_k_jobs(
     jobs_df: pd.DataFrame,
     filters: dict,
     top_k: int = 10,
-    max_per_company: int = None,
-    max_per_title: int = None,
+    max_per_company: int | None = None,
+    max_per_title: int | None = None,
     mmr_lambda: float = MMR_LAMBDA_DEFAULT,
 ) -> list:
     """
@@ -389,13 +422,16 @@ def find_top_k_jobs(
     # ---- Validate filters ----
     unknown = set(filters.keys()) - SUPPORTED_FIELDS
     if unknown:
-        warnings.warn(f"Ignoring unsupported filter fields: {unknown}")
+        warnings.warn(f"Ignoring unsupported filter fields: {unknown}", stacklevel=2)
     filters = {k: v for k, v in filters.items() if k in SUPPORTED_FIELDS}
 
-    malformed = {k: v for k, v in filters.items() if v.get("dealBreaker") not in (True, False)}
+    malformed = {
+        k: v for k, v in filters.items() if v.get("dealBreaker") not in (True, False)
+    }
     if malformed:
         warnings.warn(
-            f"Ignoring filters with non-boolean 'dealBreaker': {list(malformed)}"
+            f"Ignoring filters with non-boolean 'dealBreaker': {list(malformed)}",
+            stacklevel=2,
         )
     filters = {k: v for k, v in filters.items() if k not in malformed}
 
@@ -430,7 +466,9 @@ def find_top_k_jobs(
     query = _query_text(filters)
     job_texts = df.apply(_job_text, axis=1).tolist()
     embedding_scores = _text_similarity(query, job_texts)
-    job_embeddings = _get_corpus_embeddings(job_texts)  # cache hit — already encoded above
+    job_embeddings = _get_corpus_embeddings(
+        job_texts
+    )  # cache hit — already encoded above
 
     if soft_filters:
         match_score = _minmax_normalize(embedding_scores)
@@ -439,21 +477,34 @@ def find_top_k_jobs(
 
     # ---- Risk formula (informational only, not used for ranking) ----
     company_size_ord = (
-        df["company_size_midpoint"].apply(_company_size_bucket)
+        df["company_size_midpoint"]
+        .apply(_company_size_bucket)
         .map(COMPANY_SIZE_ORDINAL)
         .fillna(2)
         .to_numpy()
     )
-    exp_ord = df["Experience Level"].apply(
-        lambda v: _bucket_for_alias(v, EXPERIENCE_ALIASES, EXPERIENCE_ORDINAL)
-    ).to_numpy()
+    exp_ord = (
+        df["Experience Level"]
+        .apply(lambda v: _bucket_for_alias(v, EXPERIENCE_ALIASES, EXPERIENCE_ORDINAL))
+        .to_numpy()
+    )
 
     industry_risk_level = (
-        df["layoff_total_events"].fillna(0) * df["layoff_total_employees_laid_off"].fillna(0)
+        df["layoff_total_events"].fillna(0)
+        * df["layoff_total_employees_laid_off"].fillna(0)
     ).to_numpy()
-    industry_risk_level_safe = np.where(industry_risk_level == 0, 1, industry_risk_level)
+    industry_risk_level_safe = np.where(
+        industry_risk_level == 0, 1, industry_risk_level
+    )
 
-    denom = FACTOR1 * company_size_ord * FACTOR2 * exp_ord * FACTOR3 * industry_risk_level_safe
+    denom = (
+        FACTOR1
+        * company_size_ord
+        * FACTOR2
+        * exp_ord
+        * FACTOR3
+        * industry_risk_level_safe
+    )
     denom = np.where(denom == 0, 1e-9, denom)
     risk_level = 1.0 / denom
 
@@ -533,7 +584,7 @@ DEFAULT_DATA_PATH = (
     Path(__file__).parent.parent.parent
     / "data"
     / "cleaned"
-    / "jobs_enriched_with_layoffs_complete (1).csv"
+    / "jobs_enriched_with_layoffs_complete.csv"
 )
 
 
@@ -569,7 +620,14 @@ def search_jobs(
         match_score, risk_level_normalized, field_scores, filters_applied.
     """
     df = pd.read_csv(data_path)
-    return find_top_k_jobs(df, filters, top_k=top_k, max_per_company=max_per_company, max_per_title=max_per_title, mmr_lambda=mmr_lambda)
+    return find_top_k_jobs(
+        df,
+        filters,
+        top_k=top_k,
+        max_per_company=max_per_company,
+        max_per_title=max_per_title,
+        mmr_lambda=mmr_lambda,
+    )
 
 
 if __name__ == "__main__":

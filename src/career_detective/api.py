@@ -1,15 +1,14 @@
 """HTTP API for career-detective.
 
-Wraps job_matching.search_jobs() and match_experiences.match_from_job_records()
-behind a single POST /api/search endpoint.
+Wraps job_matching.search_jobs() (the ML-based ranking engine) behind a
+POST endpoint the Vite frontend calls once the quiz finishes.
 
-Run with:  just api   (or: uv run uvicorn career_detective.api:app --reload --port 8000)
+Run with:  just api   (or: uv run uvicorn career_detective.api:app --reload)
 """
 
 from __future__ import annotations
 
 import sys
-from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 
@@ -18,38 +17,35 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from career_detective.job_matching import search_jobs, warm_model
+from career_detective.job_matching import search_jobs
 
-# The experience matcher lives in scripts/ — make it importable.
+# The experience matcher is the single-source module in scripts/ (not a
+# package); make it importable without duplicating it into the package.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
-from match_experiences import match_from_job_records  # noqa: E402
+from match_experiences import match_from_job_records
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Pre-warm the embedding model at startup so the first request is fast."""
-    warm_model()
-    yield
-
-
-app = FastAPI(title="career-detective API", lifespan=lifespan)
+app = FastAPI(title="career-detective API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origin_regex=r"https://.*\.onrender\.com",
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
 
-class SearchRequest(BaseModel):
+class JobMatchRequest(BaseModel):
     filters: dict[str, dict[str, Any]]
     top_k: int = 5
 
 
-# Translate quiz-vocabulary values to dataset-vocabulary values.
-# Fields with no honest mapping are dropped so they don't silently
-# score against the wrong thing.
+# The quiz's answer vocabulary doesn't always match the literal strings
+# job_matching's alias tables expect (5 company-size tiers vs. its 3,
+# "onsite" vs. "On-site", etc.). Map to values it actually recognizes;
+# values with no honest equivalent (e.g. "flexible", "European Union") are
+# dropped so that field is left unfiltered rather than silently scored
+# against the wrong thing.
 FIELD_VALUE_MAPS: dict[str, dict[str, str]] = {
     "company_size": {
         "micro": "small",
@@ -61,11 +57,15 @@ FIELD_VALUE_MAPS: dict[str, dict[str, str]] = {
     "work_format": {"onsite": "in-person", "hybrid": "hybrid", "remote": "remote"},
     "experience_level": {"entry": "start", "mid": "mid", "senior": "senior"},
     "education_level": {"bachelor": "bsc", "master": "msc", "phd": "phd"},
+    # search_jobs only supports an exact single-country match; "European
+    # Union" and "Global" have no literal equivalent in the Country column.
     "country": {"Germany": "Germany", "United States": "United States"},
 }
 
 
-def _adapt_filters(filters: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+def adapt_filters(filters: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Translate quiz-vocabulary filter values into dataset-vocabulary
+    values job_matching understands, dropping fields with no honest match."""
     adapted = {}
     for field, spec in filters.items():
         value_map = FIELD_VALUE_MAPS.get(field)
@@ -79,38 +79,41 @@ def _adapt_filters(filters: dict[str, dict[str, Any]]) -> dict[str, dict[str, An
 
 
 def _clean(value: Any) -> Any:
-    """Coerce pandas/numpy scalars to JSON-safe Python values."""
-    try:
-        if pd.isna(value):
-            return None
-    except (TypeError, ValueError):
-        pass
+    """Coerce a pandas/numpy scalar to a JSON-safe native Python value."""
+    if pd.isna(value):
+        return None
     return value.item() if hasattr(value, "item") else value
 
 
-def _clean_row(row: dict) -> dict:
-    """Recursively clean all values in a job result dict."""
-    return {k: _clean(v) for k, v in row.items() if k not in ("_field_scores",)}
+@app.post("/api/jobs")
+def match_jobs(request: JobMatchRequest) -> dict[str, Any]:
+    filters = adapt_filters(request.filters)
+    results = search_jobs(filters, top_k=request.top_k, max_per_company=1)
 
+    jobs = []
+    for row in results:
+        match_score = _clean(row.get("match_score"))
+        jobs.append(
+            {
+                "title": _clean(row.get("Job Title")),
+                "company": _clean(row.get("Company Name")),
+                "country": _clean(row.get("Country")),
+                "industry": _clean(row.get("Industry")),
+                "salary": _clean(row.get("salary_mid_eur")),
+                "currency": "EUR",
+                "match": round(match_score * 100) if match_score is not None else None,
+            }
+        )
 
-@app.post("/api/search")
-def search(request: SearchRequest) -> dict[str, Any]:
-    adapted = _adapt_filters(request.filters)
-    job_records = search_jobs(adapted, top_k=request.top_k, max_per_company=1, max_per_title=1)
-
-    jobs = [_clean_row(row) for row in job_records]
-
-    # Use original filters (not adapted) for club matching so intent like
-    # country=Japan still reaches cultural clubs even if the jobs filter dropped it.
-    matched = match_from_job_records(
-        job_records,
-        prefs=None,
-        top=max(1, request.top_k - 2),
-        broaden=min(2, request.top_k),
-    )
-    clubs = matched["clubs"]
-
-    return {"jobs": jobs, "clubs": clubs}
+    # Match real TUM experiences against exactly these jobs. Use the *raw*
+    # answer set (not adapt_filters' job-dataset-narrowed values) so intent
+    # like country=Japan survives to reach cultural clubs.
+    matched = match_from_job_records(results, request.filters, top=request.top_k)
+    experiences = [
+        {"name": e["name"], "skills": e["skills"], "description": e["description"]}
+        for e in matched["experiences"]
+    ]
+    return {"jobs": jobs, "experiences": experiences}
 
 
 @app.get("/health")
