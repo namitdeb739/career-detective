@@ -56,7 +56,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from career_detective.config import Config
 
 # ---------------------------------------------------------------------------
 # Configurable constants
@@ -139,12 +138,6 @@ def _get_model():
     except Exception:
         _EMBEDDING_MODEL = SentenceTransformer(EMBEDDING_MODEL_NAME)
     return _EMBEDDING_MODEL
-
-
-def warm_model() -> None:
-    """Eagerly load the embedding model. Call at server startup to avoid
-    a slow first request."""
-    _get_model()
 
 
 def _get_corpus_embeddings(corpus: list) -> np.ndarray:
@@ -530,7 +523,7 @@ def find_top_k_jobs(
 # High-level entry point
 # ---------------------------------------------------------------------------
 DEFAULT_DATA_PATH = (
-    Path(__file__).parent.parent.parent
+    Path(__file__).parent.parent
     / "data"
     / "cleaned"
     / "jobs_enriched_with_layoffs_complete (1).csv"
