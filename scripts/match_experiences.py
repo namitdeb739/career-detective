@@ -416,9 +416,77 @@ def match_clubs(
             "reasons": reasons_map.get(eid, []),
         }
 
-    direct_results = [_to_dict(s, e) for s, e in direct_picks]
-    broaden_results = [_to_dict(s, e) for s, e in broaden_picks]
+    def _to_dict_full(score: float, eid: str) -> dict:
+        row = entity_lookup.get(eid)
+        if row is None:
+            return {"entity_id": eid, "name": eid, "score": round(float(score), 4),
+                    "description": "", "search_text": "", "category": "", "url": "",
+                    "sources": "", "reasons": reasons_map.get(eid, [])}
+        return {
+            "entity_id": eid,
+            "name": str(row["name"]) if "name" in row.index else eid,
+            "score": round(float(score), 4),
+            "description": str(row["description"]) if "description" in row.index else "",
+            "search_text": str(row["search_text"]) if "search_text" in row.index else "",
+            "category": str(row["category"]) if "category" in row.index else "",
+            "url": str(row["url"]) if "url" in row.index else "",
+            "sources": str(row["sources"]) if "sources" in row.index else "",
+            "reasons": reasons_map.get(eid, []),
+        }
+
+    direct_results = [_to_dict_full(s, e) for s, e in direct_picks]
+    broaden_results = [_to_dict_full(s, e) for s, e in broaden_picks]
     return direct_results, broaden_results
+
+
+# ---------------------------------------------------------------------------
+# Bridge for API: accepts raw job records (from search_jobs/find_top_k_jobs)
+# ---------------------------------------------------------------------------
+def match_from_job_records(
+    job_records: list[dict],
+    prefs: "Prefs | None" = None,
+    top: int = 3,
+    broaden: int = 2,
+) -> dict:
+    """Match TUM clubs against a list of job dicts (output of search_jobs).
+
+    Resolves processed job_ids by matching title + company against jobs.csv,
+    then delegates to match_clubs. Returns a dict with key "clubs" containing
+    a merged list of (top direct + broaden) results, each with full entity data.
+    """
+    processed = Path("data/processed")
+    jobs = pd.read_csv(processed / "jobs.csv")
+    job_tags = pd.read_csv(processed / "job_tags.csv")
+    entities = pd.read_csv(processed / "entities.csv")
+
+    # Build lookup: (title_lower, company_lower) → job_id
+    title_company_idx: dict[tuple[str, str], str] = {}
+    title_idx: dict[str, str] = {}
+    for _, row in jobs.iterrows():
+        t = str(row["title"]).strip().lower()
+        c = str(row["company"]).strip().lower()
+        title_company_idx[(t, c)] = str(row["job_id"])
+        if t not in title_idx:
+            title_idx[t] = str(row["job_id"])
+
+    job_ids: list[str] = []
+    for i, rec in enumerate(job_records):
+        t = str(rec.get("Job Title", "")).strip().lower()
+        c = str(rec.get("Company Name", "")).strip().lower()
+        jid = title_company_idx.get((t, c)) or title_idx.get(t) or f"job-{i}"
+        job_ids.append(jid)
+
+    if not job_ids:
+        return {"clubs": []}
+
+    direct_clubs, broaden_clubs = match_clubs(
+        job_ids, jobs, job_tags, entities, top=top, broaden=broaden, prefs=prefs or {}
+    )
+
+    # Merge: direct first, then broaden (no overlap — broaden seeds from direct).
+    direct_ids = {c["entity_id"] for c in direct_clubs}
+    clubs = direct_clubs + [c for c in broaden_clubs if c["entity_id"] not in direct_ids]
+    return {"clubs": clubs}
 
 
 # ---------------------------------------------------------------------------

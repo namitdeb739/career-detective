@@ -141,6 +141,12 @@ def _get_model():
     return _EMBEDDING_MODEL
 
 
+def warm_model() -> None:
+    """Eagerly load the embedding model. Call at server startup to avoid
+    a slow first request."""
+    _get_model()
+
+
 def _get_corpus_embeddings(corpus: list) -> np.ndarray:
     """Return normalized embeddings for `corpus`, cached by content."""
     key = tuple(corpus)
@@ -524,7 +530,7 @@ def find_top_k_jobs(
 # High-level entry point
 # ---------------------------------------------------------------------------
 DEFAULT_DATA_PATH = (
-    Path(__file__).parent.parent
+    Path(__file__).parent.parent.parent
     / "data"
     / "cleaned"
     / "jobs_enriched_with_layoffs_complete (1).csv"
