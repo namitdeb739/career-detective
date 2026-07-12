@@ -32,20 +32,25 @@ EVERYTHING ELSE UNCHANGED
   - search_jobs() / find_top_k_jobs() public API
 
 ============================================================
-FILTER DICT FORMAT (unchanged)
+FILTER DICT FORMAT
 ============================================================
    {
-     "title":            {"data": "Software Engineer", "dealBreaker": True},
-     "domain":           {"data": "Generative AI",      "dealBreaker": False},
-     "country":          {"data": "United States",      "dealBreaker": True},
-     "company_size":     {"data": "mid",                "dealBreaker": False},
-     "work_format":      {"data": "hybrid",             "dealBreaker": False},
-     "experience_level": {"data": "senior",             "dealBreaker": True},
-     "education_level":  {"data": "msc",                "dealBreaker": False},
+     "title":        {"data": "Software Engineer", "dealBreaker": True,  "weight": 5},
+     "domain":       {"data": "Generative AI",     "dealBreaker": False, "weight": 3},
+     "country":      {"data": "United States",     "dealBreaker": True},
+     "company_size": {"data": "mid",               "dealBreaker": False, "weight": 1},
+     "work_format":      {"data": "hybrid",            "dealBreaker": False},
+     "experience_level": {"data": "senior",            "dealBreaker": True},
+     "education_level":  {"data": "msc",               "dealBreaker": False},
    }
    Not all keys need to be present. Unknown keys are ignored with a warning.
    A filter whose "dealBreaker" is not literally True or False is also
    ignored (with a warning) rather than silently dropped from scoring.
+
+   "weight" (optional, int 1-5, default 1): only affects soft-filter scoring.
+   Higher weight scales that field's embedding contribution proportionally
+   before the weighted vectors are summed into a single query embedding.
+   Hard-filter (dealBreaker=True) pass/fail logic is not affected by weight.
 ============================================================
 """
 
@@ -379,6 +384,47 @@ def _query_text(filters: dict) -> str:
     return " ".join(p for p in parts if p)
 
 
+def _weighted_query_vector(filters: dict) -> np.ndarray:
+    """Build a weighted query embedding from per-field embeddings.
+
+    Each field's ``data`` value is embedded separately; the resulting vector
+    is scaled by the field's ``weight`` (1-5, default 1).  The scaled vectors
+    are summed and L2-normalised into a single query vector that can be
+    dot-producted against normalised corpus embeddings.
+
+    If every field has weight 1 this produces the same direction as averaging
+    the individual embeddings, which gives higher-weighted fields more
+    influence than a single concatenated string would.
+    """
+    model = _get_model()
+    weighted_sum: np.ndarray | None = None
+
+    for spec in filters.values():
+        text = str(spec.get("data", "")).strip()
+        if not text:
+            continue
+        raw_weight = spec.get("weight", 1)
+        # Clamp weight to [1, 5]; non-numeric defaults to 1.
+        try:
+            weight = float(raw_weight)
+        except (TypeError, ValueError):
+            weight = 1.0
+        weight = max(1.0, min(5.0, weight))
+
+        vec = model.encode([text], normalize_embeddings=True)[0]
+        if weighted_sum is None:
+            weighted_sum = weight * vec
+        else:
+            weighted_sum += weight * vec
+
+    if weighted_sum is None or np.linalg.norm(weighted_sum) < 1e-12:
+        # Fallback: zero-length query → no preference
+        dim = model.get_sentence_embedding_dimension()
+        return np.zeros(dim, dtype=np.float32)
+
+    return weighted_sum / np.linalg.norm(weighted_sum)
+
+
 # ---------------------------------------------------------------------------
 # Main function
 # ---------------------------------------------------------------------------
@@ -459,20 +505,20 @@ def find_top_k_jobs(
     if df.empty:
         return []
 
-    # ---- Soft scoring: single embedding similarity ----
-    # Build one "job text" per row and one "query text" from all filter values.
-    # Soft filters (non-dealBreaker) inform the query; hard filters are already
-    # applied above so their values also contribute context.
-    query = _query_text(filters)
+    # ---- Soft scoring: weighted per-field embedding similarity ----
+    # Each field is embedded separately and scaled by its weight (1-5) before
+    # being summed into a single normalised query vector.  This replaces the
+    # previous single-concatenated-string approach so that higher-weighted
+    # fields exert proportionally more pull on the ranked results.
     job_texts = df.apply(_job_text, axis=1).tolist()
-    embedding_scores = _text_similarity(query, job_texts)
-    job_embeddings = _get_corpus_embeddings(
-        job_texts
-    )  # cache hit — already encoded above
+    job_embeddings = _get_corpus_embeddings(job_texts)
 
     if soft_filters:
+        query_vec = _weighted_query_vector(filters)
+        embedding_scores = job_embeddings @ query_vec
         match_score = _minmax_normalize(embedding_scores)
     else:
+        embedding_scores = np.zeros(len(df))
         match_score = np.ones(len(df))
 
     # ---- Risk formula (informational only, not used for ranking) ----

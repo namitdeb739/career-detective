@@ -74,7 +74,13 @@ def adapt_filters(filters: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any
             data = value_map.get(data)
             if data is None:
                 continue
-        adapted[field] = {"data": data, "dealBreaker": bool(spec.get("dealBreaker"))}
+        out: dict[str, Any] = {
+            "data": data,
+            "dealBreaker": bool(spec.get("dealBreaker")),
+        }
+        if "weight" in spec:
+            out["weight"] = spec["weight"]
+        adapted[field] = out
     return adapted
 
 
