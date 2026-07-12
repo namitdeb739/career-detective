@@ -85,6 +85,81 @@ def _clean(value: Any) -> Any:
     return value.item() if hasattr(value, "item") else value
 
 
+def _skills(value: Any) -> list[str]:
+    if not isinstance(value, str):
+        return []
+    return [skill.strip() for skill in value.split(",") if skill.strip()]
+
+
+def _insights_from_jobs(results: list[dict[str, Any]]) -> dict[str, Any]:
+    salaries = [_clean(row.get("salary_mid_eur")) for row in results]
+    salaries = [value for value in salaries if isinstance(value, (int, float))]
+
+    risks = [_clean(row.get("risk_level_normalized")) for row in results]
+    risks = [value for value in risks if isinstance(value, (int, float))]
+
+    sentiments = [_clean(row.get("layoff_avg_employee_sentiment")) for row in results]
+    sentiments = [value for value in sentiments if isinstance(value, (int, float))]
+
+    skills: dict[str, int] = {}
+    for row in results:
+        for skill in _skills(row.get("Required Skills")):
+            skills[skill] = skills.get(skill, 0) + 1
+
+    salary_by_country: dict[str, list[float]] = {}
+    for row in results:
+        salary = _clean(row.get("salary_mid_eur"))
+        country = _clean(row.get("Country"))
+        if isinstance(salary, (int, float)) and country:
+            salary_by_country.setdefault(country, []).append(salary)
+    salary_countries = [
+        {
+            "country": country,
+            "salaryMedian": round(sum(values) / len(values)),
+            "jobCount": len(values),
+        }
+        for country, values in salary_by_country.items()
+    ]
+
+    avg_risk = sum(risks) / len(risks) if risks else 0
+    avg_sentiment = sum(sentiments) / len(sentiments) if sentiments else 0
+    status = (
+        "Very satisfied"
+        if avg_sentiment >= 6.2
+        else "Satisfied"
+        if avg_sentiment >= 5.7
+        else "Neutral"
+        if avg_sentiment >= 5.1
+        else "Concerned"
+        if avg_sentiment >= 4.5
+        else "Unsatisfied"
+    )
+
+    return {
+        "salaryComparison": {
+            "title": "Matched job salary comparison",
+            "selectedCountry": salary_countries[0]["country"] if salary_countries else "Matched jobs",
+            "selectedMedian": round(sum(salaries) / len(salaries)) if salaries else 0,
+            "countries": salary_countries,
+        },
+        "riskProfile": {
+            "score": round(avg_risk * 100),
+            "rawScore": round(avg_risk, 2),
+            "label": "Low Risk" if avg_risk < 0.34 else "Medium Risk" if avg_risk < 0.67 else "High Risk",
+            "description": "Calculated from matched jobs and layoff-derived dataset fields.",
+        },
+        "skillSet": [
+            skill for skill, _ in sorted(skills.items(), key=lambda item: item[1], reverse=True)[:12]
+        ],
+        "sentimentProfile": {
+            "score": round(avg_sentiment, 1),
+            "status": status,
+            "emoji": "😊" if avg_sentiment >= 5.7 else "😐" if avg_sentiment >= 5.1 else "☹️",
+            "label": status,
+        },
+    }
+
+
 @app.post("/api/jobs")
 def match_jobs(request: JobMatchRequest) -> dict[str, Any]:
     filters = adapt_filters(request.filters)
@@ -102,6 +177,9 @@ def match_jobs(request: JobMatchRequest) -> dict[str, Any]:
                 "salary": _clean(row.get("salary_mid_eur")),
                 "currency": "EUR",
                 "match": round(match_score * 100) if match_score is not None else None,
+                "risk": _clean(row.get("risk_level_normalized")),
+                "sentiment": _clean(row.get("layoff_avg_employee_sentiment")),
+                "skills": _skills(row.get("Required Skills"))[:6],
             }
         )
 
@@ -113,7 +191,7 @@ def match_jobs(request: JobMatchRequest) -> dict[str, Any]:
         {"name": e["name"], "skills": e["skills"], "description": e["description"]}
         for e in matched["experiences"]
     ]
-    return {"jobs": jobs, "experiences": experiences}
+    return {"jobs": jobs, "experiences": experiences, "insights": _insights_from_jobs(results)}
 
 
 @app.get("/health")

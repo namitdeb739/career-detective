@@ -207,14 +207,25 @@ function goHome() {
 }
 
 async function openResultsPage() {
-  const recommendations = buildRecommendations(state.userProfile, marketData.industryRows);
+  const recommendations = buildRecommendations(
+    state.userProfile,
+    marketData.industryRows,
+    marketData.insightRows,
+    marketData.tumExperienceRows,
+  );
 
   const viewResultsBtn = document.querySelector("#viewResultsBtn");
   viewResultsBtn.disabled = true;
   viewResultsBtn.textContent = "Finding matches…";
   try {
-    const { jobs, experiences } = await fetchJobMatches(state.userProfile, 5);
+    const { jobs, experiences, insights } = await fetchJobMatches(state.userProfile, 5);
     if (jobs?.length) recommendations.topJobs = jobs;
+    if (insights) {
+      recommendations.salaryComparison = insights.salaryComparison ?? recommendations.salaryComparison;
+      recommendations.riskProfile = insights.riskProfile ?? recommendations.riskProfile;
+      recommendations.skillSet = insights.skillSet ?? recommendations.skillSet;
+      recommendations.sentimentProfile = insights.sentimentProfile ?? recommendations.sentimentProfile;
+    }
     if (experiences?.length) {
       recommendations.topClubs = experiences.map((e) => ({
         name: e.name,

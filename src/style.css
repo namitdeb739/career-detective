@@ -976,6 +976,12 @@ main {
   margin-bottom: 12px;
 }
 
+.salary-industry-row {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.95fr) minmax(360px, 1.05fr);
+  gap: 12px;
+}
+
 .clubs-grid,
 .jobs-grid {
   display: grid;
@@ -1019,7 +1025,13 @@ main {
   color: rgba(200, 220, 240, 0.72);
 }
 
-.club-hover-panel,
+.club-skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
 .job-hover-panel {
   position: absolute;
   left: 0;
@@ -1049,7 +1061,6 @@ main {
   color: rgba(200, 220, 240, 0.85);
 }
 
-.club-card:hover .club-hover-panel,
 .job-card:hover .job-hover-panel {
   opacity: 1;
   visibility: visible;
@@ -1073,7 +1084,7 @@ main {
 
 .market-detail-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 8px;
   margin-bottom: 14px;
 }
@@ -1117,13 +1128,167 @@ main {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  margin-bottom: 16px;
-  padding: 8px;
+  margin-bottom: 0;
+  padding: 10px;
+  background: radial-gradient(circle at 50% 45%, rgba(0, 101, 189, 0.18), rgba(0, 8, 20, 0.5));
+  border: 1px solid rgba(100, 160, 200, 0.18);
 }
 
 .salary-dots-map {
   width: 100%;
-  min-height: 220px;
+  min-height: 300px;
+}
+
+.salary-summary {
+  display: flex;
+  width: fit-content;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(0, 101, 189, 0.12);
+  border: 1px solid rgba(0, 101, 189, 0.2);
+}
+
+.salary-summary span {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.salary-summary strong {
+  color: #eaf6ff;
+  font-size: 0.95rem;
+}
+
+.salary-summary small {
+  color: rgba(200, 220, 240, 0.58);
+  font-size: 0.68rem;
+}
+
+.salary-panel h4 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.insight-section h3 {
+  margin-bottom: 12px;
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.skill-card {
+  grid-column: 1 / -1;
+}
+
+.insight-card {
+  min-height: 132px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.insight-label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(100, 160, 200, 0.86);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.insight-card strong {
+  color: #eaf6ff;
+  font-size: 1.42rem;
+}
+
+.insight-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.risk-meter {
+  height: 8px;
+  margin-top: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(52, 211, 153, 0.22), rgba(250, 204, 21, 0.22), rgba(248, 113, 113, 0.22));
+  overflow: hidden;
+}
+
+.risk-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #34d399, #facc15, #f87171);
+}
+
+.insight-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.insight-skill {
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: rgba(230, 242, 255, 0.92);
+  background: rgba(0, 101, 189, 0.18);
+  border: 1px solid rgba(100, 160, 200, 0.22);
+  font-size: 0.68rem;
+}
+
+.insight-muted {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.sentiment-grade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sentiment-emoji {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(0, 101, 189, 0.18);
+  font-size: 1.35rem;
+}
+
+.sentiment-grade strong {
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.sentiment-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  color: rgba(230, 242, 255, 0.82);
+  font-size: 1rem;
+}
+
+.final-summary-section {
+  border-color: rgba(100, 160, 200, 0.24);
+  background: linear-gradient(145deg, rgba(0, 101, 189, 0.12), rgba(255, 255, 255, 0.035));
+}
+
+.final-summary-section p {
+  margin: 0;
+  max-width: 980px;
+  color: rgba(230, 242, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 
@@ -1170,6 +1335,11 @@ main {
   }
 
   .results-top-row {
+    grid-template-columns: 1fr;
+  }
+
+  .salary-industry-row,
+  .insight-grid {
     grid-template-columns: 1fr;
   }
 

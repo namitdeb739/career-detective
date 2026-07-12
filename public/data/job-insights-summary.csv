@@ -1,0 +1,844 @@
+country,industry,specialization,job_count,salary_median_eur,risk_score,risk_label,sentiment_score,top_skills
+Australia,Automotive & Robotics,Computer Vision,51,64694,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Automotive & Robotics,Data Science,24,64543,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Automotive & Robotics,Deep Learning,21,64087,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Automotive & Robotics,Generative AI,74,66972,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Automotive & Robotics,MLOps,67,66213,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Automotive & Robotics,Machine Learning,150,64846,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Automotive & Robotics,NLP,39,65606,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Cybersecurity,Computer Vision,51,64998,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Cybersecurity,Data Science,16,66972,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Cybersecurity,Deep Learning,20,65606,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Cybersecurity,Generative AI,47,64087,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Cybersecurity,MLOps,69,65606,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Cybersecurity,Machine Learning,149,66213,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Cybersecurity,NLP,35,67732,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Education & EdTech,Computer Vision,40,66213,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Education & EdTech,Data Science,15,90511,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Education & EdTech,Deep Learning,28,66972,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Education & EdTech,Generative AI,71,65606,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Education & EdTech,MLOps,50,65758,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Education & EdTech,Machine Learning,131,66517,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Education & EdTech,NLP,26,66365,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Energy & Utilities,Computer Vision,42,63631,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Energy & Utilities,Data Science,19,65909,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Energy & Utilities,Deep Learning,22,66365,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Energy & Utilities,Generative AI,57,65302,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Energy & Utilities,MLOps,55,66821,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Energy & Utilities,Machine Learning,142,65150,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Energy & Utilities,NLP,41,65302,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Entertainment & Media,Computer Vision,40,64391,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Entertainment & Media,Data Science,21,63176,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Entertainment & Media,Deep Learning,25,65606,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Entertainment & Media,Generative AI,54,66365,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Entertainment & Media,MLOps,48,64694,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Entertainment & Media,Machine Learning,151,65909,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Entertainment & Media,NLP,55,66821,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Finance & Banking,Computer Vision,34,67276,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Finance & Banking,Data Science,28,67124,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Finance & Banking,Deep Learning,30,66821,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Finance & Banking,Generative AI,45,66213,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Finance & Banking,MLOps,61,65909,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Finance & Banking,Machine Learning,128,65454,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Finance & Banking,NLP,49,64391,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Healthcare & Biotech,Computer Vision,43,65302,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Healthcare & Biotech,Data Science,15,70162,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Healthcare & Biotech,Deep Learning,18,62568,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Healthcare & Biotech,Generative AI,66,65150,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Healthcare & Biotech,MLOps,57,69250,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Healthcare & Biotech,Machine Learning,130,65454,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Healthcare & Biotech,NLP,35,63783,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Logistics & Supply Chain,Computer Vision,41,64391,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Logistics & Supply Chain,Data Science,13,65302,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Logistics & Supply Chain,Deep Learning,19,65909,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Logistics & Supply Chain,Generative AI,61,65302,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Logistics & Supply Chain,MLOps,58,66365,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Logistics & Supply Chain,Machine Learning,129,64694,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Logistics & Supply Chain,NLP,49,66517,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Retail & E-commerce,Computer Vision,42,64543,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Retail & E-commerce,Data Science,12,62568,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Retail & E-commerce,Deep Learning,18,67580,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Retail & E-commerce,Generative AI,66,66213,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Retail & E-commerce,MLOps,60,64846,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Retail & E-commerce,Machine Learning,125,66517,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Retail & E-commerce,NLP,35,64087,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Australia,Technology,Computer Vision,37,66821,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Australia,Technology,Data Science,19,64998,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Australia,Technology,Deep Learning,22,66821,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Australia,Technology,Generative AI,46,65758,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Australia,Technology,MLOps,65,63783,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Australia,Technology,Machine Learning,141,66213,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Australia,Technology,NLP,39,65909,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Automotive & Robotics,Computer Vision,39,72062,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Automotive & Robotics,Data Science,14,69444,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Automotive & Robotics,Deep Learning,16,69136,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Automotive & Robotics,Generative AI,58,70830,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Automotive & Robotics,MLOps,66,69598,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Automotive & Robotics,Machine Learning,129,72062,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Automotive & Robotics,NLP,42,70830,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Cybersecurity,Computer Vision,31,68367,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Cybersecurity,Data Science,14,69598,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Cybersecurity,Deep Learning,18,72370,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Cybersecurity,Generative AI,57,69290,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Cybersecurity,MLOps,71,72062,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Cybersecurity,Machine Learning,131,71446,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Cybersecurity,NLP,36,70060,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Education & EdTech,Computer Vision,34,72832,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Education & EdTech,Data Science,19,72678,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Education & EdTech,Deep Learning,16,71446,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Education & EdTech,Generative AI,40,72062,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Education & EdTech,MLOps,51,71754,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Education & EdTech,Machine Learning,147,72370,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Education & EdTech,NLP,41,69598,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Energy & Utilities,Computer Vision,48,73756,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Energy & Utilities,Data Science,20,69290,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Energy & Utilities,Deep Learning,23,72678,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Energy & Utilities,Generative AI,57,71754,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Energy & Utilities,MLOps,60,70368,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Energy & Utilities,Machine Learning,128,69752,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Energy & Utilities,NLP,41,70522,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Entertainment & Media,Computer Vision,35,72370,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Entertainment & Media,Data Science,15,68675,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Entertainment & Media,Deep Learning,19,68983,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Entertainment & Media,Generative AI,62,69752,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Entertainment & Media,MLOps,51,72062,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Entertainment & Media,Machine Learning,149,71138,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Entertainment & Media,NLP,44,68983,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Finance & Banking,Computer Vision,52,71908,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Finance & Banking,Data Science,12,68983,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Finance & Banking,Deep Learning,21,74834,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Finance & Banking,Generative AI,43,71446,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Finance & Banking,MLOps,70,70522,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Finance & Banking,Machine Learning,132,71292,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Finance & Banking,NLP,33,74834,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Healthcare & Biotech,Computer Vision,46,70830,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Healthcare & Biotech,Data Science,19,67135,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Healthcare & Biotech,Deep Learning,23,68059,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Healthcare & Biotech,Generative AI,65,70522,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Healthcare & Biotech,MLOps,54,72832,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Healthcare & Biotech,Machine Learning,136,71446,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Healthcare & Biotech,NLP,46,69444,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Logistics & Supply Chain,Computer Vision,55,71754,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Logistics & Supply Chain,Data Science,18,71138,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Logistics & Supply Chain,Deep Learning,21,68675,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Logistics & Supply Chain,Generative AI,66,69598,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Logistics & Supply Chain,MLOps,63,69598,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Logistics & Supply Chain,Machine Learning,145,69906,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Logistics & Supply Chain,NLP,49,69290,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Retail & E-commerce,Computer Vision,33,70522,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Retail & E-commerce,Data Science,16,66981,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Retail & E-commerce,Deep Learning,18,68059,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Retail & E-commerce,Generative AI,60,71138,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Retail & E-commerce,MLOps,73,69290,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Retail & E-commerce,Machine Learning,127,70830,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Retail & E-commerce,NLP,33,69906,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Canada,Technology,Computer Vision,41,72062,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Canada,Technology,Data Science,18,72370,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Canada,Technology,Deep Learning,18,72216,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Canada,Technology,Generative AI,62,70368,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Canada,Technology,MLOps,69,68983,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Canada,Technology,Machine Learning,157,72062,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Canada,Technology,NLP,40,71600,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Automotive & Robotics,Computer Vision,41,108500,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Automotive & Robotics,Data Science,19,106000,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Automotive & Robotics,Deep Learning,28,106000,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Automotive & Robotics,Generative AI,53,108000,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Automotive & Robotics,MLOps,54,108250,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Automotive & Robotics,Machine Learning,121,110500,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Automotive & Robotics,NLP,37,108500,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Cybersecurity,Computer Vision,45,106500,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Cybersecurity,Data Science,25,110000,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Cybersecurity,Deep Learning,21,146500,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Cybersecurity,Generative AI,52,106000,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Cybersecurity,MLOps,70,107750,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Cybersecurity,Machine Learning,146,107000,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Cybersecurity,NLP,40,106750,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Education & EdTech,Computer Vision,43,107500,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Education & EdTech,Data Science,17,111000,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Education & EdTech,Deep Learning,20,102250,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Education & EdTech,Generative AI,57,107000,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Education & EdTech,MLOps,61,109500,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Education & EdTech,Machine Learning,136,109750,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Education & EdTech,NLP,38,114750,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Energy & Utilities,Computer Vision,40,106000,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Energy & Utilities,Data Science,20,109000,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Energy & Utilities,Deep Learning,22,105500,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Energy & Utilities,Generative AI,57,110000,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Energy & Utilities,MLOps,59,105500,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Energy & Utilities,Machine Learning,140,108000,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Energy & Utilities,NLP,43,110000,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Entertainment & Media,Computer Vision,39,100500,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Entertainment & Media,Data Science,19,106000,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Entertainment & Media,Deep Learning,25,105000,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Entertainment & Media,Generative AI,49,114500,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Entertainment & Media,MLOps,57,105000,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Entertainment & Media,Machine Learning,126,108000,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Entertainment & Media,NLP,23,106000,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Finance & Banking,Computer Vision,35,106500,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Finance & Banking,Data Science,17,109000,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Finance & Banking,Deep Learning,26,107750,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Finance & Banking,Generative AI,61,107500,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Finance & Banking,MLOps,63,108500,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Finance & Banking,Machine Learning,125,110000,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Finance & Banking,NLP,29,111500,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Healthcare & Biotech,Computer Vision,37,108500,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Healthcare & Biotech,Data Science,12,113250,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Healthcare & Biotech,Deep Learning,15,107500,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Healthcare & Biotech,Generative AI,68,110750,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Healthcare & Biotech,MLOps,64,106000,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Healthcare & Biotech,Machine Learning,138,107000,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Healthcare & Biotech,NLP,44,110750,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Logistics & Supply Chain,Computer Vision,42,105750,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Logistics & Supply Chain,Data Science,24,107250,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Logistics & Supply Chain,Deep Learning,18,107000,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Logistics & Supply Chain,Generative AI,62,107500,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Logistics & Supply Chain,MLOps,62,108500,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Logistics & Supply Chain,Machine Learning,113,108000,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Logistics & Supply Chain,NLP,42,104750,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Retail & E-commerce,Computer Vision,35,110000,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Retail & E-commerce,Data Science,14,100250,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Retail & E-commerce,Deep Learning,17,116000,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Retail & E-commerce,Generative AI,42,105250,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Retail & E-commerce,MLOps,47,104000,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Retail & E-commerce,Machine Learning,124,108500,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Retail & E-commerce,NLP,30,106000,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+France,Technology,Computer Vision,42,107000,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+France,Technology,Data Science,20,104250,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+France,Technology,Deep Learning,20,110000,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+France,Technology,Generative AI,76,104500,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+France,Technology,MLOps,52,108000,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+France,Technology,Machine Learning,128,108000,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+France,Technology,NLP,33,104000,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Automotive & Robotics,Computer Vision,40,84000,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Automotive & Robotics,Data Science,21,83000,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Automotive & Robotics,Deep Learning,25,86000,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Automotive & Robotics,Generative AI,52,82000,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Automotive & Robotics,MLOps,59,85000,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Automotive & Robotics,Machine Learning,137,83500,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Automotive & Robotics,NLP,39,83000,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Cybersecurity,Computer Vision,21,83000,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Cybersecurity,Data Science,16,81750,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Cybersecurity,Deep Learning,14,88500,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Cybersecurity,Generative AI,52,86000,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Cybersecurity,MLOps,55,84000,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Cybersecurity,Machine Learning,131,85000,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Cybersecurity,NLP,39,83500,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Education & EdTech,Computer Vision,36,83500,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Education & EdTech,Data Science,30,86250,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Education & EdTech,Deep Learning,22,86000,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Education & EdTech,Generative AI,55,84500,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Education & EdTech,MLOps,57,84000,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Education & EdTech,Machine Learning,126,84500,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Education & EdTech,NLP,42,84250,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Energy & Utilities,Computer Vision,31,83500,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Energy & Utilities,Data Science,25,90500,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Energy & Utilities,Deep Learning,15,120000,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Energy & Utilities,Generative AI,54,86500,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Energy & Utilities,MLOps,63,84500,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Energy & Utilities,Machine Learning,156,84250,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Energy & Utilities,NLP,42,84250,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Entertainment & Media,Computer Vision,37,83500,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Entertainment & Media,Data Science,16,73000,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Entertainment & Media,Deep Learning,23,87000,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Entertainment & Media,Generative AI,51,83000,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Entertainment & Media,MLOps,64,82500,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Entertainment & Media,Machine Learning,126,84750,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Entertainment & Media,NLP,33,85500,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Finance & Banking,Computer Vision,33,85500,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Finance & Banking,Data Science,21,85000,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Finance & Banking,Deep Learning,24,101250,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Finance & Banking,Generative AI,66,83750,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Finance & Banking,MLOps,52,84250,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Finance & Banking,Machine Learning,117,83500,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Finance & Banking,NLP,27,82000,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Healthcare & Biotech,Computer Vision,36,87750,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Healthcare & Biotech,Data Science,14,84000,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Healthcare & Biotech,Deep Learning,19,85500,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Healthcare & Biotech,Generative AI,64,82750,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Healthcare & Biotech,MLOps,50,82000,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Healthcare & Biotech,Machine Learning,118,83000,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Healthcare & Biotech,NLP,43,86500,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Logistics & Supply Chain,Computer Vision,34,81750,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Logistics & Supply Chain,Data Science,16,82750,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Logistics & Supply Chain,Deep Learning,27,88000,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Logistics & Supply Chain,Generative AI,57,87000,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Logistics & Supply Chain,MLOps,54,82750,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Logistics & Supply Chain,Machine Learning,132,85500,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Logistics & Supply Chain,NLP,45,82500,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Retail & E-commerce,Computer Vision,39,83000,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Retail & E-commerce,Data Science,14,83750,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Retail & E-commerce,Deep Learning,22,82750,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Retail & E-commerce,Generative AI,66,82250,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Retail & E-commerce,MLOps,65,83500,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Retail & E-commerce,Machine Learning,132,83000,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Retail & E-commerce,NLP,34,84750,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Germany,Technology,Computer Vision,47,86000,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Germany,Technology,Data Science,19,85000,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Germany,Technology,Deep Learning,16,82250,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Germany,Technology,Generative AI,72,86500,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Germany,Technology,MLOps,59,83500,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Germany,Technology,Machine Learning,140,84000,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Germany,Technology,NLP,39,83500,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Automotive & Robotics,Computer Vision,37,21579,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Automotive & Robotics,Data Science,25,20201,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Automotive & Robotics,Deep Learning,17,18365,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Automotive & Robotics,Generative AI,65,21579,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Automotive & Robotics,MLOps,67,20660,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Automotive & Robotics,Machine Learning,162,22038,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Automotive & Robotics,NLP,45,22956,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Cybersecurity,Computer Vision,32,19054,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Cybersecurity,Data Science,22,20660,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Cybersecurity,Deep Learning,18,19513,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Cybersecurity,Generative AI,59,21579,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Cybersecurity,MLOps,49,22038,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Cybersecurity,Machine Learning,140,22038,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Cybersecurity,NLP,30,23415,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Education & EdTech,Computer Vision,61,20660,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Education & EdTech,Data Science,18,21808,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Education & EdTech,Deep Learning,14,35352,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Education & EdTech,Generative AI,59,20660,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Education & EdTech,MLOps,49,21579,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Education & EdTech,Machine Learning,127,21120,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Education & EdTech,NLP,49,23874,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Energy & Utilities,Computer Vision,38,21120,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Energy & Utilities,Data Science,14,18824,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Energy & Utilities,Deep Learning,20,19742,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Energy & Utilities,Generative AI,62,19513,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Energy & Utilities,MLOps,63,22038,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Energy & Utilities,Machine Learning,160,21579,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Energy & Utilities,NLP,40,21808,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Entertainment & Media,Computer Vision,49,21579,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Entertainment & Media,Data Science,20,21579,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Entertainment & Media,Deep Learning,22,20201,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Entertainment & Media,Generative AI,64,21579,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Entertainment & Media,MLOps,55,22038,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Entertainment & Media,Machine Learning,123,20660,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Entertainment & Media,NLP,40,21579,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Finance & Banking,Computer Vision,34,22038,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Finance & Banking,Data Science,21,20660,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Finance & Banking,Deep Learning,17,19283,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Finance & Banking,Generative AI,57,21579,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Finance & Banking,MLOps,57,20201,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Finance & Banking,Machine Learning,141,22038,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Finance & Banking,NLP,42,21579,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Healthcare & Biotech,Computer Vision,35,21579,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Healthcare & Biotech,Data Science,20,22038,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Healthcare & Biotech,Deep Learning,16,21120,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Healthcare & Biotech,Generative AI,43,20660,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Healthcare & Biotech,MLOps,56,21808,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Healthcare & Biotech,Machine Learning,135,22038,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Healthcare & Biotech,NLP,35,20201,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Logistics & Supply Chain,Computer Vision,35,21579,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Logistics & Supply Chain,Data Science,15,20201,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Logistics & Supply Chain,Deep Learning,25,22038,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Logistics & Supply Chain,Generative AI,68,19972,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Logistics & Supply Chain,MLOps,49,23874,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Logistics & Supply Chain,Machine Learning,128,20201,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Logistics & Supply Chain,NLP,45,21579,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Retail & E-commerce,Computer Vision,30,20890,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Retail & E-commerce,Data Science,14,19972,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Retail & E-commerce,Deep Learning,25,22497,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Retail & E-commerce,Generative AI,46,21579,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Retail & E-commerce,MLOps,48,20431,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Retail & E-commerce,Machine Learning,139,22038,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Retail & E-commerce,NLP,31,21120,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+India,Technology,Computer Vision,29,22038,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+India,Technology,Data Science,19,21120,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+India,Technology,Deep Learning,18,21120,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+India,Technology,Generative AI,61,21120,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+India,Technology,MLOps,54,20431,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+India,Technology,Machine Learning,131,21579,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+India,Technology,NLP,43,20660,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Automotive & Robotics,Computer Vision,31,106500,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Automotive & Robotics,Data Science,16,108500,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Automotive & Robotics,Deep Learning,11,104000,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Automotive & Robotics,Generative AI,54,106250,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Automotive & Robotics,MLOps,55,107500,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Automotive & Robotics,Machine Learning,139,108000,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Automotive & Robotics,NLP,47,106500,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Cybersecurity,Computer Vision,59,106000,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Cybersecurity,Data Science,22,106750,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Cybersecurity,Deep Learning,14,106250,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Cybersecurity,Generative AI,53,110500,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Cybersecurity,MLOps,61,106500,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Cybersecurity,Machine Learning,140,107250,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Cybersecurity,NLP,33,114000,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Education & EdTech,Computer Vision,38,109750,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Education & EdTech,Data Science,23,105500,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Education & EdTech,Deep Learning,24,111750,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Education & EdTech,Generative AI,64,110000,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Education & EdTech,MLOps,51,108000,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Education & EdTech,Machine Learning,150,106000,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Education & EdTech,NLP,35,106500,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Energy & Utilities,Computer Vision,25,108000,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Energy & Utilities,Data Science,23,110000,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Energy & Utilities,Deep Learning,19,105000,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Energy & Utilities,Generative AI,50,108250,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Energy & Utilities,MLOps,52,108750,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Energy & Utilities,Machine Learning,120,109250,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Energy & Utilities,NLP,23,107500,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Entertainment & Media,Computer Vision,33,110500,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Entertainment & Media,Data Science,22,103750,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Entertainment & Media,Deep Learning,29,108000,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Entertainment & Media,Generative AI,48,109250,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Entertainment & Media,MLOps,57,105500,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Entertainment & Media,Machine Learning,130,106500,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Entertainment & Media,NLP,47,105500,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Finance & Banking,Computer Vision,42,105500,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Finance & Banking,Data Science,18,109500,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Finance & Banking,Deep Learning,22,112250,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Finance & Banking,Generative AI,71,110500,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Finance & Banking,MLOps,62,109250,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Finance & Banking,Machine Learning,140,108750,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Finance & Banking,NLP,33,106000,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Healthcare & Biotech,Computer Vision,41,107500,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Healthcare & Biotech,Data Science,26,128250,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Healthcare & Biotech,Deep Learning,14,88000,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Healthcare & Biotech,Generative AI,56,111750,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Healthcare & Biotech,MLOps,62,109500,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Healthcare & Biotech,Machine Learning,127,108000,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Healthcare & Biotech,NLP,36,109000,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Logistics & Supply Chain,Computer Vision,31,108500,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Logistics & Supply Chain,Data Science,21,103500,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Logistics & Supply Chain,Deep Learning,15,115500,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Logistics & Supply Chain,Generative AI,73,108500,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Logistics & Supply Chain,MLOps,69,108000,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Logistics & Supply Chain,Machine Learning,135,107500,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Logistics & Supply Chain,NLP,35,107500,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Retail & E-commerce,Computer Vision,34,108000,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Retail & E-commerce,Data Science,17,114500,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Retail & E-commerce,Deep Learning,24,108750,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Retail & E-commerce,Generative AI,54,106250,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Retail & E-commerce,MLOps,57,107500,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Retail & E-commerce,Machine Learning,134,108000,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Retail & E-commerce,NLP,38,109750,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Ireland,Technology,Computer Vision,40,105500,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Ireland,Technology,Data Science,16,104500,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Ireland,Technology,Deep Learning,17,109000,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Ireland,Technology,Generative AI,69,108500,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Ireland,Technology,MLOps,68,108250,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Ireland,Technology,Machine Learning,125,109000,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Ireland,Technology,NLP,40,107250,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Automotive & Robotics,Computer Vision,35,60709,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Automotive & Robotics,Data Science,16,56932,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Automotive & Robotics,Deep Learning,19,61788,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Automotive & Robotics,Generative AI,57,56392,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Automotive & Robotics,MLOps,57,58011,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Automotive & Robotics,Machine Learning,150,58281,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Automotive & Robotics,NLP,36,57741,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Cybersecurity,Computer Vision,42,58146,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Cybersecurity,Data Science,18,56797,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Cybersecurity,Deep Learning,14,56932,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Cybersecurity,Generative AI,66,58685,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Cybersecurity,MLOps,52,59360,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Cybersecurity,Machine Learning,143,58820,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Cybersecurity,NLP,41,58011,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Education & EdTech,Computer Vision,37,59090,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Education & EdTech,Data Science,24,58955,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Education & EdTech,Deep Learning,25,59900,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Education & EdTech,Generative AI,51,57471,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Education & EdTech,MLOps,64,57876,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Education & EdTech,Machine Learning,127,57741,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Education & EdTech,NLP,41,56932,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Energy & Utilities,Computer Vision,38,58146,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Energy & Utilities,Data Science,18,59630,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Energy & Utilities,Deep Learning,19,60439,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Energy & Utilities,Generative AI,52,61114,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Energy & Utilities,MLOps,52,58011,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Energy & Utilities,Machine Learning,129,58011,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Energy & Utilities,NLP,34,56662,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Entertainment & Media,Computer Vision,41,58820,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Entertainment & Media,Data Science,20,60844,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Entertainment & Media,Deep Learning,26,59765,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Entertainment & Media,Generative AI,72,58011,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Entertainment & Media,MLOps,65,58551,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Entertainment & Media,Machine Learning,133,56392,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Entertainment & Media,NLP,38,59630,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Finance & Banking,Computer Vision,41,58011,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Finance & Banking,Data Science,21,59900,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Finance & Banking,Deep Learning,25,59630,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Finance & Banking,Generative AI,70,57201,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Finance & Banking,MLOps,72,60035,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Finance & Banking,Machine Learning,133,58281,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Finance & Banking,NLP,37,58820,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Healthcare & Biotech,Computer Vision,38,59765,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Healthcare & Biotech,Data Science,21,58820,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Healthcare & Biotech,Deep Learning,20,55852,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Healthcare & Biotech,Generative AI,54,58146,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Healthcare & Biotech,MLOps,58,57201,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Healthcare & Biotech,Machine Learning,162,58955,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Healthcare & Biotech,NLP,38,58281,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Logistics & Supply Chain,Computer Vision,38,59495,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Logistics & Supply Chain,Data Science,15,58820,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Logistics & Supply Chain,Deep Learning,14,58146,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Logistics & Supply Chain,Generative AI,59,59900,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Logistics & Supply Chain,MLOps,58,60169,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Logistics & Supply Chain,Machine Learning,133,58011,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Logistics & Supply Chain,NLP,45,57741,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Retail & E-commerce,Computer Vision,28,57201,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Retail & E-commerce,Data Science,14,55448,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Retail & E-commerce,Deep Learning,11,59360,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Retail & E-commerce,Generative AI,61,58281,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Retail & E-commerce,MLOps,48,56932,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Retail & E-commerce,Machine Learning,138,58820,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Retail & E-commerce,NLP,42,59630,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Japan,Technology,Computer Vision,32,59630,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Japan,Technology,Data Science,24,57606,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Japan,Technology,Deep Learning,26,70557,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Japan,Technology,Generative AI,51,59360,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Japan,Technology,MLOps,55,59630,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Japan,Technology,Machine Learning,124,59090,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Japan,Technology,NLP,40,60169,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Automotive & Robotics,Computer Vision,34,109250,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Automotive & Robotics,Data Science,16,106750,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Automotive & Robotics,Deep Learning,22,106500,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Automotive & Robotics,Generative AI,46,107250,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Automotive & Robotics,MLOps,50,105750,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Automotive & Robotics,Machine Learning,139,108500,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Automotive & Robotics,NLP,36,107250,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Cybersecurity,Computer Vision,41,106500,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Cybersecurity,Data Science,17,107000,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Cybersecurity,Deep Learning,21,111000,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Cybersecurity,Generative AI,61,110000,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Cybersecurity,MLOps,61,106500,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Cybersecurity,Machine Learning,130,109000,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Cybersecurity,NLP,40,110000,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Education & EdTech,Computer Vision,35,109000,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Education & EdTech,Data Science,10,112000,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Education & EdTech,Deep Learning,19,108500,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Education & EdTech,Generative AI,65,106500,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Education & EdTech,MLOps,68,107250,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Education & EdTech,Machine Learning,140,107000,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Education & EdTech,NLP,42,106000,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Energy & Utilities,Computer Vision,28,111250,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Energy & Utilities,Data Science,33,109500,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Energy & Utilities,Deep Learning,22,104250,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Energy & Utilities,Generative AI,56,107500,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Energy & Utilities,MLOps,47,104000,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Energy & Utilities,Machine Learning,135,107000,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Energy & Utilities,NLP,45,108500,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Entertainment & Media,Computer Vision,53,105000,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Entertainment & Media,Data Science,23,114500,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Entertainment & Media,Deep Learning,19,108500,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Entertainment & Media,Generative AI,56,106250,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Entertainment & Media,MLOps,63,110000,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Entertainment & Media,Machine Learning,163,108000,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Entertainment & Media,NLP,24,110000,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Finance & Banking,Computer Vision,31,107500,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Finance & Banking,Data Science,22,128000,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Finance & Banking,Deep Learning,13,100500,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Finance & Banking,Generative AI,69,107500,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Finance & Banking,MLOps,46,110000,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Finance & Banking,Machine Learning,132,109750,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Finance & Banking,NLP,40,105750,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Healthcare & Biotech,Computer Vision,43,104000,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Healthcare & Biotech,Data Science,13,112000,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Healthcare & Biotech,Deep Learning,14,128000,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Healthcare & Biotech,Generative AI,58,106750,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Healthcare & Biotech,MLOps,57,105500,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Healthcare & Biotech,Machine Learning,145,108000,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Healthcare & Biotech,NLP,45,107000,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Logistics & Supply Chain,Computer Vision,37,112000,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Logistics & Supply Chain,Data Science,21,111500,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Logistics & Supply Chain,Deep Learning,14,103750,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Logistics & Supply Chain,Generative AI,52,107500,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Logistics & Supply Chain,MLOps,58,109000,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Logistics & Supply Chain,Machine Learning,140,108000,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Logistics & Supply Chain,NLP,43,106000,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Retail & E-commerce,Computer Vision,36,107500,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Retail & E-commerce,Data Science,24,108250,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Retail & E-commerce,Deep Learning,24,105750,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Retail & E-commerce,Generative AI,47,113000,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Retail & E-commerce,MLOps,51,105500,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Retail & E-commerce,Machine Learning,129,107000,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Retail & E-commerce,NLP,36,108500,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Netherlands,Technology,Computer Vision,31,108000,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Netherlands,Technology,Data Science,8,102250,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Netherlands,Technology,Deep Learning,28,111500,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Netherlands,Technology,Generative AI,38,109000,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Netherlands,Technology,MLOps,61,110000,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Netherlands,Technology,Machine Learning,131,107500,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Netherlands,Technology,NLP,37,107500,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Automotive & Robotics,Computer Vision,39,71791,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Automotive & Robotics,Data Science,18,71961,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Automotive & Robotics,Deep Learning,16,74501,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Automotive & Robotics,Generative AI,54,73485,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Automotive & Robotics,MLOps,56,74670,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Automotive & Robotics,Machine Learning,144,72977,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Automotive & Robotics,NLP,42,73993,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Cybersecurity,Computer Vision,26,77548,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Cybersecurity,Data Science,15,74501,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Cybersecurity,Deep Learning,14,70098,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Cybersecurity,Generative AI,56,72977,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Cybersecurity,MLOps,59,73485,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Cybersecurity,Machine Learning,128,73146,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Cybersecurity,NLP,46,72807,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Education & EdTech,Computer Vision,36,75178,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Education & EdTech,Data Science,30,72130,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Education & EdTech,Deep Learning,20,72807,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Education & EdTech,Generative AI,66,71114,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Education & EdTech,MLOps,59,72807,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Education & EdTech,Machine Learning,137,72807,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Education & EdTech,NLP,45,72469,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Energy & Utilities,Computer Vision,40,73146,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Energy & Utilities,Data Science,14,72977,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Energy & Utilities,Deep Learning,15,75178,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Energy & Utilities,Generative AI,59,71453,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Energy & Utilities,MLOps,71,73485,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Energy & Utilities,Machine Learning,115,73146,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Energy & Utilities,NLP,44,73485,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Entertainment & Media,Computer Vision,45,72469,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Entertainment & Media,Data Science,18,71961,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Entertainment & Media,Deep Learning,14,70606,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Entertainment & Media,Generative AI,59,71453,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Entertainment & Media,MLOps,55,72807,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Entertainment & Media,Machine Learning,126,71791,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Entertainment & Media,NLP,28,75516,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Finance & Banking,Computer Vision,40,73315,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Finance & Banking,Data Science,22,73993,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Finance & Banking,Deep Learning,24,76363,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Finance & Banking,Generative AI,51,74501,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Finance & Banking,MLOps,63,73823,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Finance & Banking,Machine Learning,147,73146,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Finance & Banking,NLP,33,74162,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Healthcare & Biotech,Computer Vision,38,72130,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Healthcare & Biotech,Data Science,15,76194,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Healthcare & Biotech,Deep Learning,18,87199,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Healthcare & Biotech,Generative AI,70,72807,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Healthcare & Biotech,MLOps,57,74839,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Healthcare & Biotech,Machine Learning,144,73993,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Healthcare & Biotech,NLP,39,76194,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Logistics & Supply Chain,Computer Vision,39,72469,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Logistics & Supply Chain,Data Science,23,71791,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Logistics & Supply Chain,Deep Learning,13,71114,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Logistics & Supply Chain,Generative AI,57,72130,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Logistics & Supply Chain,MLOps,55,71114,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Logistics & Supply Chain,Machine Learning,129,73823,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Logistics & Supply Chain,NLP,33,75516,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Retail & E-commerce,Computer Vision,40,73993,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Retail & E-commerce,Data Science,15,72807,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Retail & E-commerce,Deep Learning,25,71791,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Retail & E-commerce,Generative AI,62,72807,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Retail & E-commerce,MLOps,68,73146,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Retail & E-commerce,Machine Learning,141,72807,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Retail & E-commerce,NLP,42,75686,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Singapore,Technology,Computer Vision,47,74501,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Singapore,Technology,Data Science,16,74501,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Singapore,Technology,Deep Learning,18,73146,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Singapore,Technology,Generative AI,68,74501,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Singapore,Technology,MLOps,55,70775,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Singapore,Technology,Machine Learning,144,73146,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Singapore,Technology,NLP,44,70945,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Automotive & Robotics,Computer Vision,36,117107,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Automotive & Robotics,Data Science,24,121998,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Automotive & Robotics,Deep Learning,20,118465,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Automotive & Robotics,Generative AI,49,119009,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Automotive & Robotics,MLOps,52,116563,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Automotive & Robotics,Machine Learning,144,119824,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Automotive & Robotics,NLP,42,118737,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Cybersecurity,Computer Vision,38,121454,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Cybersecurity,Data Science,16,119552,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Cybersecurity,Deep Learning,17,120639,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Cybersecurity,Generative AI,69,116835,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Cybersecurity,MLOps,68,117922,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Cybersecurity,Machine Learning,151,115205,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Cybersecurity,NLP,46,113575,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Education & EdTech,Computer Vision,48,122541,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Education & EdTech,Data Science,19,117379,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Education & EdTech,Deep Learning,16,124171,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Education & EdTech,Generative AI,70,117650,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Education & EdTech,MLOps,55,118465,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Education & EdTech,Machine Learning,143,115748,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Education & EdTech,NLP,31,119009,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Energy & Utilities,Computer Vision,19,116292,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Energy & Utilities,Data Science,27,113575,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Energy & Utilities,Deep Learning,22,112488,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Energy & Utilities,Generative AI,47,116835,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Energy & Utilities,MLOps,61,119009,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Energy & Utilities,Machine Learning,120,116020,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Energy & Utilities,NLP,35,120096,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Entertainment & Media,Computer Vision,44,117922,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Entertainment & Media,Data Science,14,114118,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Entertainment & Media,Deep Learning,21,116292,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Entertainment & Media,Generative AI,48,120639,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Entertainment & Media,MLOps,56,119824,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Entertainment & Media,Machine Learning,138,116835,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Entertainment & Media,NLP,35,116292,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Finance & Banking,Computer Vision,37,111401,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Finance & Banking,Data Science,14,113303,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Finance & Banking,Deep Learning,19,105423,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Finance & Banking,Generative AI,57,117379,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Finance & Banking,MLOps,46,120367,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Finance & Banking,Machine Learning,148,117107,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Finance & Banking,NLP,48,116292,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Healthcare & Biotech,Computer Vision,32,114390,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Healthcare & Biotech,Data Science,16,118737,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Healthcare & Biotech,Deep Learning,11,112488,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Healthcare & Biotech,Generative AI,55,116835,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Healthcare & Biotech,MLOps,56,113303,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Healthcare & Biotech,Machine Learning,146,117379,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Healthcare & Biotech,NLP,39,121182,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Logistics & Supply Chain,Computer Vision,48,118194,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Logistics & Supply Chain,Data Science,22,118194,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Logistics & Supply Chain,Deep Learning,18,113031,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Logistics & Supply Chain,Generative AI,52,113303,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Logistics & Supply Chain,MLOps,53,117379,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Logistics & Supply Chain,Machine Learning,137,116292,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Logistics & Supply Chain,NLP,38,117107,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Retail & E-commerce,Computer Vision,45,117379,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Retail & E-commerce,Data Science,17,113031,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Retail & E-commerce,Deep Learning,21,111944,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Retail & E-commerce,Generative AI,70,119009,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Retail & E-commerce,MLOps,45,119009,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Retail & E-commerce,Machine Learning,151,117922,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Retail & E-commerce,NLP,44,117379,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+Switzerland,Technology,Computer Vision,41,115748,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+Switzerland,Technology,Data Science,23,115748,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+Switzerland,Technology,Deep Learning,20,113575,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+Switzerland,Technology,Generative AI,51,113575,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+Switzerland,Technology,MLOps,62,121182,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+Switzerland,Technology,Machine Learning,128,116020,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+Switzerland,Technology,NLP,37,119009,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Automotive & Robotics,Computer Vision,32,94695,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Automotive & Robotics,Data Science,15,98202,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Automotive & Robotics,Deep Learning,18,94402,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Automotive & Robotics,Generative AI,50,93233,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Automotive & Robotics,MLOps,58,92941,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Automotive & Robotics,Machine Learning,129,93526,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Automotive & Robotics,NLP,45,92941,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Cybersecurity,Computer Vision,43,90018,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Cybersecurity,Data Science,18,91480,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Cybersecurity,Deep Learning,22,89434,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Cybersecurity,Generative AI,41,90603,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Cybersecurity,MLOps,54,89434,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Cybersecurity,Machine Learning,134,93526,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Cybersecurity,NLP,47,93526,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Education & EdTech,Computer Vision,35,92357,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Education & EdTech,Data Science,15,97033,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Education & EdTech,Deep Learning,21,95279,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Education & EdTech,Generative AI,63,90603,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Education & EdTech,MLOps,54,92649,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Education & EdTech,Machine Learning,144,92649,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Education & EdTech,NLP,47,91772,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Energy & Utilities,Computer Vision,35,93526,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Energy & Utilities,Data Science,26,91188,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Energy & Utilities,Deep Learning,11,98202,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Energy & Utilities,Generative AI,63,94695,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Energy & Utilities,MLOps,59,94695,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Energy & Utilities,Machine Learning,121,92941,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Energy & Utilities,NLP,30,93233,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Entertainment & Media,Computer Vision,30,97033,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Entertainment & Media,Data Science,15,94110,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Entertainment & Media,Deep Learning,19,90018,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Entertainment & Media,Generative AI,60,92941,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Entertainment & Media,MLOps,46,90895,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Entertainment & Media,Machine Learning,148,92941,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Entertainment & Media,NLP,40,91188,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Finance & Banking,Computer Vision,31,90018,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Finance & Banking,Data Science,28,93818,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Finance & Banking,Deep Learning,19,122752,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Finance & Banking,Generative AI,69,94695,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Finance & Banking,MLOps,51,90603,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Finance & Banking,Machine Learning,131,92941,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Finance & Banking,NLP,49,90603,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Healthcare & Biotech,Computer Vision,38,93233,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Healthcare & Biotech,Data Science,21,91188,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Healthcare & Biotech,Deep Learning,19,91772,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Healthcare & Biotech,Generative AI,57,92357,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Healthcare & Biotech,MLOps,58,92649,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Healthcare & Biotech,Machine Learning,114,92064,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Healthcare & Biotech,NLP,52,92649,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Information Services,NLP,1,113984,4.83,Medium Risk,5.7,Hugging Face;BERT;Transformers;SQL;AWS;Information Extraction
+United Kingdom,Logistics & Supply Chain,Computer Vision,33,91772,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Logistics & Supply Chain,Data Science,19,97617,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Logistics & Supply Chain,Deep Learning,16,96156,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Logistics & Supply Chain,Generative AI,59,92941,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Logistics & Supply Chain,MLOps,62,91772,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Logistics & Supply Chain,Machine Learning,126,93526,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Logistics & Supply Chain,NLP,43,88849,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Retail & E-commerce,Computer Vision,41,90603,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Retail & E-commerce,Data Science,19,94110,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Retail & E-commerce,Deep Learning,22,92064,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Retail & E-commerce,Generative AI,57,94695,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Retail & E-commerce,MLOps,53,96448,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Retail & E-commerce,Machine Learning,128,90018,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Retail & E-commerce,NLP,49,91188,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United Kingdom,Technology,Computer Vision,33,90603,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United Kingdom,Technology,Data Science,20,96156,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United Kingdom,Technology,Deep Learning,23,94110,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United Kingdom,Technology,Generative AI,73,90603,4.78,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United Kingdom,Technology,MLOps,52,92357,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United Kingdom,Technology,Machine Learning,134,92941,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United Kingdom,Technology,NLP,41,93526,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Automotive & Robotics,Computer Vision,43,127026,5.56,Medium Risk,5.3,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Automotive & Robotics,Data Science,14,130749,5.56,Medium Risk,5.3,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Automotive & Robotics,Deep Learning,19,130968,5.56,Medium Risk,5.3,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Automotive & Robotics,Generative AI,58,125055,5.56,Medium Risk,5.3,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Automotive & Robotics,MLOps,70,128121,5.56,Medium Risk,5.3,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Automotive & Robotics,Machine Learning,128,127245,5.56,Medium Risk,5.3,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Automotive & Robotics,NLP,41,127902,5.56,Medium Risk,5.3,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Cybersecurity,Computer Vision,34,130749,5.1,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Cybersecurity,Data Science,18,133596,5.1,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Cybersecurity,Deep Learning,24,131406,5.1,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Cybersecurity,Generative AI,48,125712,5.1,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Cybersecurity,MLOps,59,126150,5.1,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Cybersecurity,Machine Learning,164,128340,5.1,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Cybersecurity,NLP,43,126150,5.1,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Education & EdTech,Computer Vision,38,130968,1.69,Low Risk,6.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Education & EdTech,Data Science,21,132282,1.69,Low Risk,6.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Education & EdTech,Deep Learning,27,127026,1.69,Low Risk,6.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Education & EdTech,Generative AI,61,129654,1.69,Low Risk,6.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Education & EdTech,MLOps,42,129873,1.69,Low Risk,6.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Education & EdTech,Machine Learning,148,127026,1.69,Low Risk,6.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Education & EdTech,NLP,42,122427,1.69,Low Risk,6.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Energy & Utilities,Computer Vision,28,131406,3.77,Low Risk,5.1,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Energy & Utilities,Data Science,15,129654,3.77,Low Risk,5.1,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Energy & Utilities,Deep Learning,24,126588,3.77,Low Risk,5.1,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Energy & Utilities,Generative AI,56,127245,3.77,Low Risk,5.1,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Energy & Utilities,MLOps,54,128559,3.77,Low Risk,5.1,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Energy & Utilities,Machine Learning,137,128778,3.77,Low Risk,5.1,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Energy & Utilities,NLP,46,123960,3.77,Low Risk,5.1,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Entertainment & Media,Computer Vision,42,127683,4.75,Medium Risk,6.54,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Entertainment & Media,Data Science,23,130968,4.75,Medium Risk,6.54,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Entertainment & Media,Deep Learning,20,134034,4.75,Medium Risk,6.54,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Entertainment & Media,Generative AI,61,127026,4.75,Medium Risk,6.54,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Entertainment & Media,MLOps,53,129216,4.75,Medium Risk,6.54,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Entertainment & Media,Machine Learning,148,125274,4.75,Medium Risk,6.54,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Entertainment & Media,NLP,42,125712,4.75,Medium Risk,6.54,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Finance & Banking,Computer Vision,45,123084,4.88,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Finance & Banking,Data Science,23,123522,4.88,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Finance & Banking,Deep Learning,23,125712,4.88,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Finance & Banking,Generative AI,54,129873,4.88,Medium Risk,6.49,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Finance & Banking,MLOps,50,127902,4.88,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Finance & Banking,Machine Learning,125,130092,4.88,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Finance & Banking,NLP,31,128340,4.88,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Healthcare & Biotech,Computer Vision,40,128997,2.96,Low Risk,5.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Healthcare & Biotech,Data Science,16,129435,2.96,Low Risk,5.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Healthcare & Biotech,Deep Learning,18,130092,2.96,Low Risk,5.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Healthcare & Biotech,Generative AI,58,123960,2.96,Low Risk,5.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Healthcare & Biotech,MLOps,64,124836,2.96,Low Risk,5.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Healthcare & Biotech,Machine Learning,136,128340,2.96,Low Risk,5.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Healthcare & Biotech,NLP,33,133158,2.96,Low Risk,5.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Logistics & Supply Chain,Computer Vision,50,132720,7.36,High Risk,4.9,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Logistics & Supply Chain,Data Science,22,137100,7.36,High Risk,4.9,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Logistics & Supply Chain,Deep Learning,22,133377,7.36,High Risk,4.9,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Logistics & Supply Chain,Generative AI,51,122208,7.36,High Risk,4.9,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Logistics & Supply Chain,MLOps,44,130749,7.36,High Risk,4.9,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Logistics & Supply Chain,Machine Learning,125,128340,7.36,High Risk,4.9,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Logistics & Supply Chain,NLP,51,127902,7.36,High Risk,4.9,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Marketing & Creative Tech,Generative AI,1,118265,5.7,Medium Risk,5.5,OpenAI API;LangChain;Prompt Engineering;HTML/CSS;React
+United States,Retail & E-commerce,Computer Vision,42,124617,5.14,Medium Risk,6.48,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Retail & E-commerce,Data Science,17,126588,5.14,Medium Risk,6.48,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Retail & E-commerce,Deep Learning,25,123522,5.14,Medium Risk,6.48,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Retail & E-commerce,Generative AI,52,125712,5.14,Medium Risk,6.48,Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases;LlamaIndex
+United States,Retail & E-commerce,MLOps,64,131406,5.14,Medium Risk,6.48,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Retail & E-commerce,Machine Learning,136,126588,5.14,Medium Risk,6.48,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Retail & E-commerce,NLP,32,132720,5.14,Medium Risk,6.48,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Technology,Computer Vision,30,130530,4.78,Medium Risk,6.49,OpenCV;OCR;Object Detection;Image Segmentation;PyTorch;YOLO;ResNet;Image Processing
+United States,Technology,Data Science,22,123522,4.78,Medium Risk,6.49,SQL;R-Studio;Statsmodels;Matplotlib;Data Wrangling;A/B Testing;Seaborn;Data Visualization
+United States,Technology,Deep Learning,27,131406,4.78,Medium Risk,6.49,JAX;Backpropagation;Keras;CNNs;CUDA;PyTorch;Neural Networks;RNNs
+United States,Technology,Generative AI,60,140166,4.78,Medium Risk,6.49,LLMs;Fine-tuning;RAG (Retrieval-Augmented Generation);LangChain;OpenAI API;Stable Diffusion;Prompt Engineering;Vector Databases
+United States,Technology,MLOps,60,127902,4.78,Medium Risk,6.49,Docker;Triton Inference Server;CI/CD;Model Monitoring;Kubeflow;MLflow;Git;Terraform
+United States,Technology,Machine Learning,121,128340,4.78,Medium Risk,6.49,XGBoost;Supervised Learning;NumPy;Regression;Scikit-learn;Random Forest;Feature Engineering;LightGBM
+United States,Technology,NLP,49,126588,4.78,Medium Risk,6.49,GPT;NLTK;Tokenization;Spacy;Hugging Face;Transformers;Named Entity Recognition (NER);Text Summarization
+United States,Venture Capital & Startups,MLOps,1,153307,8.04,High Risk,4.7,Kubernetes;Docker;MLflow;AWS;Triton Inference Server

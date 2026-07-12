@@ -40,7 +40,7 @@ export function initSalaryMap(container, tooltipEl, countries) {
   d3.select(container).selectAll("*").remove();
 
   const width = container.clientWidth || 800;
-  const height = Math.max(240, width * 0.38);
+  const height = Math.max(300, width * 0.44);
 
   const svg = d3
     .select(container)
@@ -49,14 +49,14 @@ export function initSalaryMap(container, tooltipEl, countries) {
     .attr("class", "salary-map-svg");
 
   const g = svg.append("g");
-  const projection = d3.geoNaturalEarth1().fitSize([width - 32, height - 32], { type: "Sphere" });
+  const projection = d3.geoNaturalEarth1().fitSize([width - 24, height - 24], { type: "Sphere" });
   projection.translate([width / 2, height / 2]);
   const path = d3.geoPath(projection);
 
   const radiusScale = d3
     .scaleSqrt()
     .domain(d3.extent(countries, (d) => d.salaryMedian) || [50000, 150000])
-    .range([4, 9]);
+    .range([6, 13]);
 
   d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then((world) => {
     const land = feature(world, world.objects.countries);
@@ -64,17 +64,18 @@ export function initSalaryMap(container, tooltipEl, countries) {
     g.append("path")
       .datum({ type: "Sphere" })
       .attr("d", path)
-      .attr("fill", "rgba(0, 101, 189, 0.04)")
-      .attr("stroke", "rgba(255, 255, 255, 0.06)");
+      .attr("fill", "rgba(0, 101, 189, 0.08)")
+      .attr("stroke", "rgba(100, 160, 200, 0.18)")
+      .attr("stroke-width", 0.8);
 
     g.selectAll(".land-path")
       .data(land.features)
       .join("path")
       .attr("class", "land-path")
       .attr("d", path)
-      .attr("fill", "rgba(255, 255, 255, 0.02)")
-      .attr("stroke", "rgba(255, 255, 255, 0.07)")
-      .attr("stroke-width", 0.35);
+      .attr("fill", "rgba(210, 232, 255, 0.075)")
+      .attr("stroke", "rgba(180, 220, 255, 0.16)")
+      .attr("stroke-width", 0.55);
 
     const nodes = countries
       .filter((d) => d.coords)
@@ -102,9 +103,10 @@ export function initSalaryMap(container, tooltipEl, countries) {
       .attr("class", "salary-dot")
       .attr("r", (d) => radiusScale(d.salaryMedian))
       .attr("fill", TUM_BLUE)
-      .attr("fill-opacity", 0.7)
-      .attr("stroke", "rgba(255,255,255,0.55)")
-      .attr("stroke-width", 1);
+      .attr("fill-opacity", 0.88)
+      .attr("stroke", "rgba(255,255,255,0.8)")
+      .attr("stroke-width", 1.4)
+      .attr("filter", "drop-shadow(0 0 5px rgba(100,160,200,0.45))");
 
     dots
       .append("text")
@@ -114,9 +116,12 @@ export function initSalaryMap(container, tooltipEl, countries) {
         return d.labelAbove ? -r - 10 : r + 16;
       })
       .attr("text-anchor", "middle")
-      .attr("fill", "rgba(255,255,255,0.85)")
-      .attr("font-size", 8)
+      .attr("fill", "rgba(255,255,255,0.96)")
+      .attr("font-size", 9)
       .attr("font-weight", 600)
+      .attr("paint-order", "stroke")
+      .attr("stroke", "rgba(0, 8, 20, 0.85)")
+      .attr("stroke-width", 3)
       .text((d) => `$${Math.round(d.salaryMedian / 1000)}k`);
 
     dots
@@ -127,8 +132,12 @@ export function initSalaryMap(container, tooltipEl, countries) {
         return d.labelAbove ? r + 12 : -r - 6;
       })
       .attr("text-anchor", "middle")
-      .attr("fill", "rgba(255,255,255,0.45)")
-      .attr("font-size", 7)
+      .attr("fill", "rgba(210,230,255,0.72)")
+      .attr("font-size", 8)
+      .attr("font-weight", 700)
+      .attr("paint-order", "stroke")
+      .attr("stroke", "rgba(0, 8, 20, 0.9)")
+      .attr("stroke-width", 3)
       .text((d) => (d.country === "United States" ? "USA" : d.country.slice(0, 3)));
 
     dots
@@ -136,7 +145,7 @@ export function initSalaryMap(container, tooltipEl, countries) {
         d3.select(this).select(".salary-dot").attr("fill-opacity", 1).attr("r", radiusScale(d.salaryMedian) * 1.15);
         const bounds = container.getBoundingClientRect();
         tooltipEl.classList.add("visible");
-        tooltipEl.innerHTML = `<strong>${d.country}</strong><br>$${d.salaryMedian.toLocaleString()} median`;
+        tooltipEl.innerHTML = `<strong>${d.country}</strong><br>$${d.salaryMedian.toLocaleString()} median<br>${d.jobCount.toLocaleString()} roles`;
         tooltipEl.style.left = `${event.clientX - bounds.left + 10}px`;
         tooltipEl.style.top = `${event.clientY - bounds.top + 10}px`;
       })
@@ -146,7 +155,7 @@ export function initSalaryMap(container, tooltipEl, countries) {
         tooltipEl.style.top = `${event.clientY - bounds.top + 10}px`;
       })
       .on("mouseleave", function onLeave(_, d) {
-        d3.select(this).select(".salary-dot").attr("fill-opacity", 0.7).attr("r", radiusScale(d.salaryMedian));
+        d3.select(this).select(".salary-dot").attr("fill-opacity", 0.88).attr("r", radiusScale(d.salaryMedian));
         tooltipEl.classList.remove("visible");
       });
   });

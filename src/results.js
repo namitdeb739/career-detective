@@ -1,8 +1,15 @@
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import careerOrbitLogo from "./assets/career-orbit-logo.svg";
-import { renderSalaryChart, renderIndustryChart, renderRoleFitChart } from "./charts.js";
+import { renderSalaryChart, renderIndustryChart } from "./charts.js";
 import { initSalaryMap } from "./salaryMap.js";
+
+const formatEur = (value) =>
+  Number(value || 0).toLocaleString("en-US", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  });
 
 export function renderResultsPage(container, recommendations, userProfile = null) {
   const preferences = userProfile?.preferences ?? {};
@@ -36,8 +43,8 @@ export function renderResultsPage(container, recommendations, userProfile = null
               }</p>`
             : ""
         }
-        <div class="club-hover-panel">
-          ${club.skills.map((s) => `<span class="skill-tag">${s}</span>`).join("")}
+        <div class="club-skill-list">
+          ${(club.skills || []).map((s) => `<span class="skill-tag">${s}</span>`).join("")}
         </div>
       </article>`,
     )
@@ -54,8 +61,10 @@ export function renderResultsPage(container, recommendations, userProfile = null
         <div class="job-hover-panel">
           <span class="job-match">${job.match}% match</span>
           <span>${job.country}</span>
-          <span>$${job.salary.toLocaleString()} / yr</span>
+          <span>${job.currency === "EUR" ? formatEur(job.salary) : `$${Number(job.salary || 0).toLocaleString()}`} / yr</span>
           <span>${job.industry}</span>
+          ${job.risk != null ? `<span>Risk: ${Math.round(job.risk * 100)} / 100</span>` : ""}
+          ${job.skills?.length ? `<span>${job.skills.slice(0, 3).join(" · ")}</span>` : ""}
         </div>
       </article>`,
     )
@@ -72,9 +81,25 @@ export function renderResultsPage(container, recommendations, userProfile = null
     )
     .join("");
 
-  const trendsHtml = recommendations.trends
-    .map((t) => `<li><strong>${t.label}</strong><span>${t.value}</span></li>`)
+  const salaryComparison = recommendations.salaryComparison;
+  const salaryChartData = salaryComparison?.countries?.length
+    ? salaryComparison.countries
+    : recommendations.salaryByCountry;
+  const salarySummaryHtml = salaryComparison
+    ? `
+      <div class="salary-summary">
+        <span>${salaryComparison.selectedCountry}</span>
+        <strong>${formatEur(salaryComparison.selectedMedian)}</strong>
+        <small>median salary from matched dataset slice</small>
+      </div>`
+    : "";
+
+  const skillSetHtml = (recommendations.skillSet || [])
+    .map((skill) => `<span class="insight-skill">${skill}</span>`)
     .join("");
+
+  const risk = recommendations.riskProfile || {};
+  const sentiment = recommendations.sentimentProfile || {};
 
   container.innerHTML = `
     <div class="inputs-float-card glass">
@@ -88,7 +113,7 @@ export function renderResultsPage(container, recommendations, userProfile = null
     <div class="results-top-row fade-up" style="animation-delay:80ms">
       <section class="glass results-panel compact-panel">
         <h3>Top 5 TUM Clubs</h3>
-        <p class="block-sub">Hover for skills</p>
+        <p class="block-sub">Skills are matched to your answers</p>
         <div class="clubs-grid">${clubsHtml}</div>
       </section>
 
@@ -99,36 +124,58 @@ export function renderResultsPage(container, recommendations, userProfile = null
       </section>
     </div>
 
-    <section class="glass market-section compact-section fade-up" style="animation-delay:140ms">
+    <section class="glass insight-section compact-section fade-up" style="animation-delay:120ms">
+      <h3>Dataset insights for your answers</h3>
+      <div class="insight-grid">
+        <article class="insight-card">
+          <span class="insight-label">Risk score</span>
+          <strong>${risk.score ?? 0}/100</strong>
+          <p>${risk.label ?? "Not available"}</p>
+          <div class="risk-meter"><span style="width:${Math.min(100, risk.score ?? 0)}%"></span></div>
+        </article>
+        <article class="insight-card sentiment-card">
+          <span class="insight-label">Employee sentiment</span>
+          <div class="sentiment-grade">
+            <span class="sentiment-emoji">${sentiment.emoji ?? "😐"}</span>
+            <strong>${sentiment.status ?? sentiment.label ?? "Neutral"}</strong>
+          </div>
+          <p>${sentiment.score ?? 0}/10 employee sentiment score</p>
+          <div class="sentiment-scale"><span>☹️</span><span>😊</span></div>
+        </article>
+        <article class="insight-card skill-card">
+          <span class="insight-label">Skill set</span>
+          <div class="insight-skills">${skillSetHtml || "<span class='insight-muted'>No skills found</span>"}</div>
+        </article>
+      </div>
+    </section>
+
+    <div class="salary-industry-row fade-up" style="animation-delay:160ms">
+      <section class="chart-card glass compact-panel salary-panel">
+        <h4>Salary comparison</h4>
+        ${salarySummaryHtml}
+        <div id="salaryChart" class="chart-host chart-host-sm"></div>
+      </section>
+
+      <section class="chart-card glass compact-panel">
+        <h3>Industry volume in selected market</h3>
+        <div id="industryChart" class="chart-host chart-host-sm"></div>
+      </section>
+    </div>
+
+    <section class="glass market-section compact-section fade-up" style="animation-delay:220ms">
       <h3>Global markets</h3>
+      <p class="block-sub">Median salary and available roles by country</p>
       <div class="market-detail-grid">${marketsDetailHtml}</div>
 
       <div class="salary-map-wrap glass-inner">
         <div id="salaryDotsMap" class="salary-dots-map"></div>
         <div id="salaryMapTooltip" class="map-tooltip"></div>
       </div>
-
-      <div class="salary-chart-section">
-        <h4>Salary comparison</h4>
-        <div id="salaryChart" class="chart-host chart-host-sm"></div>
-      </div>
     </section>
 
-    <div class="results-charts fade-up" style="animation-delay:200ms">
-      <section class="chart-card glass compact-panel">
-        <h3>Industry volume</h3>
-        <div id="industryChart" class="chart-host chart-host-sm"></div>
-      </section>
-
-      <section class="chart-card glass compact-panel">
-        <h3>Role fit</h3>
-        <div id="roleFitChart" class="chart-host chart-host-sm"></div>
-      </section>
-    </div>
-
-    <section class="glass trends-section compact-section fade-up" style="animation-delay:260ms">
-      <h3>Market signals</h3>
-      <ul class="trend-list-modern">${trendsHtml}</ul>
+    <section class="glass final-summary-section compact-section fade-up" style="animation-delay:280ms">
+      <h3>Short summary</h3>
+      <p>${recommendations.decisionSummary || recommendations.summary}</p>
     </section>
 
     <div class="results-actions fade-up" style="animation-delay:320ms">
@@ -143,9 +190,8 @@ export function renderResultsPage(container, recommendations, userProfile = null
       document.querySelector("#salaryMapTooltip"),
       recommendations.salaryByCountry,
     );
-    renderSalaryChart(document.querySelector("#salaryChart"), recommendations.salaryByCountry);
+    renderSalaryChart(document.querySelector("#salaryChart"), salaryChartData, "EUR");
     renderIndustryChart(document.querySelector("#industryChart"), recommendations.industryBreakdown);
-    renderRoleFitChart(document.querySelector("#roleFitChart"), recommendations.roleFit);
   });
 }
 

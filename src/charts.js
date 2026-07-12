@@ -18,47 +18,71 @@ function truncate(value, max = 10) {
 }
 
 /** Bar chart — best for comparing salary across countries */
-export function renderSalaryChart(container, data) {
-  const { svg, width, height } = baseSvg(container, 210);
-  const margin = { top: 12, right: 12, bottom: 32, left: 44 };
+export function renderSalaryChart(container, data, currency = "USD") {
+  const compactData = [...data].sort((a, b) => b.salaryMedian - a.salaryMedian).slice(0, 6);
+  const { svg, width, height } = baseSvg(container, Math.max(150, compactData.length * 28 + 36));
+  if (!compactData.length) {
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", height / 2)
+      .attr("text-anchor", "middle")
+      .attr("fill", CHART_MUTED)
+      .attr("font-size", 12)
+      .text("No salary data available");
+    return;
+  }
+  const margin = { top: 8, right: 72, bottom: 8, left: 98 };
   const innerW = width - margin.left - margin.right;
   const innerH = height - margin.top - margin.bottom;
   const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const x = d3.scaleBand().domain(data.map((d) => d.country)).range([0, innerW]).padding(0.28);
-  const y = d3.scaleLinear().domain([0, d3.max(data, (d) => d.salaryMedian) * 1.1]).nice().range([innerH, 0]);
+  const y = d3.scaleBand().domain(compactData.map((d) => d.country)).range([0, innerH]).padding(0.28);
+  const x = d3.scaleLinear().domain([0, d3.max(compactData, (d) => d.salaryMedian) * 1.12]).nice().range([0, innerW]);
 
   const defs = svg.append("defs");
-  const grad = defs.append("linearGradient").attr("id", "tumBarGrad").attr("x1", "0").attr("y1", "0").attr("x2", "0").attr("y2", "1");
+  const grad = defs.append("linearGradient").attr("id", "tumBarGrad").attr("x1", "0").attr("y1", "0").attr("x2", "1").attr("y2", "0");
   grad.append("stop").attr("offset", "0%").attr("stop-color", TUM_LIGHT).attr("stop-opacity", 0.9);
-  grad.append("stop").attr("offset", "100%").attr("stop-color", TUM_BLUE).attr("stop-opacity", 0.55);
+  grad.append("stop").attr("offset", "100%").attr("stop-color", TUM_BLUE).attr("stop-opacity", 0.9);
+
+  g.append("g")
+    .attr("class", "salary-grid")
+    .call(d3.axisTop(x).ticks(3).tickSize(-innerH).tickFormat(""))
+    .call((a) => a.select(".domain").remove())
+    .call((a) => a.selectAll(".tick line").attr("stroke", CHART_GRID));
 
   g.selectAll("rect")
-    .data(data)
+    .data(compactData)
     .join("rect")
-    .attr("x", (d) => x(d.country))
-    .attr("y", (d) => y(d.salaryMedian))
-    .attr("width", x.bandwidth())
-    .attr("height", (d) => innerH - y(d.salaryMedian))
-    .attr("rx", 5)
+    .attr("x", 0)
+    .attr("y", (d) => y(d.country))
+    .attr("width", (d) => x(d.salaryMedian))
+    .attr("height", y.bandwidth())
+    .attr("rx", 7)
     .attr("fill", "url(#tumBarGrad)")
-    .attr("opacity", 0.88);
+    .attr("opacity", 0.92);
+
+  const symbol = currency === "EUR" ? "€" : "$";
 
   g.append("g")
-    .call(d3.axisLeft(y).ticks(4).tickSize(-innerW).tickFormat((d) => `$${d / 1000}k`))
+    .call(d3.axisLeft(y).tickSize(0).tickFormat((d) => truncate(d, 13)))
     .call((a) => a.select(".domain").remove())
-    .call((a) => a.selectAll(".tick line").attr("stroke", CHART_GRID))
     .selectAll("text")
-    .attr("fill", CHART_MUTED)
-    .attr("font-size", 9);
+    .attr("fill", "rgba(230,242,255,0.82)")
+    .attr("font-size", 10)
+    .attr("font-weight", 600);
 
-  g.append("g")
-    .attr("transform", `translate(0,${innerH})`)
-    .call(d3.axisBottom(x).tickSize(0).tickFormat((d) => truncate(d, 3)))
-    .call((a) => a.select(".domain").remove())
-    .selectAll("text")
-    .attr("fill", CHART_MUTED)
-    .attr("font-size", 9);
+  g.selectAll(".salary-value")
+    .data(compactData)
+    .join("text")
+    .attr("class", "salary-value")
+    .attr("x", (d) => x(d.salaryMedian) + 8)
+    .attr("y", (d) => y(d.country) + y.bandwidth() / 2 + 3)
+    .attr("fill", "rgba(230,242,255,0.9)")
+    .attr("font-size", 10)
+    .attr("font-weight", 700)
+    .text((d) => `${symbol}${Math.round(d.salaryMedian / 1000)}k`);
+
 }
 
 /** Horizontal bar — best for long industry labels */

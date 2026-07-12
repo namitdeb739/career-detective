@@ -77,9 +77,11 @@ function parseCsv(text) {
 }
 
 export async function loadMarketData() {
-  const [summaryText, industryText] = await Promise.all([
+  const [summaryText, industryText, insightsText, tumText] = await Promise.all([
     fetch("/data/country-summary.csv").then((r) => r.text()),
     fetch("/data/country-industry-summary.csv").then((r) => r.text()),
+    fetch("/data/job-insights-summary.csv").then((r) => r.text()),
+    fetch("/data/tum-experience-summary.csv").then((r) => r.text()),
   ]);
 
   const summaryRows = parseCsv(summaryText).map((row) => ({
@@ -95,6 +97,26 @@ export async function loadMarketData() {
     salaryMedian: Number(row.salary_median_usd),
     salaryMax: Number(row.salary_max_usd),
     avgCompanySize: Number(row.avg_company_size),
+  }));
+
+  const insightRows = parseCsv(insightsText).map((row) => ({
+    country: row.country,
+    industry: row.industry,
+    specialization: row.specialization,
+    jobCount: Number(row.job_count),
+    salaryMedianEur: Number(row.salary_median_eur),
+    riskScore: Number(row.risk_score),
+    riskLabel: row.risk_label,
+    sentimentScore: Number(row.sentiment_score),
+    topSkills: row.top_skills ? row.top_skills.split(";").filter(Boolean) : [],
+  }));
+
+  const tumExperienceRows = parseCsv(tumText).map((row) => ({
+    id: row.experience_id,
+    name: row.name,
+    skills: row.top_skills ? row.top_skills.split(";").filter(Boolean) : [],
+    specializations: row.specializations ? row.specializations.split(";").filter(Boolean) : [],
+    industries: row.industries ? row.industries.split(";").filter(Boolean) : [],
   }));
 
   const countrySalaries = {};
@@ -126,7 +148,14 @@ export async function loadMarketData() {
         .sort((a, b) => b.jobCount - a.jobCount)[0],
     }));
 
-  return { industryRows, countrySummaries, globeCountries, countryNameMap: COUNTRY_NAME_MAP };
+  return {
+    industryRows,
+    insightRows,
+    tumExperienceRows,
+    countrySummaries,
+    globeCountries,
+    countryNameMap: COUNTRY_NAME_MAP,
+  };
 }
 
 
@@ -134,7 +163,7 @@ export function getAnswer(answers, id) {
   return answers.find((a) => a.id === id)?.value ?? "";
 }
 
-export function buildRecommendations(userProfile, industryRows) {
+export function buildRecommendations(userProfile, industryRows, insightRows = [], tumExperienceRows = []) {
   const preferences = userProfile?.preferences ?? {};
   const answers = userProfile?.answers ?? [];
 
@@ -155,6 +184,11 @@ export function buildRecommendations(userProfile, industryRows) {
 
   const industry = DOMAIN_TO_INDUSTRY[domainKey] || "Technology";
   const roles = ROLE_BY_DOMAIN[domainKey] || [title || "ML Engineer"];
+  const insightMatches = selectInsightRows(insightRows, {
+    domain: domainLabel,
+    country,
+    industry,
+  });
 
   // NOTE: avgCompanySize thresholds below are a placeholder mapped onto
   // the OLD single-average company size field from country-industry-summary.csv.
@@ -204,10 +238,6 @@ export function buildRecommendations(userProfile, industryRows) {
   }
 
   const topMarkets = filtered.slice(0, 5);
-  // Real TUM experiences are matched by the backend and injected in main.js;
-  // left empty here so the UI never shows fabricated clubs.
-  const topClubs = [];
-
   const experienceBonus = { entry: 0, mid: 4, senior: 8, flexible: 2 }[experienceLevel] ?? 0;
   const educationBonus = { bachelor: 0, master: 4, phd: 8, flexible: 2 }[educationLevel] ?? 0;
 
@@ -254,6 +284,25 @@ export function buildRecommendations(userProfile, industryRows) {
     score: Math.min(98, 92 - i * 8 + experienceBonus + (topMarkets.length > 0 ? 4 : 0)),
   }));
 
+  const salaryComparison = buildSalaryComparison(insightMatches, domainLabel, country);
+  const riskProfile = buildRiskProfile(insightMatches);
+  const skillSet = buildSkillSet(insightMatches);
+  const sentimentProfile = buildSentimentProfile(insightMatches);
+  const topClubs = buildTumClubFallback(tumExperienceRows, {
+    domain: domainLabel,
+    industry,
+    skillSet,
+  });
+  const decisionSummary = buildDecisionSummary({
+    title,
+    domain: domainLabel,
+    country,
+    salaryComparison,
+    riskProfile,
+    sentimentProfile,
+    skillSet,
+  });
+
   const dealBreakerList = Object.entries(preferences)
     .filter(([, p]) => p.dealBreaker)
     .map(([key]) => PREFERENCE_LABELS_EXPORT[key] || key);
@@ -284,6 +333,11 @@ export function buildRecommendations(userProfile, industryRows) {
     topJobs,
     trends,
     salaryByCountry,
+    salaryComparison,
+    riskProfile,
+    skillSet,
+    sentimentProfile,
+    decisionSummary,
     industryBreakdown,
     roleFit,
     domain: domainKey,
@@ -307,6 +361,165 @@ const PREFERENCE_LABELS_EXPORT = {
   experience_level: "Experience",
   education_level: "Education",
 };
+
+function selectInsightRows(insightRows, { domain, country, industry }) {
+  if (!insightRows.length) return [];
+
+  const countrySet =
+    country === "European Union"
+      ? new Set(EU_COUNTRIES_IN_DATA)
+      : country && country !== "Global"
+        ? new Set([country])
+        : null;
+
+  const exact = insightRows.filter(
+    (row) =>
+      row.specialization === domain &&
+      (!countrySet || countrySet.has(row.country)) &&
+      (!industry || row.industry === industry),
+  );
+  if (exact.length) return exact;
+
+  const domainOnly = insightRows.filter(
+    (row) => row.specialization === domain && (!countrySet || countrySet.has(row.country)),
+  );
+  if (domainOnly.length) return domainOnly;
+
+  return insightRows.filter((row) => row.specialization === domain);
+}
+
+function weightedAverage(rows, valueKey) {
+  const usable = rows.filter((row) => Number.isFinite(row[valueKey]) && row.jobCount > 0);
+  const weight = usable.reduce((sum, row) => sum + row.jobCount, 0);
+  if (!weight) return 0;
+  return usable.reduce((sum, row) => sum + row[valueKey] * row.jobCount, 0) / weight;
+}
+
+function buildSalaryComparison(rows, domain, country) {
+  const byCountry = new Map();
+  rows.forEach((row) => {
+    if (!Number.isFinite(row.salaryMedianEur)) return;
+    const current = byCountry.get(row.country) ?? { salaries: [], jobs: 0 };
+    current.salaries.push(row.salaryMedianEur);
+    current.jobs += row.jobCount;
+    byCountry.set(row.country, current);
+  });
+
+  const countries = [...byCountry.entries()]
+    .map(([name, data]) => ({
+      country: name,
+      salaryMedian: Math.round(data.salaries.reduce((sum, v) => sum + v, 0) / data.salaries.length),
+      jobCount: data.jobs,
+    }))
+    .sort((a, b) => b.salaryMedian - a.salaryMedian)
+    .slice(0, 6);
+
+  const selected =
+    country && country !== "Global" && country !== "European Union"
+      ? countries.find((item) => item.country === country)
+      : countries[0];
+
+  return {
+    title: `${domain || "AI"} salary comparison`,
+    selectedCountry: selected?.country ?? country ?? "Global",
+    selectedMedian: selected?.salaryMedian ?? countries[0]?.salaryMedian ?? 0,
+    countries,
+  };
+}
+
+function buildRiskProfile(rows) {
+  const score = weightedAverage(rows, "riskScore");
+  const labelCounts = rows.reduce((counts, row) => {
+    if (row.riskLabel) counts[row.riskLabel] = (counts[row.riskLabel] ?? 0) + row.jobCount;
+    return counts;
+  }, {});
+  const label =
+    Object.entries(labelCounts).sort(([, a], [, b]) => b - a)[0]?.[0] ??
+    (score >= 6.5 ? "High Risk" : score >= 4 ? "Medium Risk" : "Low Risk");
+
+  return {
+    score: Math.round(score * 10),
+    rawScore: Number(score.toFixed(1)),
+    label,
+    description: "Dataset signal from layoffs, industry risk, job security and company context.",
+  };
+}
+
+function buildSkillSet(rows) {
+  const counts = new Map();
+  rows.forEach((row) => {
+    row.topSkills.forEach((skill, index) => {
+      counts.set(skill, (counts.get(skill) ?? 0) + row.jobCount * (8 - index));
+    });
+  });
+  return [...counts.entries()]
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 12)
+    .map(([skill]) => skill);
+}
+
+function buildSentimentProfile(rows) {
+  const score = weightedAverage(rows, "sentimentScore");
+  const status =
+    score >= 6.2
+      ? "Very satisfied"
+      : score >= 5.7
+        ? "Satisfied"
+        : score >= 5.1
+          ? "Neutral"
+          : score >= 4.5
+            ? "Concerned"
+            : "Unsatisfied";
+  return {
+    score: Number(score.toFixed(1)),
+    status,
+    emoji: score >= 5.7 ? "😊" : score >= 5.1 ? "😐" : "☹️",
+    label: status,
+  };
+}
+
+function buildTumClubFallback(tumExperienceRows, { domain, industry, skillSet }) {
+  const targetSkills = new Set(skillSet.map((skill) => skill.toLowerCase()));
+  const scored = tumExperienceRows.map((club) => {
+    const specializationScore = club.specializations.some(
+      (spec) => spec.toLowerCase() === domain.toLowerCase(),
+    )
+      ? 12
+      : 0;
+    const industryScore = club.industries.some((item) => item.toLowerCase() === industry.toLowerCase())
+      ? 6
+      : 0;
+    const skillScore = club.skills.reduce(
+      (sum, skill) => sum + (targetSkills.has(skill.toLowerCase()) ? 3 : 0),
+      0,
+    );
+    return { ...club, score: specializationScore + industryScore + skillScore };
+  });
+
+  return scored
+    .sort((a, b) => b.score - a.score || b.skills.length - a.skills.length)
+    .slice(0, 5)
+    .map((club) => ({
+      name: club.name,
+      skills: club.skills.slice(0, 6),
+      description: club.specializations.length
+        ? `Relevant for ${club.specializations.slice(0, 3).join(", ")}.`
+        : "Relevant TUM experience based on your skill profile.",
+    }));
+}
+
+function buildDecisionSummary({
+  title,
+  domain,
+  country,
+  salaryComparison,
+  riskProfile,
+  sentimentProfile,
+  skillSet,
+}) {
+  const topSkills = skillSet.slice(0, 4).join(", ");
+  return `${title} in ${domain} looks strongest around ${salaryComparison.selectedCountry || country}, with a median salary signal of €${Math.round(salaryComparison.selectedMedian || 0).toLocaleString()}. The dataset suggests ${riskProfile.label?.toLowerCase() || "medium risk"} and ${sentimentProfile.label?.toLowerCase() || "mixed"} employee sentiment, so focus your next step on ${topSkills || "the top matched skills"} while comparing companies carefully.`;
+}
 
 function aggregateSalariesByCountry(industryRows) {
   const countrySalaries = {};
