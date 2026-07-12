@@ -86,11 +86,45 @@ public/data/        # static data assets for frontend
 | `merge_experience_tags.py` | 6 | dict + llm tags → `experience_tags.csv` |
 | `match_experiences.py` | 7 | all above → ranked JSON or console output |
 
+### Job Matching Layer (`scripts/findJobs.py`)
+
+A separate job-ranking engine that operates on `jobs_enriched_with_layoffs_complete.csv` (the enriched raw dataset, not the processed `jobs.csv`). Entry point is `search_jobs(filters, top_k, ...)` or `find_top_k_jobs(df, filters, ...)`.
+
+**Filter format:**
+```python
+{"title": {"data": "AI Engineer", "dealBreaker": True}, ...}
+# Supported fields: title, domain, country, company_size, work_format, experience_level, education_level
+# dealBreaker=True → hard exclusion filter; False → soft scoring input
+```
+
+**Scoring flow:**
+1. Hard filters eliminate jobs below threshold (NLP fields: cosine ≥ 0.35; others: exact/alias match)
+2. Remaining jobs are scored by embedding similarity of a combined job text vs combined query text
+3. MMR (`mmr_lambda=0.7` default) re-ranks the top-200 candidates for semantic diversity
+4. `max_per_company=1` and `max_per_title=1` caps prevent duplicate results
+
+**Tunable constants** (top of file): `NLP_HARD_THRESHOLD`, `MMR_CANDIDATE_POOL`, `MMR_LAMBDA_DEFAULT`, `DOMAIN_PRIMARY_WEIGHT`.
+
+Sentence embeddings use `all-MiniLM-L6-v2` (lazy-loaded, cached at module level). Corpus embeddings are cached by content — calling `search_jobs` repeatedly on the same dataset only re-encodes the short query string.
+
+### End-to-End Pipeline (`scripts/run_pipeline.py`)
+
+Chains `findJobs.py` → `match_experiences.py` in one call:
+1. Filters the 51k job postings → top N jobs via `find_top_k_jobs`
+2. Feeds those job IDs into `match_clubs` → ranked TUM club recommendations
+
+```bash
+uv run python scripts/run_pipeline.py --top-jobs 5 --top-clubs 5 --broaden 3
+uv run python scripts/run_pipeline.py --json   # JSON output
+```
+
+Edit `DEFAULT_FILTERS` in `run_pipeline.py` to change the active query.
+
 ### Matching Scoring Weights
 
 `skills` (55%) + `title` (17%) + `transversal` (13%) + `industry` (8%) + `geo` (7%)
 
-Results use MMR (Maximal Marginal Relevance) to produce two lanes: a skills-focused lane (λ=0.6) and a "broaden your profile" diversity lane (λ=0.5). Career preferences (`--prefs`) apply multiplicative boosts without overriding the skills-driven baseline.
+Club results use MMR to produce two lanes: a skills-focused lane (λ=0.6) and a "broaden your profile" diversity lane (λ=0.5). Career preferences (`--prefs`) apply multiplicative boosts without overriding the skills-driven baseline.
 
 ### Key Data Contracts
 
