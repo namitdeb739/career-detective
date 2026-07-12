@@ -68,6 +68,7 @@ def main() -> None:
                 "experience_level": _clean(row["Experience Level"]),
                 "salary_mid_usd": row["salary_mid_usd_approx"],
                 "job_url": _clean(row["Job URL"]),
+                "description": _clean(row["Job Description"]),
             }
         )
         seen: set[tuple[str, str]] = set()
