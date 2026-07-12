@@ -17,6 +17,16 @@ just release X   # bump version (patch/minor/major), tag, push
 just             # list all available recipes
 ```
 
+## Documentation
+
+- [docs/architecture.md](docs/architecture.md) — end-to-end system: quiz → API →
+  job + experience matching → orbit UI, with diagrams.
+- [docs/data-pipeline.md](docs/data-pipeline.md) — offline data pipeline: raw TUM
+  sources → tagged experience schema.
+- [docs/diversity-and-transferable-skills.md](docs/diversity-and-transferable-skills.md)
+  — how club suggestions are de-homogenized.
+- [docs/match-json.md](docs/match-json.md) — the `{ jobs, experiences }` API contract.
+
 ## Data pipeline
 
 Turns the raw TUM sources and the AI-jobs dataset into a standardized set of

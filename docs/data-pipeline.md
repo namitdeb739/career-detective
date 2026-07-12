@@ -3,6 +3,10 @@
 How four scraped TUM datasets become one standardized, tagged **experience** schema
 that matches student clubs / programmes / research projects to AI-tech jobs.
 
+This is the **offline** data side. For how the running app serves matches
+(quiz → API → job + experience matching → orbit UI), see
+[architecture.md](architecture.md).
+
 The whole thing regenerates with **`just data`** (+ `just tag-llm` for the
 local-LLM step). See the [README](../README.md#data-pipeline) for commands.
 

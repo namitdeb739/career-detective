@@ -83,15 +83,16 @@ The foundational fix: give clubs a signal for what they actually build.
   *distinctive* transferable skill (public speaking, empathy) counts far more
   than a ubiquitous one (teamwork) — this is what lets purely non-tech clubs
   (a peer-support helpline, a debate society) rise rather than every club with
-  generic teamwork. Weight is modest (0.20) in the rebalanced five-field score:
+  generic teamwork. Weight is modest (0.13) in the rebalanced five-field score,
+  which stays skills-forward so relevance leads:
 
   | field | weight |
   | --- | --- |
-  | skills | 0.45 |
-  | transversal | 0.20 |
-  | title | 0.15 |
-  | industry | 0.12 |
-  | geo | 0.08 |
+  | skills | 0.55 |
+  | title | 0.17 |
+  | transversal | 0.13 |
+  | industry | 0.08 |
+  | geo | 0.07 |
 
   A debate club now surfaces for an *AI Ethics Consultant* / *AI Product
   Manager* role, but still sits below an ML club for an *ML Infra Engineer*
