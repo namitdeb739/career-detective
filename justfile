@@ -145,6 +145,14 @@ app:
 api:
     uv run uvicorn career_detective.api:app --reload --port 8000
 
+# Open the frontend (npm run dev) in a new terminal, then run the API here
+dev:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    osascript -e 'tell application "Terminal" to do script "cd '"$PWD"' && npm run dev"' \
+        -e 'tell application "Terminal" to activate'
+    just api
+
 
 
 
