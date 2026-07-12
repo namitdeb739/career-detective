@@ -1012,6 +1012,13 @@ main {
   font-weight: 600;
 }
 
+.club-desc {
+  margin: 6px 0 0;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: rgba(200, 220, 240, 0.72);
+}
+
 .club-hover-panel,
 .job-hover-panel {
   position: absolute;

@@ -219,6 +219,7 @@ async function openResultsPage() {
       recommendations.topClubs = experiences.map((e) => ({
         name: e.name,
         skills: e.skills,
+        description: e.description,
       }));
     }
   } catch (err) {

@@ -27,6 +27,15 @@ export function renderResultsPage(container, recommendations, userProfile = null
           <span class="club-rank">${i + 1}</span>
           <h4>${club.name}</h4>
         </div>
+        ${
+          club.description
+            ? `<p class="club-desc">${
+                club.description.length > 180
+                  ? `${club.description.slice(0, 180).trim()}…`
+                  : club.description
+              }</p>`
+            : ""
+        }
         <div class="club-hover-panel">
           ${club.skills.map((s) => `<span class="skill-tag">${s}</span>`).join("")}
         </div>
