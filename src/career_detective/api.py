@@ -78,7 +78,9 @@ def adapt_filters(filters: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any
             "data": data,
             "dealBreaker": bool(spec.get("dealBreaker")),
         }
-        if "weight" in spec:
+        if "ranking" in spec:
+            out["ranking"] = spec["ranking"]
+        elif "weight" in spec:
             out["weight"] = spec["weight"]
         adapted[field] = out
     return adapted

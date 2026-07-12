@@ -35,22 +35,26 @@ EVERYTHING ELSE UNCHANGED
 FILTER DICT FORMAT
 ============================================================
    {
-     "title":        {"data": "Software Engineer", "dealBreaker": True,  "weight": 5},
-     "domain":       {"data": "Generative AI",     "dealBreaker": False, "weight": 3},
-     "country":      {"data": "United States",     "dealBreaker": True},
-     "company_size": {"data": "mid",               "dealBreaker": False, "weight": 1},
-     "work_format":      {"data": "hybrid",            "dealBreaker": False},
-     "experience_level": {"data": "senior",            "dealBreaker": True},
-     "education_level":  {"data": "msc",               "dealBreaker": False},
+     "title":            {"data": "Software Engineer", "dealBreaker": True,  "ranking": 1},
+     "domain":           {"data": "Generative AI",     "dealBreaker": False, "ranking": 2},
+     "country":          {"data": "United States",     "dealBreaker": True,  "ranking": 3},
+     "company_size":     {"data": "mid",               "dealBreaker": False, "ranking": 4},
+     "work_format":      {"data": "hybrid",            "dealBreaker": False, "ranking": 5},
+     "experience_level": {"data": "senior",            "dealBreaker": True,  "ranking": 6},
+     "education_level":  {"data": "msc",               "dealBreaker": False, "ranking": 7},
    }
    Not all keys need to be present. Unknown keys are ignored with a warning.
    A filter whose "dealBreaker" is not literally True or False is also
    ignored (with a warning) rather than silently dropped from scoring.
 
-   "weight" (optional, int 1-5, default 1): only affects soft-filter scoring.
-   Higher weight scales that field's embedding contribution proportionally
-   before the weighted vectors are summed into a single query embedding.
-   Hard-filter (dealBreaker=True) pass/fail logic is not affected by weight.
+   "ranking" (optional, int 1-N): user priority ordering for soft-filter
+   scoring. ranking=1 is the highest priority and receives the largest weight;
+   the highest ranking number receives weight 1.  Converted to a weight via:
+     weight = (max_ranking + 1 - ranking)
+   so rank 1 of 7 → weight 7, rank 7 of 7 → weight 1.
+   Hard-filter (dealBreaker=True) pass/fail logic is not affected by ranking.
+
+   Legacy "weight" (int 1-5) is still accepted when "ranking" is absent.
 ============================================================
 """
 
@@ -388,28 +392,48 @@ def _weighted_query_vector(filters: dict) -> np.ndarray:
     """Build a weighted query embedding from per-field embeddings.
 
     Each field's ``data`` value is embedded separately; the resulting vector
-    is scaled by the field's ``weight`` (1-5, default 1).  The scaled vectors
-    are summed and L2-normalised into a single query vector that can be
-    dot-producted against normalised corpus embeddings.
+    is scaled by a weight derived from the field's ``ranking`` (1 = highest
+    priority).  The weight formula is:
 
-    If every field has weight 1 this produces the same direction as averaging
-    the individual embeddings, which gives higher-weighted fields more
-    influence than a single concatenated string would.
+        weight = max_ranking + 1 - ranking
+
+    so rank 1 of 7 fields → weight 7, rank 7 → weight 1.  The scaled vectors
+    are summed and L2-normalised into a single query vector.
+
+    Falls back to the legacy ``weight`` field (int 1-5) when ``ranking`` is
+    absent, and to weight=1 when neither key is present.
     """
     model = _get_model()
     weighted_sum: np.ndarray | None = None
+
+    # Determine max ranking so we can convert rank → weight.
+    rankings = [
+        int(spec["ranking"])
+        for spec in filters.values()
+        if "ranking" in spec
+    ]
+    max_rank = max(rankings) if rankings else 1
 
     for spec in filters.values():
         text = str(spec.get("data", "")).strip()
         if not text:
             continue
-        raw_weight = spec.get("weight", 1)
-        # Clamp weight to [1, 5]; non-numeric defaults to 1.
+
+        if "ranking" in spec:
+            try:
+                rank = int(spec["ranking"])
+            except (TypeError, ValueError):
+                rank = max_rank
+            # Lower rank number → higher weight.
+            raw_weight = max_rank + 1 - rank
+        else:
+            raw_weight = spec.get("weight", 1)
+
         try:
             weight = float(raw_weight)
         except (TypeError, ValueError):
             weight = 1.0
-        weight = max(1.0, min(5.0, weight))
+        weight = max(1.0, weight)
 
         vec = model.encode([text], normalize_embeddings=True)[0]
         if weighted_sum is None:
